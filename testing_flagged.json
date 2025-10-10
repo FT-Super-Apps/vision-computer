@@ -1,0 +1,541 @@
+[
+  {
+    "text": "Diajukan sebagai Salah Satu Syarat untuk mendapatkan Gelar Sarjana Komputer (S.Kom) Program Studi Informatika",
+    "page": 2,
+    "bbox": [
+      152.64,
+      201.6,
+      196.32,
+      22.799999999999983
+    ],
+    "length": 109
+  },
+  {
+    "text": "FAKULTAS TEKNIK",
+    "page": 2,
+    "bbox": [
+      203.28,
+      440.4,
+      76.79999999999998,
+      7.439999999999998
+    ],
+    "length": 15
+  },
+  {
+    "text": "at diselesaikan dengan baik.\nini disusun sebagai salah satu akadergik \nyang harus \nTeknik Program Studi Fakultas Teknik dalam menyelesaikan program Informatika Universitas Muhammadiyah Makassar. Penulis menyadari bahwa ini masih jauh dari kesempurnaan, oleh karena itu sangat \npenulis harapkan demi saran yang membangun penyempurnaan",
+    "page": 3,
+    "bbox": [
+      185.04,
+      221.76,
+      264.0,
+      86.88
+    ],
+    "length": 333
+  },
+  {
+    "text": "g luar biasa. Oleh sebab \nitu, penulis menyampaikan \n yang setulus-tulusnya kepada: 1. \nKedua orang tua kami tercinta, penulis mengucapkan terima kasih yang sebesar-besarnya atas segala limpahan kasih sayang, doa \nserta dukungan moral dan materiil yang sangat berarti bag ukungan moral dan materiil yang sangat berarti bagi dukungan moral dan materiil yang sangat berarti bagi faat \nS. Kuba, S.T,M.T.,",
+    "page": 3,
+    "bbox": [
+      201.6,
+      355.44,
+      240.95999999999998,
+      76.80000000000001
+    ],
+    "length": 401
+  },
+  {
+    "text": "arahan dan fasilitas akademik. \nBapak Muhyiddin A.M Hayat S.Kom.,M.T., selaku Ketua Program \nhal \n—|",
+    "page": 3,
+    "bbox": [
+      120.72,
+      457.44,
+      234.95999999999995,
+      14.879999999999995
+    ],
+    "length": 100
+  },
+  {
+    "text": "1 \nIbu Titin Wahyuni, S.Pd.,M.T., memberikan bimbingan, selama proses penyusunan proposal ini. \nBapak Fachrim Irhamna Rachman S.Kom.,M.T.,\nhal \n—",
+    "page": 4,
+    "bbox": [
+      132.48,
+      97.67999999999999,
+      176.16,
+      57.84000000000002
+    ],
+    "length": 145
+  },
+  {
+    "text": "al skripsi in\nDosen dan Program Studi Universitas Muhammadiyah telah memberikan akademik. \nSaudara/saudari kami di Fakultas Teknik. \n~o dengan rasa persaudaraan yang tinggi banyak membantu, ggama yang baik dal\nproposal skripsi ini. proposal ini dapat Akhir kata, penulis bagi pengembangan ilmu pengetahuan Keinformatikaan. Aamiin",
+    "page": 4,
+    "bbox": [
+      194.88,
+      192.95999999999998,
+      180.95999999999998,
+      163.44
+    ],
+    "length": 329
+  },
+  {
+    "text": "Wassalamualaikum Warahmatullahi",
+    "page": 4,
+    "bbox": [
+      109.67999999999999,
+      384.24,
+      121.67999999999999,
+      8.879999999999995
+    ],
+    "length": 31
+  },
+  {
+    "text": "DAFTAR ISI \n27 \nKATA PENGANTAR \ntd DAFTAR ISI \n> DAFTAR TABEL \nun DAFTAR GAMBAR \nDA BABI PENDAHULUAN",
+    "page": 5,
+    "bbox": [
+      108.0,
+      113.75999999999999,
+      264.96,
+      84.96000000000001
+    ],
+    "length": 100
+  },
+  {
+    "text": "B. \nRumusan Masalah C. \nTujuan Penelitian D. \nManfaat Penelitian E. \nRuang Lingkup F. \nSistematika Penulisa BAB II TINJAUAN PUSTAKA A. \nLandasan Teori.... B. \nPenelitian Terkait C. \nKerangka P BAB III METODE PENELITIAN A. \nTempat dan Waktu Penelitian .................oooooooooomnenetenannnan BA \nau dang AA \nanne nana nenen ne ECOSOC nana na ena \nnu umum C. \nPerancangan Sistem D. \nTeknik Pengujian Sistem E. \nTeknik Analisis Data",
+    "page": 5,
+    "bbox": [
+      116.64,
+      224.4,
+      264.0,
+      248.16
+    ],
+    "length": 431
+  },
+  {
+    "text": "DAFTAR GAMBAR Gambar 1. Kerangka",
+    "page": 7,
+    "bbox": [
+      196.79999999999998,
+      98.39999999999999,
+      84.72,
+      32.88000000000001
+    ],
+    "length": 32
+  },
+  {
+    "text": "ay Belakang \nKeselamatan dan Kesehatan Kerja (K3) merupakan aspek krusial yang tenaga kerj \ni risiko kecelakaan \nMenurut \nUndang-Undang \nNo.",
+    "page": 8,
+    "bbox": [
+      132.24,
+      147.84,
+      241.44,
+      41.03999999999999
+    ],
+    "length": 140
+  },
+  {
+    "text": "instan dan mudah dipahami (Yenduri et al., 2023). GPT \ndalam berbagai sektor, termasuk pendidikan, kesehatan, dan lam berbagai sektor, termasuk pendidikan, kesehatan, dan",
+    "page": 9,
+    "bbox": [
+      174.95999999999998,
+      109.44,
+      197.76,
+      16.799999999999997
+    ],
+    "length": 170
+  },
+  {
+    "text": "tetas \ndengan pendekatan \nRetrieval-Augmented \nGeneration \n(RAG) pencarian dan",
+    "page": 9,
+    "bbox": [
+      349.44,
+      357.12,
+      178.32,
+      46.56
+    ],
+    "length": 78
+  },
+  {
+    "text": "memberikan manfaat secara teoritis dan secara prak secara teoritis dan secara praktis, yaitu:",
+    "page": 10,
+    "bbox": [
+      306.24,
+      427.91999999999996,
+      120.96,
+      22.32000000000005
+    ],
+    "length": 93
+  },
+  {
+    "text": "Secara Praktis bagi peneliti Penelitian \nini \nmemberikan",
+    "page": 11,
+    "bbox": [
+      131.51999999999998,
+      105.83999999999999,
+      91.20000000000002,
+      35.280000000000015
+    ],
+    "length": 56
+  },
+  {
+    "text": "jgn \nmasalah, adapun batasan pada penelitian ini sebagai",
+    "page": 11,
+    "bbox": [
+      204.72,
+      282.0,
+      168.72,
+      17.519999999999982
+    ],
+    "length": 56
+  },
+  {
+    "text": "lasi K3: Regulasi yang digunakan hanya mencakup \ndi \nIndonesia, \nseperti \nUndang-Undang, \nPeraturan Pemerintah, Peraturan \nSNI yang berkaitan den",
+    "page": 11,
+    "bbox": [
+      201.6,
+      328.32,
+      172.31999999999996,
+      37.44
+    ],
+    "length": 145
+  },
+  {
+    "text": "1 \nF. Sistematika Penulisan beberapa bab Secara keseluruhan, struktur tget ke beberapa \nsebagai berikut: BAB I PENDAHULUAN latar belakang Bab ini menjelaskan masalah, tujuan penelitian, manfaat penelitian, ruang lingkup dan sistematika BAB II TINJAUAN PUSTAKA",
+    "page": 12,
+    "bbox": [
+      108.72,
+      186.0,
+      251.76,
+      113.51999999999998
+    ],
+    "length": 259
+  },
+  {
+    "text": "ri dan hasil studi terdahulu yang \nBAB III METODE PENELITIAN metode yang digunakan dalam penelitian, Bab ini membahas secara pendekatan, tahap",
+    "page": 12,
+    "bbox": [
+      120.47999999999999,
+      322.56,
+      133.92,
+      46.079999999999984
+    ],
+    "length": 142
+  },
+  {
+    "text": "ga sehat, \nUndang- keselamatan kerja Undang No. | Tahun 1970 untuk menjamin keutuhan dan kesempurnaan jasmani ta\" di lingkungan kerja. (Waisapi, \ntujuan \nday K3 \nadalah \nmencegah \nduktivitas, serta menciptakan suasana serta menciptakan suasana a yang aman dan nyaman.",
+    "page": 13,
+    "bbox": [
+      343.68,
+      184.32,
+      173.76,
+      102.24000000000001
+    ],
+    "length": 267
+  },
+  {
+    "text": "a penting un\nSistem Informasi yang saling Sistem informasi adalah kumpulan menyimpan, \ndan \nmendistribusikan untuk \nmengumpulkan, informasi guna mendukung pengambilan keputusan dan pengendalian terdiri dari input, proses, output, dan dalam organisasi. Sistem",
+    "page": 13,
+    "bbox": [
+      132.72,
+      365.76,
+      239.76,
+      72.48000000000002
+    ],
+    "length": 258
+  },
+  {
+    "text": "18 \n(Artificial Intelligence) Kecerdasan \nBuatan \n(AI) \nadalah eyfans \nilmu \nkomputer \nyang \ns pada pembuatan mesin yang dapat meniru kecerdasan manusia. AI",
+    "page": 14,
+    "bbox": [
+      204.48,
+      111.11999999999999,
+      213.6,
+      36.480000000000004
+    ],
+    "length": 156
+  },
+  {
+    "text": "yang diguna igunakan \npemrosesan pemrosesan \nbahasa alami \n(Natural Language \nProcessing/ memungkinkan",
+    "page": 14,
+    "bbox": [
+      301.44,
+      216.0,
+      196.79999999999998,
+      35.75999999999999
+    ],
+    "length": 102
+  },
+  {
+    "text": "komputer yang dirancang untuk berinteraksi Chatbot adalah dengan manusia melalui percakapan berbasis teks atau suara.",
+    "page": 14,
+    "bbox": [
+      231.12,
+      284.4,
+      142.79999999999995,
+      22.319999999999993
+    ],
+    "length": 117
+  },
+  {
+    "text": "ng dapat diakses kapan saja dan oleh siapa",
+    "page": 14,
+    "bbox": [
+      236.16,
+      381.36,
+      135.35999999999999,
+      6.9599999999999795
+    ],
+    "length": 42
+  },
+  {
+    "text": "= \nyang dilatih pada adalah model bahasa besar data teks untuk memahami dan menghasilkan bahasa alami.",
+    "page": 14,
+    "bbox": [
+      317.28,
+      414.24,
+      212.64,
+      30.47999999999996
+    ],
+    "length": 102
+  },
+  {
+    "text": "ted Generation (RAG)",
+    "page": 15,
+    "bbox": [
+      195.84,
+      133.68,
+      77.52000000000001,
+      7.439999999999998
+    ],
+    "length": 20
+  },
+  {
+    "text": "ey usun jawaban \nUnified Modeling Language (UML) yang digunakan untuk dan \nmendokumentasikan \nsistem \nperangkat \nlunak. UML menyediakan berbagai jenis activity diagram yang membantu",
+    "page": 15,
+    "bbox": [
+      132.96,
+      218.88,
+      198.23999999999995,
+      74.16000000000003
+    ],
+    "length": 181
+  },
+  {
+    "text": "B. Penelitian Terkait banyak inspirasi dan referensi untuk penyusunan proposal skripsi ini dari penelitian sebelumnya, terkait dengan latar belakang masalah pada ini. Penelitian sebelumnya yang terkait 1. Penelitian Terkait No \nNama/Tahun",
+    "page": 15,
+    "bbox": [
+      108.72,
+      350.64,
+      252.0,
+      94.07999999999998
+    ],
+    "length": 238
+  },
+  {
+    "text": "C. Kerangka Pikir Kerangka pikir pada penelitian ini menunjukkan bagaimana",
+    "page": 17,
+    "bbox": [
+      108.72,
+      335.52,
+      197.51999999999998,
+      31.680000000000007
+    ],
+    "length": 74
+  },
+  {
+    "text": "Gambar 1. Kerangka",
+    "page": 18,
+    "bbox": [
+      193.2,
+      365.76,
+      67.68,
+      16.319999999999993
+    ],
+    "length": 18
+  },
+  {
+    "text": "METODE PENELITIAN A. Tempat dan Waktu Penelitian Tempat Penelitian yang dipilih peneliti adalah di sebuah",
+    "page": 19,
+    "bbox": [
+      190.56,
+      121.44,
+      129.12,
+      61.44
+    ],
+    "length": 105
+  },
+  {
+    "text": "Muhammadiyah M\n2. \nWaktu Penelitian Pelaksanaan penelitian ini",
+    "page": 19,
+    "bbox": [
+      120.24,
+      207.84,
+      87.6,
+      30.23999999999998
+    ],
+    "length": 62
+  },
+  {
+    "text": "BULAN \nNO \nKEGIATAN \nJUNI \nJULI \nUSTUS \n3Talil2I3Tafil2i3Ta: \n| \n| Perumusan topik penelitian",
+    "page": 19,
+    "bbox": [
+      135.35999999999999,
+      289.92,
+      229.19999999999996,
+      44.160000000000025
+    ],
+    "length": 93
+  },
+  {
+    "text": "Pelaksanaan penelitian a. \nPembuatan b. \nPenelitian uji Penulisan laporan ra \n. Alat dan Bahan Alat \npenelitian \nberupa \nlaptop \nyang \nakan",
+    "page": 19,
+    "bbox": [
+      158.16,
+      361.44,
+      144.23999999999998,
+      99.36000000000001
+    ],
+    "length": 139
+  },
+  {
+    "text": "b. \nBesar Memory Ram c. \nKapasitas SSD 2. \nPerangkat Lunak a. \nWindows Home b. \nText editor Visual Studio Code sebagai bahasa programming",
+    "page": 20,
+    "bbox": [
+      133.92,
+      105.11999999999999,
+      111.6,
+      77.76
+    ],
+    "length": 137
+  },
+  {
+    "text": "ogle Chrome sebagai browser. \nData yang digunakan dalam penelitian ini berupa dokumen-",
+    "page": 20,
+    "bbox": [
+      144.72,
+      247.67999999999998,
+      196.31999999999996,
+      17.99999999999997
+    ],
+    "length": 86
+  },
+  {
+    "text": "C. Perancangan Sistem Perancangan sistem sangat penting dalam pembangunan suatu karena menguraikan bagaimana suatu sistem dibangun dari tahap perencanaan hingga tahap pembuatan fungsi-fungsi yang diperlukan untuk pengoperasian sistem. Tujuan dari perancangan sistem adalah untuk menentukan apakah sistem yang akan dikembangkan akan atan chatbot informasi regulasi\npada gambar 2 terbagi menjadi penelitian, antara lain: 1. \nKonsep,",
+    "page": 20,
+    "bbox": [
+      108.72,
+      323.03999999999996,
+      252.0,
+      149.28000000000003
+    ],
+    "length": 430
+  },
+  {
+    "text": "kumen regulasi K3. \nHasil akhir, setelah melalui proses pengujian dan perbaikan, \nsudah dapay diimplementasikan. Jalannya penelitian dapat dil diimplementasikan. gambar 2 di bawah ini:",
+    "page": 22,
+    "bbox": [
+      144.96,
+      138.24,
+      200.64000000000001,
+      44.39999999999998
+    ],
+    "length": 184
+  },
+  {
+    "text": "perancangan \nweb \nchatbot\ngambarkan sebagai berikut: 1. \nUse case diagram",
+    "page": 22,
+    "bbox": [
+      186.48,
+      317.76,
+      84.72,
+      41.27999999999997
+    ],
+    "length": 73
+  },
+  {
+    "text": "2. \nActivity diagram Activity Diagram adalah representasi grafis dari seluruh tahapan alur kerja yang mengandung aktivitas, pilihan tindakan, perulangan dan hasil \ndari \naktivitas \ntersebut. Diagram \nini \ndapat digunakan untuk menjelaskan proses dan alur kerja operasional secara langkah demi langkah dari komponen suatu sistem. Adapun activity diagram dari sistem ini adalah sebagai berikut:",
+    "page": 24,
+    "bbox": [
+      133.2,
+      97.2,
+      227.99999999999997,
+      104.63999999999997
+    ],
+    "length": 392
+  },
+  {
+    "text": "| \nUser membuka Chatbot \n| ——————— \nDokumen \ntidak \nDitemukan? \nTampilkan \nTidak Ditemukan” \n|—",
+    "page": 24,
+    "bbox": [
+      215.51999999999998,
+      233.04,
+      60.48000000000002,
+      146.16
+    ],
+    "length": 95
+  },
+  {
+    "text": "Preprocessing Pertanyaan \n(Preprocessing + Embedding) \n$ Retrieval dokumen dari \nChromaDB \n| \nDokum",
+    "page": 24,
+    "bbox": [
+      213.12,
+      277.92,
+      104.63999999999999,
+      50.39999999999998
+    ],
+    "length": 99
+  },
+  {
+    "text": "Generate Jawaban \nMenggunakan GPT \n|",
+    "page": 24,
+    "bbox": [
+      169.92,
+      364.56,
+      51.84,
+      24.24000000000001
+    ],
+    "length": 36
+  },
+  {
+    "text": "Tampilkan \n“Data Tidak Ditemukan” Tampilkan Output",
+    "page": 24,
+    "bbox": [
+      269.76,
+      368.4,
+      57.60000000000002,
+      34.08000000000004
+    ],
+    "length": 50
+  },
+  {
+    "text": "Gambar 4. Activity Diagram",
+    "page": 24,
+    "bbox": [
+      195.84,
+      451.91999999999996,
+      91.67999999999998,
+      8.879999999999995
+    ],
+    "length": 26
+  },
+  {
+    "text": "D. Teknik Pengujian Sistem Pengujian Sistem dilakukan dengan metode black box testing. Uji coba yang \ndilakukan \nbersifat \nmandiri dan \ndiuji \ncoba langsung dengan memperhatikan rancangan yang dibuat. Pengujian blackbox (blackbox testing) adalah salah satu metode pengujian perangkat lunak yang berfokus pada sisi fungsionalitas, khususnya pada input dan output (apakah sudah sesuai dengan apa yang diharapkan atau belum). Black box testing adalah pengujian yang dilakukan untuk mengamati hasil input dan output dari perangkat lunak tanpa mengetahui struktur kode dari perangkat lunak. Pengujian ini dilakukan di akhir pembuatan perangkat lunak untuk mengetahui apakah perangkat lunak dapat berfungsi dengan baik. . Teknik Analisis Data Setelah semua data yang diperlukan",
+    "page": 26,
+    "bbox": [
+      108.72,
+      144.0,
+      252.0,
+      200.39999999999998
+    ],
+    "length": 771
+  },
+  {
+    "text": "Dalam penelitian \nini, analisis data yang digunakan adalah",
+    "page": 26,
+    "bbox": [
+      132.72,
+      456.96,
+      123.84,
+      15.360000000000014
+    ],
+    "length": 58
+  }
+]

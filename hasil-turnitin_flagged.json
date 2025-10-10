@@ -1,0 +1,640 @@
+[
+  {
+    "text": "Pectamatan dan Kesehatan di Tempat Kerja, Iharapkan memberikan manfaat secara teoritis dan praktis, yaitu:",
+    "page": 2,
+    "bbox": [
+      184.07999999999998,
+      125.75999999999999,
+      228.72,
+      28.799999999999983
+    ],
+    "length": 106
+  },
+  {
+    "text": "1 \nB \narai salah satu syarat untuk mendapatkan gelar Program Studi Informatika sarjana komputer (S.Kom)",
+    "page": 2,
+    "bbox": [
+      177.6,
+      194.64,
+      161.28,
+      28.80000000000001
+    ],
+    "length": 103
+  },
+  {
+    "text": "FAKULTAS TEKNIK UNIVERSITAS MUHAMMADIYAH MAKASSAR",
+    "page": 2,
+    "bbox": [
+      203.04,
+      440.4,
+      174.95999999999998,
+      20.400000000000034
+    ],
+    "length": 49
+  },
+  {
+    "text": "Rava PENGANTAR",
+    "page": 3,
+    "bbox": [
+      197.04,
+      98.88,
+      88.56000000000003,
+      16.319999999999993
+    ],
+    "length": 14
+  },
+  {
+    "text": "Assalamu’alaikum Warahmatullahi Segala puji dan syukur penulis panjatkan ke hadirat Allah Subhanahu Wa Ta'ala atas limpahan rahmat, karunia, dan petunjuk-Nya sehingga",
+    "page": 3,
+    "bbox": [
+      109.92,
+      148.79999999999998,
+      239.75999999999996,
+      35.04000000000002
+    ],
+    "length": 166
+  },
+  {
+    "text": "Kesehatan Kerja (K3)\" dapa dengan baik. \nsebagai la satu persyaratan akademik menyelesaikan di Fakultas Teknik \nMakassar. \nPenulis Program \nStudi \nInformatika \nUniversitas",
+    "page": 3,
+    "bbox": [
+      110.39999999999999,
+      217.44,
+      133.44,
+      48.72000000000003
+    ],
+    "length": 171
+  },
+  {
+    "text": "1. \nKedua orang tua kami tercinta, penulis mengucapkan terima kasih yang sebesar-besarnya \natas segala limpahan kasih sayang, doa \nterputus, serta \ndukungan moral dan materiil yang sangat b",
+    "page": 3,
+    "bbox": [
+      121.44,
+      382.56,
+      240.23999999999995,
+      33.120000000000005
+    ],
+    "length": 189
+  },
+  {
+    "text": "Ai Dosen Pembimbing I, yang memberikan bimbingan, saran selama proses selaku Dosen meluangkan waktu, tenaga dan pikiran untuk memberikan bimbingan, arahan, dan masukan yang \nsangat berharga dalam skripsi ini.",
+    "page": 4,
+    "bbox": [
+      234.48,
+      98.39999999999999,
+      234.72000000000003,
+      97.43999999999998
+    ],
+    "length": 208
+  },
+  {
+    "text": "9 \nSaudara/saudari kami di Fakultas Teknik. dengan rasa persaudaraan yang tinggi banyak membantu, proposal skripsi ini. Akhir kata, penulis proposal ini dapat bagi pengembangan ilmu pengetahuan Keinformatikaan. Aamiin “Billahi Fii Sabilil Hag Fastabigul Khaerat” Wassalamualaikum Warahmatullahi",
+    "page": 4,
+    "bbox": [
+      120.47999999999999,
+      249.84,
+      181.2,
+      141.83999999999995
+    ],
+    "length": 294
+  },
+  {
+    "text": "Bas I PENDAHULUAN A. \nLatar Belakang",
+    "page": 5,
+    "bbox": [
+      108.47999999999999,
+      183.12,
+      87.35999999999999,
+      31.919999999999987
+    ],
+    "length": 36
+  },
+  {
+    "text": "O\nTujuan Penelitian o\nManfaat Peneliti m\nRuang Lingkup F. \nSistematika Penulis BAB II TINJAUAN PUSTAKA",
+    "page": 5,
+    "bbox": [
+      116.88,
+      241.67999999999998,
+      107.03999999999999,
+      75.6
+    ],
+    "length": 102
+  },
+  {
+    "text": "B. \nPenelitian Terkait C. \nKerangka \nPikir.. BAB III METODE PENELITIAN A. \nTempat dan Waktu Penelitian B. \nAlat dan Bahan C. \nPerancangan Sistem D. \nTeknik Pengujian Sistem E. \nTeknik Analisis Data.",
+    "page": 5,
+    "bbox": [
+      116.88,
+      343.91999999999996,
+      115.44000000000001,
+      126.96000000000004
+    ],
+    "length": 198
+  },
+  {
+    "text": "atar Belakang Keselamatan dan Kesehatan Kerja (K3) merupakan aspek penting yang dan penyakit tenaga kerja dari risiko kerja. Undang-undang No. \n| Tahun 1970, Keselamatan Kerja",
+    "page": 8,
+    "bbox": [
+      120.24,
+      138.96,
+      240.0,
+      57.120000000000005
+    ],
+    "length": 175
+  },
+  {
+    "text": "dalam berbagai sektor, termasuk pendidikan, kesehatan, dan",
+    "page": 9,
+    "bbox": [
+      174.72,
+      112.32,
+      198.48,
+      14.879999999999995
+    ],
+    "length": 58
+  },
+  {
+    "text": "Penelitian ini bertujuan",
+    "page": 9,
+    "bbox": [
+      133.44,
+      353.76,
+      77.75999999999999,
+      6.9599999999999795
+    ],
+    "length": 24
+  },
+  {
+    "text": "penelitian \nini \ndiharapkan \ndapat memberikan \nkontribusi",
+    "page": 9,
+    "bbox": [
+      181.2,
+      455.76,
+      192.0,
+      15.120000000000005
+    ],
+    "length": 57
+  },
+  {
+    "text": "musan Masalah Berdasarkan sebagai berikut:",
+    "page": 10,
+    "bbox": [
+      131.04,
+      139.44,
+      59.03999999999999,
+      35.27999999999997
+    ],
+    "length": 42
+  },
+  {
+    "text": "a Tujuan Penelitian penelitian \nini \nadalah Berdasarkan Rumusan \nMasalah, sebagai berikut:",
+    "page": 10,
+    "bbox": [
+      108.72,
+      234.48,
+      107.28,
+      42.72
+    ],
+    "length": 90
+  },
+  {
+    "text": "PB clamatan \ndan \nKesehatan \ndi \nTempat \nKerja, 30 \nmemberikan manfaat teoritis dan praktis, yaitu: 1. \nSecara Teoritis:",
+    "page": 10,
+    "bbox": [
+      185.76,
+      420.24,
+      164.15999999999997,
+      47.039999999999964
+    ],
+    "length": 120
+  },
+  {
+    "text": "Fa Secara Praktis a. \nManfaat bagi peneliti Penelitian \nini",
+    "page": 11,
+    "bbox": [
+      120.47999999999999,
+      98.39999999999999,
+      79.44,
+      42.480000000000004
+    ],
+    "length": 59
+  },
+  {
+    "text": "a Indonesia, \nseperti undang-undang, Peraturan \nMenteri \nTn berkaitan dengan",
+    "page": 11,
+    "bbox": [
+      300.96,
+      330.0,
+      78.24000000000001,
+      42.47999999999996
+    ],
+    "length": 76
+  },
+  {
+    "text": "pemerintah,",
+    "page": 11,
+    "bbox": [
+      247.67999999999998,
+      351.59999999999997,
+      37.440000000000026,
+      7.199999999999989
+    ],
+    "length": 11
+  },
+  {
+    "text": "keselamatan dan kesehatan kerja (K3).",
+    "page": 11,
+    "bbox": [
+      133.44,
+      378.96,
+      123.12,
+      7.439999999999998
+    ],
+    "length": 37
+  },
+  {
+    "text": "p Sistematika Penulisan beberapa bab Secara keseluruhan, struktur",
+    "page": 12,
+    "bbox": [
+      108.47999999999999,
+      186.72,
+      93.35999999999999,
+      29.75999999999999
+    ],
+    "length": 65
+  },
+  {
+    "text": "untuk menjamin keutuhan dan kesempurnaan _kerja di \nKeselama jasmani dan rohani tenaga",
+    "page": 13,
+    "bbox": [
+      217.44,
+      215.76,
+      155.51999999999998,
+      28.319999999999993
+    ],
+    "length": 86
+  },
+  {
+    "text": "Gem Informasi yang \nsaling Sistem informasi adalah kumpulan menyimpan, \ndan \nmendistribusikan untuk \nmengumpulkan, mendukung pengambilan keputusan dan pengendalian terdiri dari input, proses, output dan umpan balik dalam organisasi,",
+    "page": 13,
+    "bbox": [
+      132.48,
+      366.96,
+      181.92,
+      69.84000000000003
+    ],
+    "length": 232
+  },
+  {
+    "text": "Piiticias Intelligence) Kecerdasan \nbuatan \n(AI) \nadalah \nbidang \nilmu \nkomputer \nyang \ns pada pembuatan mesin yang dapat Seine kecerdasan manusia. berfokus pada pembuatan mesin yang dapat",
+    "page": 14,
+    "bbox": [
+      204.0,
+      112.32,
+      215.76,
+      42.23999999999998
+    ],
+    "length": 188
+  },
+  {
+    "text": "saja \nGl \native Pre-trained Transformer (GPT) a. dilatih pada adalah model bahasa sejumlah besar data teks untuk memahami dan menghasilkan bahasa",
+    "page": 14,
+    "bbox": [
+      132.48,
+      385.91999999999996,
+      218.16,
+      43.68000000000001
+    ],
+    "length": 145
+  },
+  {
+    "text": "etrieval-Augmented Generation (RAG) RAG adalah pendekatan dalam",
+    "page": 15,
+    "bbox": [
+      132.96,
+      125.52,
+      139.67999999999998,
+      28.799999999999997
+    ],
+    "length": 63
+  },
+  {
+    "text": "nified Modeling Language (UML) standar yang digunakan untuk dan mendokumentasikan sistem perangkat lunak, menyediakan class, seguence, dan activity berbagai jenis diagram seperti diagram yang membantu",
+    "page": 15,
+    "bbox": [
+      132.72,
+      222.0,
+      202.56,
+      69.83999999999997
+    ],
+    "length": 200
+  },
+  {
+    "text": "interaksi antar komponen, serta",
+    "page": 15,
+    "bbox": [
+      183.35999999999999,
+      325.68,
+      99.84,
+      7.439999999999998
+    ],
+    "length": 31
+  },
+  {
+    "text": "Penelitian Terkait Peneliti memperoleh banyak \ninspirasi \ndan referensi untuk skripsi ini dari penelitian se masalah pada ang terkait ini. Penelitian",
+    "page": 15,
+    "bbox": [
+      116.88,
+      359.03999999999996,
+      201.35999999999996,
+      48.72000000000003
+    ],
+    "length": 149
+  },
+  {
+    "text": "Generationfor",
+    "page": 16,
+    "bbox": [
+      199.44,
+      286.56,
+      46.31999999999999,
+      7.199999999999989
+    ],
+    "length": 13
+  },
+  {
+    "text": "Intensive NLP",
+    "page": 16,
+    "bbox": [
+      199.44,
+      313.92,
+      45.599999999999994,
+      7.439999999999998
+    ],
+    "length": 13
+  },
+  {
+    "text": "Chatbot Untuk Faq Akademik",
+    "page": 16,
+    "bbox": [
+      201.6,
+      396.96,
+      44.400000000000006,
+      20.639999999999986
+    ],
+    "length": 26
+  },
+  {
+    "text": "Dengan Lstm",
+    "page": 16,
+    "bbox": [
+      199.68,
+      438.24,
+      42.72,
+      7.199999999999989
+    ],
+    "length": 11
+  },
+  {
+    "text": "a Kerangka Pikir Kerangka penelitian menunjukkan bagaimana yang dapat_membantu \nmengakses a memaham",
+    "page": 17,
+    "bbox": [
+      108.72,
+      336.47999999999996,
+      148.32,
+      55.200000000000045
+    ],
+    "length": 99
+  },
+  {
+    "text": "@ mar 1, Kerangka",
+    "page": 18,
+    "bbox": [
+      193.44,
+      366.24,
+      67.19999999999999,
+      14.639999999999986
+    ],
+    "length": 17
+  },
+  {
+    "text": "METODE PENELITIAN A. Tempat dan Waktu Penelitian",
+    "page": 19,
+    "bbox": [
+      190.07999999999998,
+      122.88,
+      122.39999999999999,
+      31.439999999999998
+    ],
+    "length": 48
+  },
+  {
+    "text": "peneliti \nadalah \ndi Lokasi penelitian yang \ndipilih",
+    "page": 19,
+    "bbox": [
+      285.12,
+      174.48,
+      104.4,
+      7.920000000000016
+    ],
+    "length": 52
+  },
+  {
+    "text": ". \nWaktu Penelitian Pelaksanaan penelitian ini",
+    "page": 19,
+    "bbox": [
+      120.24,
+      209.04,
+      87.36000000000001,
+      28.319999999999993
+    ],
+    "length": 46
+  },
+  {
+    "text": "BULAN \nNO \nKEGIATAN \nJUNI |” JULI \n| AGUSTUS \n3|alil2(3jaiTtol3Ta",
+    "page": 19,
+    "bbox": [
+      135.35999999999999,
+      289.2,
+      228.72,
+      42.0
+    ],
+    "length": 65
+  },
+  {
+    "text": "| Alat dan Bahan Alat \npenelitian \nberupa \nlaptop \nyang \nakan",
+    "page": 19,
+    "bbox": [
+      108.72,
+      430.08,
+      144.23999999999995,
+      29.28000000000003
+    ],
+    "length": 61
+  },
+  {
+    "text": "b. \nBesar Memory Ram Cc. \nKapasitas SSD 2. \nPerangkat Lunak a. \nWindows Home Text editor Visual Studio Code sebagai bahasa programming",
+    "page": 20,
+    "bbox": [
+      133.44,
+      105.83999999999999,
+      110.88,
+      76.32000000000001
+    ],
+    "length": 134
+  },
+  {
+    "text": "ol Perancangan Sistem Perancangan sistem sangat penting dalam pengembangan suatu sistem, perencanaan karena menguraikan bagaimana \nsistem dibangun hingga tahap pembuatan fungsi-fungsi yang diperlukan untuk pengoperasian",
+    "page": 20,
+    "bbox": [
+      108.72,
+      324.24,
+      252.0,
+      56.879999999999995
+    ],
+    "length": 219
+  },
+  {
+    "text": "1 \npada gambar 2 terbagi menjadi penelitian, antara lain: 1. \nKonsep,",
+    "page": 20,
+    "bbox": [
+      228.72,
+      412.8,
+      99.11999999999998,
+      47.75999999999999
+    ],
+    "length": 69
+  },
+  {
+    "text": "Hasil akhir, setelah melalui pros \nngujian dan perbaikan, chatbot \nsudah dapat diterapkan. Jalannya penelitian dapat dilihat pada gambar sudah dapat 2 di bawah ini:",
+    "page": 22,
+    "bbox": [
+      145.2,
+      139.44,
+      228.95999999999998,
+      42.0
+    ],
+    "length": 164
+  },
+  {
+    "text": "Perancangan Web Chatbot\nmbarkan sebagai berikut: 1. \nUse case diagram",
+    "page": 22,
+    "bbox": [
+      191.76,
+      317.52,
+      79.19999999999999,
+      40.079999999999984
+    ],
+    "length": 69
+  },
+  {
+    "text": "> \nActivity diagram Activity Diagram adalah representasi grafis dari seluruh tahapan aktivitas, pilihan tindakan, alur kerja yang dapat digunakan untuk menjelaskan hasil dari aktivitas tersebut, proses operasional secara langkah demi langkah dari komponen sistem",
+    "page": 24,
+    "bbox": [
+      132.24,
+      98.64,
+      228.00000000000003,
+      75.11999999999999
+    ],
+    "length": 262
+  },
+  {
+    "text": "Activity Diagram",
+    "page": 24,
+    "bbox": [
+      232.07999999999998,
+      438.47999999999996,
+      54.95999999999998,
+      7.439999999999998
+    ],
+    "length": 16
+  },
+  {
+    "text": "B. Teknik Pengujian Sistem Pengujian Sistem dilakukan dengan metode black box testing. Uji coba \nyang \ndilakukan \nbersifat mandiri \ndan \ndiuji \ncoba \nlangsung \ndengan memperhatikan rancangan yang dibuat. Pengujian blackbox (blackbox testing) adalah salah satu metode pengujian perangkat lunak yang berfokus pada sisi fungsionalitas, khususnya pada input dan output (apakah sudah sesuai dengan apa yang diharapkan atau belum). Black Box Testing adalah pengujian yang dilakukan untuk mengamati hasil \ninput dan output perangkat \nlunak tanpa mengetahui \nstruktur kode Pengujian \nini dilakukan mengetahui apakah perangkat Lunak dapat berfungsi dengan baik. E. Teknik Analisis Data Setelah semua data yang diperlukan",
+    "page": 26,
+    "bbox": [
+      108.72,
+      145.2,
+      252.0,
+      198.24
+    ],
+    "length": 711
+  },
+  {
+    "text": "Bam penelitian \nini, analisis data yang digunakan adalah",
+    "page": 26,
+    "bbox": [
+      132.48,
+      457.2,
+      123.6,
+      15.120000000000005
+    ],
+    "length": 56
+  },
+  {
+    "text": "Augmented Generation in a Web-Based Question Answering System for \nFigh Books. AA \nnal of Artificial Intelligence and Software Engineering, Figh Books. https://doi.org/10.",
+    "page": 28,
+    "bbox": [
+      124.32,
+      150.48,
+      230.64,
+      35.76000000000002
+    ],
+    "length": 171
+  },
+  {
+    "text": "://arxiv.org/abs Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert- Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D. M., Wu, J., Winter, C., ... Amodei, D. (2020). Language Models are Few-Shot Learners. http://arxiv.org/abs/2005.14165 ce Midwifery Implementatio Kamali Zaman, M. (2022). Science Inspection as a Work Occupational Safety and y, Kampar Regency, Ri Midwifery (Vo O ABSTRACT. Online. www.midwifery.iocspublisher.org Bais, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Kiittler, H., Lewis, M., Yih, W., Rocktischel, T., Riedel, S., & Kiela, D. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. http://arxiv.org/abs/2005.11401 Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Kiittler, H.,",
+    "page": 28,
+    "bbox": [
+      123.83999999999999,
+      231.6,
+      260.15999999999997,
+      241.43999999999997
+    ],
+    "length": 879
+  },
+  {
+    "text": "Teguh, P. (2018). Unified Modeling Language (UML) Model Untuk Pengembangan Sistem Informasi Akademik Berbasis Web. Manuel, R., & Ganu, T. (2023). Retrieval Au using OpenAl GPT models. Chest X-Ray Report G /2305.03660",
+    "page": 29,
+    "bbox": [
+      117.11999999999999,
+      173.04,
+      216.0,
+      74.63999999999999
+    ],
+    "length": 216
+  },
+  {
+    "text": "> APLIKASI CHATBOT",
+    "page": 29,
+    "bbox": [
+      198.72,
+      312.47999999999996,
+      100.79999999999998,
+      14.639999999999986
+    ],
+    "length": 18
+  },
+  {
+    "text": "Jurnal Informatika € \nhmeier, Stefan. (2022). Handbook of research on artificial intelligence in human resource management. Edward Elgar Publishing. Martin, B., Zender, J., Romhild, A., & neimer, L., Kanzinger, A., Ziegler, Leyhe, C. (2021). Barriers in times of digital teaching and learning — a german case study: Challenges and .5334/jime.638",
+    "page": 29,
+    "bbox": [
+      125.28,
+      347.52,
+      246.48,
+      113.28000000000003
+    ],
+    "length": 345
+  },
+  {
+    "text": "Atri G., M, R., G, C. S., Y, S., Srivastava, G., Maddikunta, P. K. R., G, D. R., Jhaveri, R. H., B, P., Wang, W., Vasilakos, A. V., & Gadekallu, T. R. (2023). Generative Pre-trained Transformer: A Comprehensive Review on Enabling Technologies, Potential Applications, Emerging Challenges, and Future Directions. http://arxiv.org/abs/2305.10435",
+    "page": 30,
+    "bbox": [
+      114.47999999999999,
+      94.56,
+      263.28,
+      72.48000000000002
+    ],
+    "length": 343
+  }
+]
