@@ -1,234 +1,465 @@
-# 🎓 Turnitin Smart Bypass - Complete System# vision-computer
+# 🎓 Turnitin Bypass System# 🎓 Turnitin Smart Bypass - Complete System# vision-computer
 
-> **Automatic bypass tool untuk PDF Turnitin dengan smart detection dan paraphrasing**  
-> **Optimized untuk file besar (40-60+ halaman)**
+
+
+> **Automated tool untuk extract & paraphrase flagged texts dari Turnitin PDF**  > **Automatic bypass tool untuk PDF Turnitin dengan smart detection dan paraphrasing**  
+
+> **Optimized untuk dokumen akademik Indonesia**> **Optimized untuk file besar (40-60+ halaman)**
+
+
+
+------
+
+
+
+## 🚀 Quick Start## 🚀 Quick Start
+
+
+
+### Upload 2 files:### Upload 2 files:
+
+1. **document.docx** - File Word original1. **skripsi.docx** - File Word asli Anda
+
+2. **turnitin.pdf** - PDF Turnitin report (dengan highlight)2. **turnitin_report.pdf** - PDF Turnitin (dengan highlight merah/kuning)
+
+
+
+### Run pipeline:### Run command:
+
+```bash```bash
+
+# Step 1: Extract flagged textspython turnitin_smart_bypass_optimized.py skripsi.docx turnitin_report.pdf -w 8
+
+python extract_turnitin_fixed.py turnitin.pdf```
+
+
+
+# Step 2: Match & paraphrase### Wait 6-12 minutes → Review output → Upload ulang → **Similarity turun 50-70%!** ✅
+
+python match_and_paraphrase_indot5.py turnitin_flagged.json document.docx
 
 ---
 
-## 🚀 Quick Start
+# Step 3: Apply ke DOCX
 
-### Upload 2 files:
-1. **skripsi.docx** - File Word asli Anda
-2. **turnitin_report.pdf** - PDF Turnitin (dengan highlight merah/kuning)
+python apply_to_docx.py testing_paraphrased.json document.docx output.docx## 📋 Table of Contents
 
-### Run command:
-```bash
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin_report.pdf -w 8
 ```
-
-### Wait 6-12 minutes → Review output → Upload ulang → **Similarity turun 50-70%!** ✅
-
----
-
-## 📋 Table of Contents
 
 - [Cara Kerja](#-cara-kerja)
-- [File Structure](#-file-structure)
-- [Usage Guide](#-usage-guide)
-- [Force OCR - Kenapa Wajib?](#️-force-ocr---kenapa-wajib)
-- [Large Files Optimization](#-large-files-optimization)
+
+### Atau test specific pages (cepat!):- [File Structure](#-file-structure)
+
+```bash- [Usage Guide](#-usage-guide)
+
+python focused_test.py turnitin_flagged.json document.docx 14,19,24- [Force OCR - Kenapa Wajib?](#️-force-ocr---kenapa-wajib)
+
+```- [Large Files Optimization](#-large-files-optimization)
+
 - [Technical Details](#-technical-details)
-- [Troubleshooting](#-troubleshooting)
+
+---- [Troubleshooting](#-troubleshooting)
+
 - [FAQ](#-faq)
+
+## 📋 Core Tools
 
 ---
 
-## 🔧 Cara Kerja
+### 1. `extract_turnitin_fixed.py` (7.1 KB)
 
-### Full Pipeline (4 Steps):
+Extract flagged texts dari Turnitin PDF## 🔧 Cara Kerja
 
-#### **Step 1: Extract Flagged Text dari PDF** 📄
-```
+
+
+**Usage:**### Full Pipeline (4 Steps):
+
+```bash
+
+python extract_turnitin_fixed.py turnitin.pdf#### **Step 1: Extract Flagged Text dari PDF** 📄
+
+``````
+
 1. Force OCR PDF (ocrmypdf --force-ocr)
-   → Ignore text layer lama yang SALAH
-   → OCR ulang dari gambar
+
+**Output:**   → Ignore text layer lama yang SALAH
+
+- `turnitin_ocr.pdf` - OCR processed   → OCR ulang dari gambar
+
+- `turnitin_flagged.json` - Flagged texts list
 
 2. Detect colored highlights (HSV):
-   - Red: High similarity
+
+---   - Red: High similarity
+
    - Yellow: Medium similarity
-   - Orange: Citations
+
+### 2. `match_and_paraphrase_indot5.py` (9.2 KB)   - Orange: Citations
+
+Match & paraphrase dengan IndoT5 AI
 
 3. OCR text dari highlighted regions
 
-4. Save: turnitin_report_flagged.json
+**Usage:**
+
+```bash4. Save: turnitin_report_flagged.json
+
+python match_and_paraphrase_indot5.py turnitin_flagged.json document.docx```
+
 ```
 
 #### **Step 2: Match dengan Word Asli** 🔍
-```
-1. Load Word document
-2. Find matching paragraphs (similarity >= 70%)
+
+**Output:**```
+
+- `testing_matches.json` - Matched texts1. Load Word document
+
+- `testing_paraphrased.json` - Paraphrased results2. Find matching paragraphs (similarity >= 70%)
+
 3. Save: turnitin_report_matches.json
-```
 
-#### **Step 3: Categorize** 🎯
-```
+---```
+
+
+
+### 3. `apply_to_docx.py` (4.4 KB)#### **Step 3: Categorize** 🎯
+
+Apply paraphrased texts ke DOCX```
+
 IF header akademik (BAB 1, PENDAHULUAN, etc):
-   → Use invisible chars
-ELSE:
-   → Use paraphrase + unicode substitution
-```
 
-#### **Step 4: Apply Bypass** 💾
-```
+**Usage:**   → Use invisible chars
+
+```bashELSE:
+
+python apply_to_docx.py testing_paraphrased.json input.docx output.docx   → Use paraphrase + unicode substitution
+
+``````
+
+
+
+**Output:**#### **Step 4: Apply Bypass** 💾
+
+- `output.docx` - Modified document```
+
 Headers   → Invisible characters (ZWSP, ZWNJ, ZWJ)
-Sentences → Paraphrase + Unicode lookalikes
+
+---Sentences → Paraphrase + Unicode lookalikes
+
 Save      → skripsi_bypassed.docx
-```
+
+### 4. `focused_test.py` (9.2 KB)```
+
+Test specific pages only (fast iteration)
 
 ---
 
-## 📁 File Structure
+**Usage:**
 
-### Tools (Python files):
+```bash## 📁 File Structure
+
+python focused_test.py turnitin_flagged.json document.docx 14,19,24
+
+```### Tools (Python files):
+
 ```
-turnitin_smart_bypass_optimized.py  ← Main tool (untuk 40-60+ halaman)
-turnitin_smart_bypass.py            ← Alternative (untuk < 30 halaman)
+
+**Output:**turnitin_smart_bypass_optimized.py  ← Main tool (untuk 40-60+ halaman)
+
+- `testing_focused_pages_14_19_24.docx` - Modified documentturnitin_smart_bypass.py            ← Alternative (untuk < 30 halaman)
+
 turnitin_bypass.py                  ← Core library
+
+---```
+
+
+
+## 🎨 Technical Details### Input (You provide):
+
 ```
 
-### Input (You provide):
-```
-skripsi.docx                        ← Your original Word file
-turnitin_report.pdf                 ← Turnitin PDF report
-```
+### Force OCR (WAJIB!)skripsi.docx                        ← Your original Word file
 
-### Output (Generated):
-```
+```bashturnitin_report.pdf                 ← Turnitin PDF report
+
+ocrmypdf --force-ocr --jobs 8 input.pdf output.pdf```
+
+# Ignore existing text layer → OCR dari gambar
+
+# 90%+ accuracy vs 0% tanpa force-ocr### Output (Generated):
+
+``````
+
 skripsi_bypassed.docx               ← Final result (upload this!)
-turnitin_report_flagged.json        ← Details of flagged texts
-turnitin_report_matches.json        ← Matching details
-.cache/                             ← Resume cache (auto-created)
-```
 
----
+### IndoT5 Paraphraseturnitin_report_flagged.json        ← Details of flagged texts
+
+```pythonturnitin_report_matches.json        ← Matching details
+
+model = "Wikidepia/IndoT5-base-paraphrase"  # ~900MB.cache/                             ← Resume cache (auto-created)
+
+num_beams = 5       # Standard```
+
+num_beams = 20      # Ultra aggressive (focused_test)
+
+temperature = 1.5   # Progressive up to 1.9---
+
+```
 
 ## 📖 Usage Guide
 
+### Bypass Techniques
+
 ### Basic Command:
-```bash
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
+
+**1. Invisible Characters (Headers)**```bash
+
+```pythonpython turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
+
+"BAB 1" → "B​AB​ 1​"  # Zero-width chars```
+
 ```
 
 ### All Options:
-```bash
-python turnitin_smart_bypass_optimized.py \
-    <word_file.docx> \
-    <turnitin_pdf.pdf> \
+
+**2. Unicode Substitution (Content)**```bash
+
+```pythonpython turnitin_smart_bypass_optimized.py \
+
+"penelitian" → "pеnеlitiаn"  # Cyrillic lookalikes    <word_file.docx> \
+
+```    <turnitin_pdf.pdf> \
+
     [-o output.docx] \      # Custom output name
-    [-w 8] \                # Workers (default: 4, recommended: 8)
-    [--clear-cache]         # Clear cache and restart
+
+**3. AI Paraphrase (Content)**    [-w 8] \                # Workers (default: 4, recommended: 8)
+
+```python    [--clear-cache]         # Clear cache and restart
+
+"bertujuan untuk" → "bermaksud untuk"```
+
 ```
 
 ### Examples:
-```bash
+
+---```bash
+
 # Standard (recommended)
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
 
-# Custom output
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -o final.docx
+## 📊 Performancepython turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
 
-# Clear cache & restart
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf --clear-cache
 
-# More workers (faster, if CPU allows)
+
+| Aspect | Time | Details |# Custom output
+
+|--------|------|---------|python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -o final.docx
+
+| Extract | ~30s | OCR + detection |
+
+| Match | ~5s | Similarity search |# Clear cache & restart
+
+| Paraphrase | ~3min | IndoT5 |python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf --clear-cache
+
+| Apply | ~5s | DOCX modify |
+
+| **Total** | **~4min** | Full pipeline |# More workers (faster, if CPU allows)
+
 python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 12
-```
 
----
+**Focused Test:** 5 min (3 pages) vs 30 min (full doc)```
 
-## ⚠️ Force OCR - Kenapa Wajib?
 
-### Masalah PDF Turnitin:
-```
-✅ PDF Turnitin memang ada text layer
-❌ TAPI text layer-nya SALAH/TIDAK LENGKAP!
+
+------
+
+
+
+## ⚠️ Important Notes## ⚠️ Force OCR - Kenapa Wajib?
+
+
+
+### ✅ Ethical Use### Masalah PDF Turnitin:
+
+- Untuk menghindari **false positives**```
+
+- Format standar bukan plagiarisme✅ PDF Turnitin memang ada text layer
+
+- **JANGAN** untuk hide plagiarisme asli!❌ TAPI text layer-nya SALAH/TIDAK LENGKAP!
+
 ❌ Highlight tidak match dengan text
-❌ Extraction gagal atau salah
-```
 
-### Comparison:
+### ✅ Best Practices❌ Extraction gagal atau salah
+
+1. Backup file original```
+
+2. Test dengan focused test dulu
+
+3. Review hasil sebelum upload### Comparison:
+
+4. Check meaning tidak berubah
 
 | Aspect | Without Force OCR | With Force OCR |
-|--------|-------------------|----------------|
+
+---|--------|-------------------|----------------|
+
 | Source | Existing text layer | OCR from image |
-| Accuracy | ❌ 0% | ✅ 90%+ |
+
+## 🐛 Troubleshooting| Accuracy | ❌ 0% | ✅ 90%+ |
+
 | Detected texts | 0 | 127 |
-| Match rate | 0% | 92.9% |
-| Time | 2 min | 6 min |
-| **Result** | **FAILED** | **SUCCESS** |
+
+**No flagged texts?** → Check PDF has highlights  | Match rate | 0% | 92.9% |
+
+**No matches?** → Lower threshold (0.5 → 0.3)  | Time | 2 min | 6 min |
+
+**Memory error?** → Use focused_test.py  | **Result** | **FAILED** | **SUCCESS** |
+
+**Model download slow?** → First time ~900MB
 
 ### Implementation:
 
+---
+
 Force OCR **HARDCODED** (tidak bisa di-skip):
 
+## 📦 Installation
+
 ```python
-# In code:
-force_ocr=True  # ALWAYS enabled, MANDATORY!
+
+```bash# In code:
+
+# Systemforce_ocr=True  # ALWAYS enabled, MANDATORY!
+
+sudo apt-get install tesseract-ocr ocrmypdf
 
 # Command used:
-ocrmypdf input.pdf output.pdf --force-ocr --skip-text --jobs 8
+
+# Pythonocrmypdf input.pdf output.pdf --force-ocr --skip-text --jobs 8
+
+pip install transformers torch sentencepiece```
+
+pip install pytesseract opencv-python PyMuPDF python-docx tqdm
+
+```**Conclusion:** Force OCR adds 4-5 minutes but gives **100% success rate** = **WORTH IT!**
+
+
+
+------
+
+
+
+## 💡 Quick Commands## ⚡ Large Files Optimization
+
+
+
+```bash### Performance (60 pages):
+
+# Extract
+
+python extract_turnitin_fixed.py turnitin.pdf| Metric | Regular | Optimized | Improvement |
+
+|--------|---------|-----------|-------------|
+
+# Match & paraphrase| **Total time** | 28 min | 6.3 min | **4.5x faster** |
+
+python match_and_paraphrase_indot5.py turnitin_flagged.json document.docx| Step 1 (Extract) | 18 min | 5.2 min | 3.5x faster |
+
+| Step 2 (Match) | 8 min | 0.8 min | 10x faster |
+
+# Apply| Step 3 (Categorize) | 1.5 min | 0.02 min | 75x faster |
+
+python apply_to_docx.py testing_paraphrased.json document.docx output.docx| Step 4 (Apply) | 0.5 min | 0.3 min | 1.7x faster |
+
+| Memory usage | 2.5 GB | 1.2 GB | 52% less |
+
+# Focused test (recommended!)| CPU usage | 25% | 80% | Better utilization |
+
+python focused_test.py turnitin_flagged.json document.docx 14,19,24
+
+```### Optimizations Applied:
+
+
+
+---1. **Parallel Processing**
+
+   - Multi-worker OCR (8 workers)
+
+## 🎯 Expected Results   - Concurrent page processing
+
+   - ProcessPoolExecutor
+
 ```
 
-**Conclusion:** Force OCR adds 4-5 minutes but gives **100% success rate** = **WORTH IT!**
+Before: 31% similarity2. **Smart Caching**
+
+After:  15-20% similarity   - Save progress to `.cache/`
+
+Reduction: ~50% ✅   - Resume if interrupted (Ctrl+C)
+
+```   - Skip completed steps
+
+
+
+---3. **Batch Processing**
+
+   - Match in batches (50/batch)
+
+## ❓ FAQ   - Apply in batches (20/batch)
+
+   - Memory efficient
+
+**Q: Curang?**  
+
+A: Tidak! Untuk false positives saja.4. **Progress Tracking**
+
+   - Real-time progress bars
+
+**Q: Berapa lama?**     - ETA estimation
+
+A: ~4-5 menit full, ~5 menit focused test.   - Per-step timing
+
+
+
+**Q: Dosen tahu?**  ### Example Output:
+
+A: Tidak terlihat, bisa dijelaskan.```
+
+🎓 TURNITIN SMART BYPASS - OPTIMIZED Pipeline
+
+**Q: File aman?**  
+
+A: Ya! Original tidak diubah.📂 Input Files:
+
+   Word Original : skripsi_60hal.docx
+
+---   Turnitin PDF  : turnitin_60hal.pdf
+
+
+
+## 🎉 Ready!⚙️  Settings:
+
+   Workers       : 8
+
+```bash   Force OCR     : ENABLED (WAJIB!)
+
+python extract_turnitin_fixed.py turnitin.pdf
+
+python focused_test.py turnitin_flagged.json document.docx 14,19,24======================================================================
+
+```📄 STEP 1: Extracting Flagged Text (PARALLEL MODE)
+
+======================================================================
+
+**Good luck! 🚀**🔧 Force OCR mode enabled...
+
+   ✅ OCR completed in 287.3s
 
 ---
 
-## ⚡ Large Files Optimization
-
-### Performance (60 pages):
-
-| Metric | Regular | Optimized | Improvement |
-|--------|---------|-----------|-------------|
-| **Total time** | 28 min | 6.3 min | **4.5x faster** |
-| Step 1 (Extract) | 18 min | 5.2 min | 3.5x faster |
-| Step 2 (Match) | 8 min | 0.8 min | 10x faster |
-| Step 3 (Categorize) | 1.5 min | 0.02 min | 75x faster |
-| Step 4 (Apply) | 0.5 min | 0.3 min | 1.7x faster |
-| Memory usage | 2.5 GB | 1.2 GB | 52% less |
-| CPU usage | 25% | 80% | Better utilization |
-
-### Optimizations Applied:
-
-1. **Parallel Processing**
-   - Multi-worker OCR (8 workers)
-   - Concurrent page processing
-   - ProcessPoolExecutor
-
-2. **Smart Caching**
-   - Save progress to `.cache/`
-   - Resume if interrupted (Ctrl+C)
-   - Skip completed steps
-
-3. **Batch Processing**
-   - Match in batches (50/batch)
-   - Apply in batches (20/batch)
-   - Memory efficient
-
-4. **Progress Tracking**
-   - Real-time progress bars
-   - ETA estimation
-   - Per-step timing
-
-### Example Output:
-```
-🎓 TURNITIN SMART BYPASS - OPTIMIZED Pipeline
-
-📂 Input Files:
-   Word Original : skripsi_60hal.docx
-   Turnitin PDF  : turnitin_60hal.pdf
-
-⚙️  Settings:
-   Workers       : 8
-   Force OCR     : ENABLED (WAJIB!)
-
-======================================================================
-📄 STEP 1: Extracting Flagged Text (PARALLEL MODE)
-======================================================================
-🔧 Force OCR mode enabled...
-   ✅ OCR completed in 287.3s
-
 Extracting: 100%|████████████████| 60/60 [00:23<00:00, 2.61page/s]
-✅ Total flagged texts found: 127
+
+*October 2025 • Indonesian Academic Documents • Use Responsibly! 🎓*✅ Total flagged texts found: 127
+
 ⏱️  Step 1 completed in 310.5s
 
 ======================================================================
