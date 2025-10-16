@@ -1,0 +1,354 @@
+[
+  {
+    "original": "Diajukan sebagai Salah Satu Syarat untuk mendapatkan Gelar Sarjana Komputer (S.Kom) Program Studi Informatika",
+    "paraphrased": "Diusulkan sebagai salah satu syarat untuk mendapatkan gelar sarjana komputer (S.Kom) di Program Studi Informatika",
+    "method": "double_aggressive",
+    "page": 2,
+    "similarity_before": 100.0,
+    "para_index": 2
+  },
+  {
+    "original": "PROGRAM STUDI INFORMATIKA FAKULTAS TEKNIK",
+    "paraphrased": "Program Studi Informatika FAKULTAS TEKNIK",
+    "method": "double_aggressive",
+    "page": 2,
+    "similarity_before": 53.57,
+    "para_index": 4
+  },
+  {
+    "original": "Proposal skripsi ini disusun sebagai salah satu syarat akademik yang harus dipenuhi dalam menyelesaikan program Sarjana di Fakultas Teknik Program Studi Informatika Universitas Muhammadiyah Makassar. Penulis menyadari bahwa karya ini masih jauh dari kesempurnaan, oleh karena itu masukan berupa kritik dan saran yang membangun dari berbagai pihak sangat penulis harapkan demi penyempurnaan proposal skripsi ini.",
+    "paraphrased": "Proposal untuk skripsi ini disusun sebagai salah satu persyaratan akademik yang harus dipenuhi untuk menyelesaikan program sarjana di Fakultas Teknik, Program Studi Informatika, Universitas Muamalat. Penulis menyadari bahwa karya ini masih jauh dari sempurna, oleh karena itu masukan berupa kritik dan saran yang membangun dari berbagai pihak sangat diharapkan untuk menyempurnakan proposal skripsi ini.",
+    "method": "double_aggressive",
+    "page": 3,
+    "similarity_before": 87.5,
+    "para_index": 10
+  },
+  {
+    "original": "Kedua orang tua kami tercinta, penulis mengucapkan terima kasih yang sebesar-besarnya atas segala limpahan kasih sayang, doa yang tiada putus, serta dukungan moral dan materiil yang sangat berarti bagi penulis.",
+    "paraphrased": "Kedua orang tua kami tercinta, penulis mengucapkan terima kasih yang sebesar-besarnya atas segala limpahan kasih sayang, doa yang tak henti-hentinya, serta dukungan moral dan materiil yang sangat berarti bagi penulis.",
+    "method": "double_aggressive",
+    "page": 3,
+    "similarity_before": 80.56,
+    "para_index": 12
+  },
+  {
+    "original": "Bapak Muhyiddin A.M Hayat S.Kom.,M.T., selaku Ketua Program Studi Informatika Fakultas Teknik Universitas Muhammadiyah Makassar yang telah memberikan arahan dan fasilitas akademik.",
+    "paraphrased": "Ketua Program Studi Informatika Fakultas Teknik Universitas muhammadiyah Makassar, yang telah memberikan arahan dan fasilitas akademik, Bapak Muhhiddin A.M Hayat, S.Kom., M.T.",
+    "method": "double_aggressive",
+    "page": 3,
+    "similarity_before": 100.0,
+    "para_index": 14
+  },
+  {
+    "original": "Ibu Titin Wahyuni, S.Pd.,M.T., selaku Dosen Pembimbing I yang dengan sabar memberikan bimbingan, saran dan koreksi yang konstruktif selama proses penyusunan proposal ini.",
+    "paraphrased": "Sebagai Dosen Pembimbing I, Ibu Titin Wahyuni, S.Pd., M.T., yang dengan sabar memberikan bimbingan, saran dan koreksi yang konstruktif selama proses penyusunan proposal ini.",
+    "method": "double_aggressive",
+    "page": 4,
+    "similarity_before": 57.78,
+    "para_index": 15
+  },
+  {
+    "original": "Assalamu’alaikum Warahmatullahi Wabarokatuh",
+    "paraphrased": "Assalamualaikum warahmatullahi wabarakatuh",
+    "method": "double_aggressive",
+    "page": 4,
+    "similarity_before": 81.08,
+    "para_index": 8
+  },
+  {
+    "original": "DAFTAR TABEL",
+    "paraphrased": "DAFTAR TABEL",
+    "method": "double_aggressive",
+    "page": 5,
+    "similarity_before": 62.5,
+    "para_index": 24
+  },
+  {
+    "original": "Gambar 1. Kerangka Berpikir",
+    "paraphrased": "Gambar 1. Kerangka Pemikiran",
+    "method": "double_aggressive",
+    "page": 7,
+    "similarity_before": 61.02,
+    "para_index": 102
+  },
+  {
+    "original": "Keselamatan dan Kesehatan Kerja (K3) merupakan aspek krusial yang menjamin perlindungan tenaga kerja dari risiko kecelakaan maupun penyakit akibat aktivitas kerja. Menurut Undang-Undang No. 1 Tahun 1970, keselamatan kerja adalah seluruh upaya untuk menjaga keutuhan jasmani dan rohani pekerja di lingkungan kerja. Regulasi K3 telah banyak diterbitkan oleh pemerintah melalui peraturan menteri, standar operasional prosedur (SOP), hingga dokumen teknis yang berlaku di berbagai sektor industri. Regulasi tersebut bertujuan tidak hanya untuk menurunkan angka kecelakaan kerja, tetapi juga menciptakan lingkungan kerja yang produktif, sehat, dan berkelanjutan.",
+    "paraphrased": "Keselamatan dan Kesehatan Kerja (K3) merupakan aspek penting yang menjamin perlindungan tenaga kerja dari risiko kecelakaan dan penyakit akibat aktivitas kerja. (c) Menurut undang-undang No. 1 Tahun 1970, Keselamatan Kerja adalah keseluruhan upaya untuk menjaga keutuhan jasmani dan rohani pekerja di lingkungan kerja. Peraturan tentang Keselamatan dan Kesehatan Kerja telah banyak diterbitkan oleh pemerintah melalui Peraturan Menteri, Standar Operasional Prosedur (SOP), hingga dokumen teknis yang berlaku di berbagai sektor industri. Regulasi tersebut tidak hanya bertujuan untuk menurunkan angka kecelakaan kerja, tetapi juga untuk menciptakan lingkungan kerja yang produktif, sehat, dan berkelanjutan.",
+    "method": "double_aggressive",
+    "page": 8,
+    "similarity_before": 91.67,
+    "para_index": 34
+  },
+  {
+    "original": "berbasis teks secara instan dan mudah dipahami (Yenduri et al., 2023). GPT telah digunakan dalam berbagai sektor, termasuk pendidikan, kesehatan, dan layanan publik. Namun, GPT secara murni hanya mengandalkan data pelatihan umum, sehingga belum cukup kuat apabila dituntut untuk menjawab pertanyaan yang spesifik terhadap dokumen atau konteks tertentu seperti peraturan K3 (Beheshti et al., 2023).",
+    "paraphrased": "GPT telah digunakan secara instan dan mudah dipahami (Yenduri et al., 2023) dalam berbagai sektor, termasuk pendidikan, kesehatan, dan layanan publik, tetapi GPT secara murni hanya mengandalkan data pelatihan umum, sehingga tidak cukup kuat untuk menjawab pertanyaan tertentu terkait dokumen atau konteks tertentu seperti keselamatan dan kesehatan kerja (Beheshti et al. 2023).",
+    "method": "double_aggressive",
+    "page": 9,
+    "similarity_before": 100.0,
+    "para_index": 37
+  },
+  {
+    "original": "Retrieval-Augmented Generation (RAG)",
+    "paraphrased": "Generation Retrieval-Augmented (RAG)",
+    "method": "double_aggressive",
+    "page": 9,
+    "similarity_before": 63.16,
+    "para_index": 92
+  },
+  {
+    "original": "Penelitian ini berjudul “Implementasi Retrieval-Augmented Generation (RAG) menggunakan model GPT untuk chatbot pencarian informasi regulasi Keselamatan dan Kesehatan Kerja (K3) yang diharapkan memberikan manfaat secara teoritis dan secara praktis, yaitu:",
+    "paraphrased": "Penelitian ini berjudul `` Implementasi Retrieval-Augmented Generation (RAG) menggunakan model GPT untuk chatbot untuk mencari informasi keselamatan dan kesehatan kerja (K3), yang diharapkan memberikan manfaat secara teoritis dan praktis, yaitu:",
+    "method": "double_aggressive",
+    "page": 10,
+    "similarity_before": 100.0,
+    "para_index": 50
+  },
+  {
+    "original": "Penelitian ini berjudul “Implementasi Retrieval-Augmented Generation (RAG) menggunakan model GPT untuk chatbot pencarian informasi regulasi Keselamatan dan Kesehatan Kerja (K3) yang diharapkan memberikan manfaat secara teoritis dan secara praktis, yaitu:",
+    "paraphrased": "Penelitian ini berjudul “Implementasi Retrieval-Augmented Generation (RAG) menggunakan model GPT untuk Chatbot Pencarian Informasi Keselamatan dan Kesehatan Kerja (K3), yang diharapkan memberikan manfaat secara teoritis dan praktis, yaitu:",
+    "method": "double_aggressive",
+    "page": 11,
+    "similarity_before": 100.0,
+    "para_index": 50
+  },
+  {
+    "original": "Berdasarkan rumusan masalah, adapun batasan pada penelitian ini sebagai berikut:",
+    "paraphrased": "Berdasarkan Rumusan Masalah, batasan pada penelitian ini adalah sebagai berikut:",
+    "method": "double_aggressive",
+    "page": 11,
+    "similarity_before": 77.94,
+    "para_index": 59
+  },
+  {
+    "original": "Ruang Lingkup Regulasi K3: Regulasi yang digunakan hanya mencakup peraturan nasional di Indonesia, seperti Undang-Undang, Peraturan Pemerintah, Peraturan Menteri Ketenagakerjaan, Keputusan Menteri, dan SNI yang berkaitan dengan keselamatan dan kesehatan kerja (K3).",
+    "paraphrased": "Ruang lingkup Regulasi Keselamatan dan Kesehatan Kerja: Regulasi yang digunakan hanya mencakup peraturan nasional di Indonesia, seperti Undang-Undang, Peraturan Pemerintah, Peraturan Menteri Ketenagakerjaan, Keputusan Menteri dan SNI yang berkaitan dengan keselamatan dan kesehatan kerja (K3).",
+    "method": "double_aggressive",
+    "page": 11,
+    "similarity_before": 58.05,
+    "para_index": 60
+  },
+  {
+    "original": "Bab ini menjelaskan uraian mengenai latar belakang masalah, rumusan masalah, tujuan penelitian, manfaat penelitian, ruang lingkup dan sistematika penulisan.",
+    "paraphrased": "Bab ini menjelaskan uraian tentang latar belakang masalah, perumusan masalah, tujuan penelitian, manfaat penelitian, ruang lingkup dan sistematika penulisan.",
+    "method": "double_aggressive",
+    "page": 12,
+    "similarity_before": 56.52,
+    "para_index": 69
+  },
+  {
+    "original": "Bab ini membahas secara rinci metode yang digunakan dalam penelitian, mencakup pendekatan, tahap pelaksanaan, serta perangkat dan sumber daya yang dimanfaatkan dalam proses perancangan dan pembangunan sistem.",
+    "paraphrased": "Bab ini membahas metode yang digunakan dalam penelitian, termasuk pendekatan, tahap pelaksanaan, serta perangkat dan sumber daya yang digunakan dalam proses desain dan pengembangan sistem.",
+    "method": "double_aggressive",
+    "page": 12,
+    "similarity_before": 76.92,
+    "para_index": 73
+  },
+  {
+    "original": "Keselamatan dan Kesehatan Kerja (K3) adalah seperangkat upaya sistematis yang dilakukan untuk menjamin kondisi kerja yang aman, sehat, dan terhindar dari risiko kecelakaan maupun penyakit akibat kerja. Undang- Undang No. 1 Tahun 1970 mendefinisikan keselamatan kerja sebagai segala kegiatan untuk menjamin keutuhan dan kesempurnaan jasmani dan rohani tenaga kerja melalui perlindungan kerja di lingkungan kerja. (Waisapi, 2022) menjelaskan bahwasanya tujuan dari K3 adalah mencegah kecelakaan kerja, meningkatkan produktivitas, serta menciptakan suasana kerja yang aman dan nyaman.",
+    "paraphrased": "Keselamatan dan Kesehatan Kerja (K3) adalah serangkaian upaya sistematis yang dilakukan untuk memastikan kondisi kerja yang aman, sehat, dan terhindar dari risiko kecelakaan dan penyakit akibat kerja. Undang-undang No. 1 Tahun 1970 mendefinisikan Keselamatan Kerja sebagai segala tindakan untuk memastikan keutuhan dan kesempurnaan jasmani dan rohani tenaga kerja melalui perlindungan kerja di tempat kerja. (Waisapi, 2022) menjelaskan bahwa tujuan Keselamatan dan Kesehatan Kerja adalah untuk mencegah kecelakaan kerja, meningkatkan produktivitas, dan menciptakan suasana kerja yang aman dan nyaman.",
+    "method": "double_aggressive",
+    "page": 13,
+    "similarity_before": 100.0,
+    "para_index": 77
+  },
+  {
+    "original": "Sistem informasi adalah kumpulan elemen yang saling berkaitan untuk mengumpulkan, mengelola, menyimpan, dan mendistribusikan informasi guna mendukung pengambilan keputusan dan pengendalian dalam organisasi. Sistem informasi terdiri dari input, proses, output, dan feedback, yang semuanya dikoordinasikan oleh perangkat keras, perangkat lunak, manusia, serta data (Vargas Saputra et al., 2025)",
+    "paraphrased": "Sistem informasi adalah kumpulan elemen yang saling terkait untuk mengumpulkan, mengelola, menyimpan, dan mendistribusikan informasi untuk mendukung pengambilan keputusan dan pengendalian organisasi, yang terdiri dari input, proses, output, dan umpan balik, yang semuanya dikoordinasikan oleh perangkat keras, perangkat lunak, manusia, dan data (Vargas Saputra et al., 2025).",
+    "method": "double_aggressive",
+    "page": 13,
+    "similarity_before": 95.83,
+    "para_index": 80
+  },
+  {
+    "original": "Kecerdasan Buatan (AI) adalah bidang ilmu komputer yang berfokus pada pembuatan mesin yang dapat meniru kecerdasan manusia. AI memungkinkan komputer untuk melakukan tugas-tugas kompleks seperti mengenali suara, memahami bahasa alami, membuat prediksi, dan belajar dari data (Strohmeier, 2022).",
+    "paraphrased": "Kecerdasan buatan (AI) adalah disiplin ilmu komputer yang berfokus pada pembuatan mesin yang dapat meniru kecerdasan manusia, memungkinkan komputer untuk melakukan tugas-tugas rumit seperti mengenali suara, memahami bahasa alami, membuat prediksi, dan belajar dari data (Strohmeier, 2022).",
+    "method": "double_aggressive",
+    "page": 14,
+    "similarity_before": 76.92,
+    "para_index": 83
+  },
+  {
+    "original": "AI menjadi fondasi dalam pengembangan sistem chatbot yang digunakan dalam penelitian ini. Salah satu bentuk AI yang digunakan adalah pemrosesan bahasa alami (Natural Language Processing/NLP), yang memungkinkan sistem memahami dan menjawab pertanyaan dalam bahasa manusia (Strohmeier, 2022)",
+    "paraphrased": "AI menjadi dasar untuk mengembangkan sistem chatbot yang digunakan dalam penelitian ini, salah satu bentuk AI yang digunakan adalah pemrosesan bahasa alami (NLP), yang memungkinkan sistem memahami dan menjawab pertanyaan dalam bahasa manusia (Strohmeier, 2022).",
+    "method": "double_aggressive",
+    "page": 14,
+    "similarity_before": 100.0,
+    "para_index": 84
+  },
+  {
+    "original": "Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia melalui antarmuka percakapan berbasis teks atau suara. Chatbot dapat bersifat rule-based (berbasis aturan) atau AI-based (berbasis kecerdasan buatan). Chatbot AI mampu mempelajari konteks dan memberikan jawaban yang lebih fleksibel dan personal (Sharifi et al., 2021) Dalam penelitian ini, chatbot dikembangkan untuk memudahkan pencarian dan pemahaman regulasi K3, menjadikannya sebagai sarana bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa",
+    "paraphrased": "Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia melalui antarmuka percakapan berbasis teks atau suara. Chatbot dapat bersifat rule-based (berbasis aturan) atau AI-Based (berdasarkan kecerdasan buatan). Chatbot AI dapat mempelajari konteks dan memberikan tanggapan yang lebih fleksibel dan personal (Sharifi et al.) (2020) Dalam penelitian ini, Chatbot dikembangkan untuk memfasilitasi pencarian dan pemahaman aturan K3, menjadikannya sebagai alat bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa saja.",
+    "method": "double_aggressive",
+    "page": 14,
+    "similarity_before": 100.0,
+    "para_index": 86
+  },
+  {
+    "original": "Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia melalui antarmuka percakapan berbasis teks atau suara. Chatbot dapat bersifat rule-based (berbasis aturan) atau AI-based (berbasis kecerdasan buatan). Chatbot AI mampu mempelajari konteks dan memberikan jawaban yang lebih fleksibel dan personal (Sharifi et al., 2021) Dalam penelitian ini, chatbot dikembangkan untuk memudahkan pencarian dan pemahaman regulasi K3, menjadikannya sebagai sarana bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa",
+    "paraphrased": "Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia melalui antarmuka percakapan berbasis teks atau suara. Chatbot dapat bersifat rule-based (berbasis aturan) atau AI-Based (berdasarkan kecerdasan buatan). Chatbot AI dapat mempelajari konteks dan memberikan jawaban yang lebih fleksibel dan personal (Sharifi et al.) (2020) Dalam penelitian ini, Chatbot telah dikembangkan untuk memfasilitasi pencarian dan pemahaman Regulasi K3, menjadikannya sebagai alat bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa saja.",
+    "method": "double_aggressive",
+    "page": 14,
+    "similarity_before": 100.0,
+    "para_index": 86
+  },
+  {
+    "original": "GPT adalah model bahasa berbasis deep learning yang dilatih pada jumlah besar data teks untuk memahami dan menghasilkan bahasa alami. GPT bekerja berdasarkan arsitektur transformer yang memungkinkan pemrosesan urutan teks dalam konteks yang lebih luas (Brown et al., 2020)",
+    "paraphrased": "GPT adalah model bahasa berbasis deep learning yang melatih sejumlah besar data teks untuk memahami dan menghasilkan bahasa alami. GPT bekerja berdasarkan arsitektur transformasi yang memungkinkan pemrosesan urutan teks dalam konteks yang lebih luas (Brown et al., 2020).",
+    "method": "double_aggressive",
+    "page": 14,
+    "similarity_before": 100.0,
+    "para_index": 89
+  },
+  {
+    "original": "Retrieval-Augmented Generation (RAG)",
+    "paraphrased": "Generation Retrieval-Augmented (RAG)",
+    "method": "double_aggressive",
+    "page": 15,
+    "similarity_before": 71.43,
+    "para_index": 92
+  },
+  {
+    "original": "UML adalah bahasa pemodelan standar yang digunakan untuk merancang dan mendokumentasikan sistem perangkat lunak. UML menyediakan berbagai jenis diagram seperti use case, class, sequence, dan activity diagram yang membantu dalam perancangan sistem secara visual dan struktural (Booch et al., 2005(M Teguh, 2018)).",
+    "paraphrased": "UML adalah bahasa pemodelan standar yang digunakan untuk merancang dan mendokumentasikan sistem perangkat lunak. UML menyediakan berbagai jenis diagram seperti use case, class, sequence, dan activity diagram yang membantu dalam merancang sistem secara visual dan struktural (Booch et al., 2005(M.Teguh, 2018)).",
+    "method": "double_aggressive",
+    "page": 15,
+    "similarity_before": 70.59,
+    "para_index": 95
+  },
+  {
+    "original": "Peneliti memperolah banyak inspirasi dan referensi untuk penyusunan proposal skripsi ini dari penelitian sebelumnya, terkait dengan latar belakang masalah pada proposal ini. Penelitian sebelumnya yang terkait antara lain:",
+    "paraphrased": "Peneliti memperoleh banyak inspirasi dan referensi untuk menyusun proposal skripsi ini dari penelitian sebelumnya yang terkait dengan latar belakang masalah dalam proposal ini. Penelitian sebelumnya yang terkait antara lain:",
+    "method": "double_aggressive",
+    "page": 15,
+    "similarity_before": 95.45,
+    "para_index": 98
+  },
+  {
+    "original": "Kerangka pikir pada penelitian ini menunjukkan bagaimana membangun sebuah sistem chatbot yang mampu membantu pekerja, petugas K3, dan pelaku industri dalam mengakses serta memahami regulasi Keselamatan dan Kesehatan Kerja (K3) dengan lebih mudah. Alasan yang melatarbelakangi pengembangan sistem ini adalah masih rendahnya pemahaman terhadap regulasi K3 di kalangan masyarakat pekerja, yang disebabkan oleh keterbatasan sumber informasi yang relevan, bahasa regulasi yang sulit dipahami, serta minimnya media interaktif yang dapat menyajikan informasi tersebut secara cepat, akurat, dan kontekstual.",
+    "paraphrased": "Kerangka berpikir untuk penelitian ini menunjukkan bagaimana membangun sistem chatbot yang memungkinkan pekerja, petugas K3, dan pelaku industri untuk mengakses dan memahami aturan Keselamatan dan Kesehatan Kerja (K3) dengan lebih mudah. Alasan yang mendasari pengembangan sistem ini adalah bahwa masih rendahnya pemahaman masyarakat pekerja tentang aturan K3, yang disebabkan oleh keterbatasan sumber informasi yang relevan, bahasa regulasi yang sulit dipahami, dan kurangnya media interaktif yang dapat menyajikan informasi tersebut secara cepat, tepat, dan kontekstual.",
+    "method": "double_aggressive",
+    "page": 17,
+    "similarity_before": 100.0,
+    "para_index": 101
+  },
+  {
+    "original": "Gambar 1. Kerangka Berpikir",
+    "paraphrased": "Gambar 1. Kerangka Pemikiran",
+    "method": "double_aggressive",
+    "page": 18,
+    "similarity_before": 80.0,
+    "para_index": 102
+  },
+  {
+    "original": "Tempat lokasi penelitian yang dipilih peneliti adalah di sebuah kantor Keselamatan dan Kesehatan Kerja (K3) di Kampus Universitas Muhammadiyah Makassar.",
+    "paraphrased": "Lokasi penelitian yang dipilih oleh peneliti adalah di Kantor Keselamatan dan Kesehatan Kerja (K3) di Kampus Universitas muhammadiyah Makassar.",
+    "method": "double_aggressive",
+    "page": 19,
+    "similarity_before": 81.82,
+    "para_index": 106
+  },
+  {
+    "original": "Table 2. Waktu Penelitian\t18",
+    "paraphrased": "Tabel 2. Waktu Penelitian 18",
+    "method": "double_aggressive",
+    "page": 19,
+    "similarity_before": 60.0,
+    "para_index": 26
+  },
+  {
+    "original": "Pelaksanaan penelitian ini berlangsung pada bulan Juni hingga Agustus 2025, dimulai dari tahap pengumpulan data hingga penyusunan laporan akhir.",
+    "paraphrased": "Pelaksanaan penelitian ini berlangsung antara Juni dan Agustus 2025, dimulai dari tahap pengumpulan data hingga penyusunan laporan akhir.",
+    "method": "double_aggressive",
+    "page": 19,
+    "similarity_before": 50.0,
+    "para_index": 108
+  },
+  {
+    "original": "Data yang digunakan dalam penelitian ini berupa dokumen-dokumen regulasi K3, yang diperoleh dari berbagai sumber resmi. Dokumen tersebut diunggah ke dalam sistem dan diproses untuk menjadi sumber pengetahuan yang digunakan dalam menjawab pertanyaan pengguna secara kontekstual melalui chatbot.",
+    "paraphrased": "Data yang digunakan dalam penelitian ini adalah dokumen peraturan tentang keselamatan dan kesehatan kerja, yang diperoleh dari berbagai sumber resmi yang dimasukkan ke dalam sistem dan diproses untuk menjadi sumber pengetahuan yang digunakan dalam menjawab pertanyaan pengguna secara kontekstual melalui chatbot.",
+    "method": "double_aggressive",
+    "page": 20,
+    "similarity_before": 62.5,
+    "para_index": 124
+  },
+  {
+    "original": "Perancangan sistem sangat penting dalam pembangunan suatu sistem karena menguraikan bagaimana suatu sistem dibangun dari tahap perencanaan hingga tahap pembuatan fungsi-fungsi yang diperlukan untuk pengoperasian sistem. Tujuan dari perancangan sistem adalah untuk menentukan apakah sistem yang akan dikembangkan akan menghasilkan hasil yang diinginkan.",
+    "paraphrased": "Perancangan sistem sangat penting untuk pengembangan suatu sistem, karena menguraikan bagaimana sistem dibangun dari tahap perencanaan hingga tahap pembuatan fungsi-fungsi yang diperlukan untuk pengoperasian sistem.",
+    "method": "double_aggressive",
+    "page": 20,
+    "similarity_before": 65.22,
+    "para_index": 126
+  },
+  {
+    "original": "Hasil akhir, setelah melalui proses pengujian dan perbaikan, chatbot sudah dapay diimplementasikan. Jalannya penelitian dapat diliat pada gambar 2 di bawah ini:",
+    "paraphrased": "Hasil akhir, setelah melalui proses pengujian dan perbaikan, chatbot sudah dapat diterapkan. Gambar 2 di bawah ini menunjukkan jalannya penelitian:",
+    "method": "double_aggressive",
+    "page": 22,
+    "similarity_before": 85.47,
+    "para_index": 136
+  },
+  {
+    "original": "Alur Adapun perancangan web chatbot regulasi Keselamatan dan Kesehatan Kerja digambarkan sebagai berikut:",
+    "paraphrased": "Prosedur untuk mengembangkan Web Chatbot tentang Keselamatan dan Kesehatan Kerja digambarkan sebagai berikut:",
+    "method": "double_aggressive",
+    "page": 22,
+    "similarity_before": 55.06,
+    "para_index": 138
+  },
+  {
+    "original": "Activity Diagram adalah representasi grafis dari seluruh tahapan alur kerja yang mengandung aktivitas, pilihan tindakan, perulangan dan hasil dari aktivitas tersebut. Diagram ini dapat digunakan untuk menjelaskan proses dan alur kerja operasional secara langkah demi langkah dari komponen suatu sistem. Adapun activity diagram dari sistem ini adalah sebagai berikut:",
+    "paraphrased": "Activity Diagram adalah representasi grafis dari seluruh tahapan alur kerja yang berisi aktivitas, pilihan tindakan, pengulangan dan hasil dari aktivitas tersebut.",
+    "method": "double_aggressive",
+    "page": 24,
+    "similarity_before": 100.0,
+    "para_index": 148
+  },
+  {
+    "original": "Preprocessing pertanyaan (embedding)",
+    "paraphrased": "Pertanyaan yang sedang diproses (embedding)",
+    "method": "double_aggressive",
+    "page": 24,
+    "similarity_before": 53.33,
+    "para_index": 154
+  },
+  {
+    "original": "Generative jawaban menggunakan GPT",
+    "paraphrased": "Generatif jawaban menggunakan GPT",
+    "method": "double_aggressive",
+    "page": 24,
+    "similarity_before": 91.43,
+    "para_index": 160
+  },
+  {
+    "original": "Sistem akan mengecek apakah ada dokumen atau bagian dokumen yang relevan dengan pertanyaan pengguna. Jika dokumen ditemukan, maka proses akan dilanjutkan ke tahap generasi jawaban. Jika tidak ditemukan, sistem akan menampilkan informasi bahwa “Data Tidak Ditemukan”.",
+    "paraphrased": "Sistem akan memeriksa apakah ada dokumen atau bagian dokumen yang relevan dengan pertanyaan pengguna, jika ditemukan, proses akan dilanjutkan ke tahap generasi jawaban, jika tidak ditemukan, sistem akan menampilkan informasi bahwa data tidak ditemukan.",
+    "method": "double_aggressive",
+    "page": 24,
+    "similarity_before": 50.0,
+    "para_index": 159
+  },
+  {
+    "original": "Gambar 4. Activity Diagram",
+    "paraphrased": "Gambar 4. Diagram Aktivitas",
+    "method": "double_aggressive",
+    "page": 24,
+    "similarity_before": 100.0,
+    "para_index": 149
+  },
+  {
+    "original": "Black box testing adalah pengujian yang dilakukan untuk mengamati hasil input dan output dari perangkat lunak tanpa mengetahui struktur kode dari perangkat lunak. Pengujian ini dilakukan di akhir pembuatan perangkat lunak untuk mengetahui apakah perangkat lunak dapat berfungsi dengan baik.",
+    "paraphrased": "Black Box Testing adalah pengujian yang dilakukan untuk mengamati hasil input dan output perangkat lunak tanpa mengetahui struktur kode perangkat lunak. Pengujian ini dilakukan pada akhir pembuatan perangkat lunak untuk melihat apakah perangkat lunak dapat berfungsi dengan baik.",
+    "method": "double_aggressive",
+    "page": 26,
+    "similarity_before": 61.04,
+    "para_index": 168
+  },
+  {
+    "original": "Dalam penelitian ini, pendekatan analisis data yang digunakan adalah analisis kualitatif deskriptif. Hal ini disebabkan oleh sifat data yang dianalisis berasal dari hasil pengujian sistem berupa interaksi teks (pertanyaan dan jawaban) serta observasi terhadap performa chatbot dalam menjawab pertanyaan berbasis dokumen regulasi. Analisis dilakukan dengan cara",
+    "paraphrased": "Pendekatan analisis data yang digunakan dalam penelitian ini adalah analisis kualitatif deskriptif, hal ini disebabkan oleh sifat data yang dianalisis berasal dari pengujian sistem, berupa interaksi teks (pertanyaan dan jawaban), serta observasi terhadap kinerja chatbot dalam menjawab pertanyaan berbasis dokumen regulasi.",
+    "method": "double_aggressive",
+    "page": 26,
+    "similarity_before": 100.0,
+    "para_index": 171
+  }
+]

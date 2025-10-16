@@ -1,0 +1,93 @@
+[
+  {
+    "flagged_text": "18 \n(Artificial Intelligence) Kecerdasan \nBuatan \n(AI) \nadalah eyfans \nilmu \nkomputer \nyang \ns pada pembuatan mesin yang dapat meniru kecerdasan manusia. AI",
+    "matched_para": "Kecerdasan Buatan (AI) adalah bidang ilmu komputer yang berfokus pada pembuatan mesin yang dapat meniru kecerdasan manusia. AI memungkinkan komputer untuk melakukan tugas-tugas kompleks seperti mengenali suara, memahami bahasa alami, membuat prediksi, dan belajar dari data (Strohmeier, 2022).",
+    "similarity": 76.92,
+    "para_index": 83,
+    "page": 14
+  },
+  {
+    "flagged_text": "yang diguna igunakan \npemrosesan pemrosesan \nbahasa alami \n(Natural Language \nProcessing/ memungkinkan",
+    "matched_para": "AI menjadi fondasi dalam pengembangan sistem chatbot yang digunakan dalam penelitian ini. Salah satu bentuk AI yang digunakan adalah pemrosesan bahasa alami (Natural Language Processing/NLP), yang memungkinkan sistem memahami dan menjawab pertanyaan dalam bahasa manusia (Strohmeier, 2022)",
+    "similarity": 100.0,
+    "para_index": 84,
+    "page": 14
+  },
+  {
+    "flagged_text": "komputer yang dirancang untuk berinteraksi Chatbot adalah dengan manusia melalui percakapan berbasis teks atau suara.",
+    "matched_para": "Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia melalui antarmuka percakapan berbasis teks atau suara. Chatbot dapat bersifat rule-based (berbasis aturan) atau AI-based (berbasis kecerdasan buatan). Chatbot AI mampu mempelajari konteks dan memberikan jawaban yang lebih fleksibel dan personal (Sharifi et al., 2021) Dalam penelitian ini, chatbot dikembangkan untuk memudahkan pencarian dan pemahaman regulasi K3, menjadikannya sebagai sarana bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa",
+    "similarity": 100.0,
+    "para_index": 86,
+    "page": 14
+  },
+  {
+    "flagged_text": "ng dapat diakses kapan saja dan oleh siapa",
+    "matched_para": "Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia melalui antarmuka percakapan berbasis teks atau suara. Chatbot dapat bersifat rule-based (berbasis aturan) atau AI-based (berbasis kecerdasan buatan). Chatbot AI mampu mempelajari konteks dan memberikan jawaban yang lebih fleksibel dan personal (Sharifi et al., 2021) Dalam penelitian ini, chatbot dikembangkan untuk memudahkan pencarian dan pemahaman regulasi K3, menjadikannya sebagai sarana bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa",
+    "similarity": 100.0,
+    "para_index": 86,
+    "page": 14
+  },
+  {
+    "flagged_text": "= \nyang dilatih pada adalah model bahasa besar data teks untuk memahami dan menghasilkan bahasa alami.",
+    "matched_para": "GPT adalah model bahasa berbasis deep learning yang dilatih pada jumlah besar data teks untuk memahami dan menghasilkan bahasa alami. GPT bekerja berdasarkan arsitektur transformer yang memungkinkan pemrosesan urutan teks dalam konteks yang lebih luas (Brown et al., 2020)",
+    "similarity": 100.0,
+    "para_index": 89,
+    "page": 14
+  },
+  {
+    "flagged_text": "METODE PENELITIAN A. Tempat dan Waktu Penelitian Tempat Penelitian yang dipilih peneliti adalah di sebuah",
+    "matched_para": "Tempat lokasi penelitian yang dipilih peneliti adalah di sebuah kantor Keselamatan dan Kesehatan Kerja (K3) di Kampus Universitas Muhammadiyah Makassar.",
+    "similarity": 81.82,
+    "para_index": 106,
+    "page": 19
+  },
+  {
+    "flagged_text": "Muhammadiyah M\n2. \nWaktu Penelitian Pelaksanaan penelitian ini",
+    "matched_para": "Table 2. Waktu Penelitian\t18",
+    "similarity": 60.0,
+    "para_index": 26,
+    "page": 19
+  },
+  {
+    "flagged_text": "Pelaksanaan penelitian a. \nPembuatan b. \nPenelitian uji Penulisan laporan ra \n. Alat dan Bahan Alat \npenelitian \nberupa \nlaptop \nyang \nakan",
+    "matched_para": "Pelaksanaan penelitian ini berlangsung pada bulan Juni hingga Agustus 2025, dimulai dari tahap pengumpulan data hingga penyusunan laporan akhir.",
+    "similarity": 50.0,
+    "para_index": 108,
+    "page": 19
+  },
+  {
+    "flagged_text": "2. \nActivity diagram Activity Diagram adalah representasi grafis dari seluruh tahapan alur kerja yang mengandung aktivitas, pilihan tindakan, perulangan dan hasil \ndari \naktivitas \ntersebut. Diagram \nini \ndapat digunakan untuk menjelaskan proses dan alur kerja operasional secara langkah demi langkah dari komponen suatu sistem. Adapun activity diagram dari sistem ini adalah sebagai berikut:",
+    "matched_para": "Activity Diagram adalah representasi grafis dari seluruh tahapan alur kerja yang mengandung aktivitas, pilihan tindakan, perulangan dan hasil dari aktivitas tersebut. Diagram ini dapat digunakan untuk menjelaskan proses dan alur kerja operasional secara langkah demi langkah dari komponen suatu sistem. Adapun activity diagram dari sistem ini adalah sebagai berikut:",
+    "similarity": 100.0,
+    "para_index": 148,
+    "page": 24
+  },
+  {
+    "flagged_text": "Preprocessing Pertanyaan \n(Preprocessing + Embedding) \n$ Retrieval dokumen dari \nChromaDB \n| \nDokum",
+    "matched_para": "Preprocessing pertanyaan (embedding)",
+    "similarity": 53.33,
+    "para_index": 154,
+    "page": 24
+  },
+  {
+    "flagged_text": "Generate Jawaban \nMenggunakan GPT \n|",
+    "matched_para": "Generative jawaban menggunakan GPT",
+    "similarity": 91.43,
+    "para_index": 160,
+    "page": 24
+  },
+  {
+    "flagged_text": "Tampilkan \n“Data Tidak Ditemukan” Tampilkan Output",
+    "matched_para": "Sistem akan mengecek apakah ada dokumen atau bagian dokumen yang relevan dengan pertanyaan pengguna. Jika dokumen ditemukan, maka proses akan dilanjutkan ke tahap generasi jawaban. Jika tidak ditemukan, sistem akan menampilkan informasi bahwa “Data Tidak Ditemukan”.",
+    "similarity": 50.0,
+    "para_index": 159,
+    "page": 24
+  },
+  {
+    "flagged_text": "Gambar 4. Activity Diagram",
+    "matched_para": "Gambar 4. Activity Diagram",
+    "similarity": 100.0,
+    "para_index": 149,
+    "page": 24
+  }
+]
