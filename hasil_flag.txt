@@ -1,0 +1,131 @@
+HASIL FLAG DARI TURNITIN - original_natural.docx
+=================================================
+Similarity Index: 15%
+File: original_natural_1760961158609
+Submission ID: 2786772197
+Tanggal: 20-Oct-2025 02:54PM
+
+=================================================
+FRASA/KATA YANG TER-FLAG (Berdasarkan highlight di PDF):
+=================================================
+
+PAGE 2 - BAB I PENDAHULUAN
+-------------------------------------------------
+1. Keselamatan dan Kesehatan Kerja (K3) merupakan aspek krusial yang menjamin perlindungan tenaga kerja dari risiko kecelakaan maupun penyakit akibat aktivitas kerja
+
+2. Menurut Undang-Undang No. 1 Tahun 1970
+
+3. penyakit akibat aktivitas kerja
+
+4. Seiring dengan berkembangnya teknologi kecerdasan buatan (Artificial Intelligence/AI)
+
+5. (Natural Language Processing)
+
+6. Generative Pre-trained Transformer (GPT)
+
+
+PAGE 3
+-------------------------------------------------
+7. dengan
+
+8. pendekatan Retrieval-Augmented Generation (RAG)
+
+9. Generative Pre-trained Transformer (GPT) yang diintegrasikan dengan
+
+10. pendekatan Retrieval-Augmented Generation (RAG)
+
+11. pencarian dan
+
+
+PAGE 4 - Rumusan Masalah & Tujuan
+-------------------------------------------------
+12. B. Rumusan Masalah
+
+13. Berdasarkan latar belakang diatas maka dapat dirumuskan masalah sebagai berikut:
+
+14. Bagaimana
+
+15. C. Tujuan Penelitian
+
+16. Berdasarkan rumusan masalah tersebut, adapun tujuan dari penelitian ini adalah sebagai berikut:
+
+
+PAGE 5 - Manfaat & Ruang Lingkup
+-------------------------------------------------
+17. memberikan manfaat secara teoritis dan secara praktis, yaitu:
+
+18. E. Ruang Lingkup Penelitian
+
+19. Berdasarkan rumusan masalah, adapun batasan pada penelitian ini sebagai berikut:
+
+20. di Indonesia, seperti Undang-Undang, Peraturan
+
+21. Pemerintah, Peraturan
+
+22. SNI yang berkaitan dengan keselamatan dan kesehatan kerja (K3)
+
+
+=================================================
+ANALISIS SUMBER YANG MASIH MATCHING:
+=================================================
+
+Top Sources:
+1. repository.iainbengkulu.ac.id - 2%
+2. repository.uinfasbengkulu.ac.id - 2%
+3. docobook.com - 2%
+4. sisformik.atim.ac.id - 1%
+5. Submitted to Universitas Diponegoro - 1%
+6. repository.poltekpel-sby.ac.id - 1%
+7. media.neliti.com - 1%
+8. pt.scribd.com - 1%
+9. pure.psu.edu - 1%
+10. www.pinterpolitik.com - 1%
+11. Publication (Jurnal Informatika) - 1%
+12. digilib.uns.ac.id - 1%
+
+
+=================================================
+KATEGORI YANG TER-FLAG:
+=================================================
+
+1. HEADING/FORMAT WAJIB:
+   - B. Rumusan Masalah
+   - C. Tujuan Penelitian
+   - E. Ruang Lingkup Penelitian
+
+2. KALIMAT TRANSISI STANDAR:
+   - "Berdasarkan latar belakang diatas maka dapat dirumuskan masalah sebagai berikut:"
+   - "Berdasarkan rumusan masalah tersebut, adapun tujuan dari penelitian ini adalah sebagai berikut:"
+   - "Berdasarkan rumusan masalah, adapun batasan pada penelitian ini sebagai berikut:"
+
+3. FRASA TEKNIS/AKADEMIK:
+   - Keselamatan dan Kesehatan Kerja (K3)
+   - Menurut Undang-Undang No. 1 Tahun 1970
+   - teknologi kecerdasan buatan (Artificial Intelligence/AI)
+   - Natural Language Processing
+   - Generative Pre-trained Transformer (GPT)
+   - Retrieval-Augmented Generation (RAG)
+
+4. REGULASI/DOKUMEN RESMI:
+   - di Indonesia, seperti Undang-Undang, Peraturan
+   - Pemerintah, Peraturan
+   - SNI yang berkaitan dengan keselamatan dan kesehatan kerja (K3)
+
+
+=================================================
+REKOMENDASI:
+=================================================
+
+1. Tingkatkan density untuk heading/format wajib (80-90%)
+2. Target khusus kalimat transisi standar akademik
+3. Frasa teknis perlu replacement lebih agresif
+4. Nama regulasi/dokumen resmi perlu strategi khusus
+
+
+=================================================
+CATATAN:
+=================================================
+- File ini di-generate dari analisis PDF Turnitin
+- Similarity berhasil turun ke 15% (sebelumnya lebih tinggi)
+- Masih ada ruang improvement untuk mencapai <10%
+- Fokus pada heading dan frasa akademik standar untuk round berikutnya

@@ -275,6 +275,86 @@ def analyze_flags(input_docx='original.docx', flag_file='flag.txt'):
     print(f"{'='*70}\n")
 
 # ============================================================================
+# DETECTION MODE - Verify Bypass Success
+# ============================================================================
+
+def detect_bypass_success(original_docx='original.docx',
+                          bypassed_docx='original_natural.docx',
+                          flag_file='flag.txt'):
+    """Compare original vs bypassed untuk verify bypass berhasil"""
+
+    print(f"\n{'='*70}")
+    print(f"🔬 BYPASS SUCCESS DETECTION")
+    print(f"{'='*70}")
+    print(f"Original  : {original_docx}")
+    print(f"Bypassed  : {bypassed_docx}")
+    print(f"Flag file : {flag_file}")
+    print(f"{'='*70}\n")
+
+    flagged_phrases = load_flagged_phrases(flag_file)
+
+    # Load both documents
+    doc_original = Document(original_docx)
+    doc_bypassed = Document(bypassed_docx)
+
+    text_original = '\n'.join([para.text for para in doc_original.paragraphs])
+    text_bypassed = '\n'.join([para.text for para in doc_bypassed.paragraphs])
+
+    print(f"📊 Detection Results:\n")
+    print(f"{'Phrase':<50} {'Original':<12} {'Bypassed':<12} {'Status':<10}")
+    print(f"{'-'*50} {'-'*12} {'-'*12} {'-'*10}")
+
+    bypassed_count = 0
+    still_detected = 0
+
+    for phrase in flagged_phrases:
+        count_orig = text_original.count(phrase)
+        count_bypass = text_bypassed.count(phrase)
+
+        if count_orig > 0:  # Only show phrases that existed in original
+            status = "✅ HIDDEN" if count_bypass == 0 else "❌ DETECTED"
+
+            if count_bypass == 0:
+                bypassed_count += 1
+            else:
+                still_detected += 1
+
+            phrase_short = phrase[:47] + '...' if len(phrase) > 50 else phrase
+            print(f"{phrase_short:<50} {count_orig:<12} {count_bypass:<12} {status:<10}")
+
+    print(f"\n{'='*70}")
+    print(f"📈 BYPASS SUCCESS RATE:")
+    print(f"{'='*70}")
+
+    total_original = sum(text_original.count(p) for p in flagged_phrases)
+    total_bypassed = sum(text_bypassed.count(p) for p in flagged_phrases)
+
+    if total_original > 0:
+        success_rate = (bypassed_count / (bypassed_count + still_detected)) * 100
+        reduction_rate = ((total_original - total_bypassed) / total_original) * 100
+    else:
+        success_rate = 0
+        reduction_rate = 0
+
+    print(f"   Phrases successfully hidden  : {bypassed_count}")
+    print(f"   Phrases still detected       : {still_detected}")
+    print(f"   Success rate                 : {success_rate:.1f}%")
+    print(f"   Occurrence reduction         : {reduction_rate:.1f}%")
+    print(f"\n   Original occurrences         : {total_original}")
+    print(f"   Bypassed occurrences         : {total_bypassed}")
+
+    if success_rate == 100:
+        print(f"\n🎉 PERFECT! All flagged phrases are hidden!")
+    elif success_rate >= 80:
+        print(f"\n✅ EXCELLENT! Most phrases are hidden.")
+    elif success_rate >= 50:
+        print(f"\n⚠️  MODERATE. Consider increasing density.")
+    else:
+        print(f"\n❌ LOW SUCCESS. Need more aggressive strategy.")
+
+    print(f"{'='*70}\n")
+
+# ============================================================================
 # MAIN
 # ============================================================================
 
@@ -282,12 +362,20 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) > 1 and sys.argv[1] == 'analyze':
-        # Analyze mode
+        # Analyze mode - cek flagged phrases di dokumen
         input_file = sys.argv[2] if len(sys.argv) > 2 else 'original.docx'
         flag_file = sys.argv[3] if len(sys.argv) > 3 else 'flag.txt'
         analyze_flags(input_file, flag_file)
+
+    elif len(sys.argv) > 1 and sys.argv[1] == 'detect':
+        # Detection mode - compare original vs bypassed
+        original_file = sys.argv[2] if len(sys.argv) > 2 else 'original.docx'
+        bypassed_file = sys.argv[3] if len(sys.argv) > 3 else 'original_natural.docx'
+        flag_file = sys.argv[4] if len(sys.argv) > 4 else 'flag.txt'
+        detect_bypass_success(original_file, bypassed_file, flag_file)
+
     else:
-        # Process mode
+        # Process mode - jalankan bypass
         input_file = sys.argv[1] if len(sys.argv) > 1 else 'original.docx'
         output_file = sys.argv[2] if len(sys.argv) > 2 else 'original_targeted_bypass.docx'
         flag_file = sys.argv[3] if len(sys.argv) > 3 else 'flag.txt'
