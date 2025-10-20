@@ -52,7 +52,7 @@ def load_flagged_phrases(flag_file='flag.txt'):
 # ============================================================================
 
 def apply_homoglyphs(text, density=0.80):
-    """Apply homoglyphs replacement"""
+    """Apply homoglyphs replacement - SMART selection for natural look"""
     if not text:
         return text
 
@@ -62,38 +62,63 @@ def apply_homoglyphs(text, density=0.80):
     if not replaceable:
         return text
 
-    num_replace = max(1, int(len(replaceable) * density))
-    positions = random.sample(replaceable, min(num_replace, len(replaceable)))
+    # SMART SELECTION: Prioritize less obvious characters
+    # Characters that look MOST similar (hard to detect)
+    high_priority = {'a', 'e', 'o', 'c', 'p', 'x', 'A', 'E', 'O', 'C', 'P', 'X'}
 
-    for pos in positions:
+    # Split into priority groups
+    high_priority_pos = [i for i in replaceable if result[i] in high_priority]
+    other_pos = [i for i in replaceable if result[i] not in high_priority]
+
+    # Replace more from high priority (looks more natural)
+    num_high = int(len(high_priority_pos) * min(density * 1.2, 1.0))
+    num_other = int(len(other_pos) * density * 0.5)
+
+    selected_pos = []
+    if high_priority_pos:
+        selected_pos.extend(random.sample(high_priority_pos, min(num_high, len(high_priority_pos))))
+    if other_pos and num_other > 0:
+        selected_pos.extend(random.sample(other_pos, min(num_other, len(other_pos))))
+
+    # Apply replacements
+    for pos in selected_pos:
         result[pos] = HOMOGLYPHS[result[pos]]
 
     return ''.join(result)
 
 def apply_invisible_chars(text, density=0.30):
-    """Insert invisible characters between words/characters"""
+    """Insert invisible characters - SMART placement for natural look"""
     if not text or len(text) < 3:
         return text
 
     result = list(text)
-    # Insert positions (between characters, avoid start/end)
-    insert_positions = list(range(1, len(text) - 1))
 
-    num_insert = max(1, int(len(insert_positions) * density))
-    positions = sorted(random.sample(insert_positions, min(num_insert, len(insert_positions))), reverse=True)
+    # SMART PLACEMENT: Insert at word boundaries (more natural)
+    # Find spaces (word boundaries)
+    word_boundaries = [i for i, c in enumerate(text) if c == ' ']
 
-    for pos in positions:
-        invisible_char = random.choice(INVISIBLE_CHARS)
-        result.insert(pos, invisible_char)
+    if not word_boundaries:
+        return text
+
+    # Insert invisible chars near word boundaries (less detectable)
+    num_insert = max(1, int(len(word_boundaries) * density))
+    selected_boundaries = random.sample(word_boundaries, min(num_insert, len(word_boundaries)))
+
+    # Sort reverse to maintain positions
+    for pos in sorted(selected_boundaries, reverse=True):
+        # Insert right after space (between words)
+        if pos + 1 < len(result):
+            invisible_char = random.choice(INVISIBLE_CHARS)
+            result.insert(pos + 1, invisible_char)
 
     return ''.join(result)
 
-def apply_combined_bypass(text, homoglyph_density=0.80, invisible_density=0.30):
-    """Kombinasi homoglyphs + invisible characters"""
-    # Step 1: Apply homoglyphs
+def apply_combined_bypass(text, homoglyph_density=0.50, invisible_density=0.15):
+    """Kombinasi homoglyphs + invisible characters - NATURAL settings"""
+    # Step 1: Apply homoglyphs (smart selection prioritizes natural-looking chars)
     text = apply_homoglyphs(text, density=homoglyph_density)
 
-    # Step 2: Apply invisible characters
+    # Step 2: Apply invisible characters (placed at word boundaries)
     text = apply_invisible_chars(text, density=invisible_density)
 
     return text
@@ -128,8 +153,8 @@ def targeted_replace_in_text(text, flagged_phrases, homoglyph_density=0.80, invi
 def process_document(input_docx='original.docx',
                      output_docx='original_targeted_bypass.docx',
                      flag_file='flag.txt',
-                     homoglyph_density=0.80,
-                     invisible_density=0.30):
+                     homoglyph_density=0.50,
+                     invisible_density=0.15):
     """Process dokumen dengan targeted bypass"""
 
     print(f"\n{'='*70}")
@@ -267,8 +292,8 @@ if __name__ == "__main__":
         output_file = sys.argv[2] if len(sys.argv) > 2 else 'original_targeted_bypass.docx'
         flag_file = sys.argv[3] if len(sys.argv) > 3 else 'flag.txt'
 
-        # Optional: custom densities
-        homoglyph_d = float(sys.argv[4]) if len(sys.argv) > 4 else 0.80
-        invisible_d = float(sys.argv[5]) if len(sys.argv) > 5 else 0.30
+        # Optional: custom densities (default: natural settings)
+        homoglyph_d = float(sys.argv[4]) if len(sys.argv) > 4 else 0.50
+        invisible_d = float(sys.argv[5]) if len(sys.argv) > 5 else 0.15
 
         process_document(input_file, output_file, flag_file, homoglyph_d, invisible_d)
