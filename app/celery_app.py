@@ -48,6 +48,7 @@ celery_app.conf.update(
         'app.tasks.analyze_detect_flags_task': {'queue': 'analysis'},
         'app.tasks.match_flags_task': {'queue': 'matching'},
         'app.tasks.bypass_matched_flags_task': {'queue': 'bypass'},
+        'app.tasks.process_document_unified_task': {'queue': 'unified'},  # Unified processing queue
     },
 )
 

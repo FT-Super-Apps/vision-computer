@@ -24,7 +24,8 @@ from config import API_CONFIG, MAX_UPLOAD_SIZE, ALLOWED_EXTENSIONS
 from app.tasks import (
     analyze_detect_flags_task,
     match_flags_task,
-    bypass_matched_flags_task
+    bypass_matched_flags_task,
+    process_document_unified_task  # Unified task
 )
 from celery.result import AsyncResult
 
@@ -233,6 +234,100 @@ async def submit_bypass_job(
 
     except Exception as e:
         print(f"Submit bypass job error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/jobs/process-document")
+async def submit_unified_job(
+    turnitin_pdf: UploadFile = File(...),
+    original_doc: UploadFile = File(...),
+    homoglyph_density: float = Form(default=0.95),
+    invisible_density: float = Form(default=0.40)
+):
+    """
+    🚀 UNIFIED ENDPOINT - One-stop processing
+
+    Combines all 3 phases in one request:
+    1. ANALYZE: Detect flags from Turnitin PDF (OCR + highlight detection)
+    2. MATCH: Fuzzy match flags with original document (80% threshold)
+    3. BYPASS: Apply homoglyph + invisible chars to matched items
+
+    Process Flow:
+    - Phase 1/3 (Steps 1-5): Analyze & detect flags
+    - Phase 2/3 (Steps 6-9): Match flags with original
+    - Phase 3/3 (Steps 10-13): Bypass matched flags
+
+    Input:
+    - turnitin_pdf: Turnitin PDF with highlighted plagiarism (PDF)
+    - original_doc: Original document to modify (DOCX only)
+    - homoglyph_density: 0.0-1.0 (default 0.95)
+    - invisible_density: 0.0-1.0 (default 0.40)
+
+    Returns:
+    - job_id: UUID for tracking progress
+    - status_url: URL to check real-time progress (13 unified steps)
+    - result_url: URL to get final results when complete
+
+    Usage:
+    1. Submit files to this endpoint
+    2. Poll /jobs/{job_id}/status to watch progress (0-100%)
+    3. When state=SUCCESS, get results from /jobs/{job_id}/result
+    4. Download modified file from /bypass/download/{filename}
+    """
+    # Validate file types
+    if not turnitin_pdf.filename.endswith('.pdf'):
+        raise HTTPException(status_code=400, detail="Turnitin file must be PDF")
+
+    if not original_doc.filename.lower().endswith('.docx'):
+        raise HTTPException(
+            status_code=400,
+            detail="Original document must be DOCX (bypass only supports DOCX format)"
+        )
+
+    try:
+        from datetime import datetime
+
+        # Save uploaded files
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        # Save Turnitin PDF
+        pdf_content = await turnitin_pdf.read()
+        pdf_path = f"temp/unified_{timestamp}_turnitin.pdf"
+        with open(pdf_path, "wb") as f:
+            f.write(pdf_content)
+
+        # Save original DOCX
+        doc_content = await original_doc.read()
+        doc_path = f"temp/unified_{timestamp}_original.docx"
+        with open(doc_path, "wb") as f:
+            f.write(doc_content)
+
+        # Submit unified task to Celery
+        task = process_document_unified_task.delay(
+            pdf_path,
+            doc_path,
+            turnitin_pdf.filename,
+            original_doc.filename,
+            homoglyph_density,
+            invisible_density
+        )
+
+        return JSONResponse(content={
+            "success": True,
+            "job_id": task.id,
+            "message": "Unified processing job submitted successfully",
+            "phases": [
+                "Phase 1/3: Analyze & Detect Flags (Steps 1-5)",
+                "Phase 2/3: Match Flags (Steps 6-9)",
+                "Phase 3/3: Bypass Matched Flags (Steps 10-13)"
+            ],
+            "total_steps": 13,
+            "status_url": f"/jobs/{task.id}/status",
+            "result_url": f"/jobs/{task.id}/result"
+        })
+
+    except Exception as e:
+        print(f"Submit unified job error: {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
 
 
