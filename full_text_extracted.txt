@@ -1,0 +1,845 @@
+
+PROPOSAL FATUR ALKHAIR 1.
+pdt
+by \Tentix Plagiarism
+Submission date: 11-Aug-2025 04:55AM (UTC-0400)
+Submission ID: 2720196723
+File name: PROPOSAL_FATUR_ALKHAIR_1_.pdf (363.55k)
+Word count: 4728
+Character count: 33027
+IMPLEMENTASI RETRIEVAL-AUGMENTED GENERATION (RAG)
+MENGGUNAKAN MODEL GPT UNTUK CHATBOT PENCARIAN
+INFORMASI REGULASI KESELAMATAN DAN KESEHATAN KERJA
+(K3)
+PROPOSAL SKRIPSI
+Diajukan sebagai Salah Satu Syarat untuk mendapatkan
+Gelar Sarjana Komputer (S.Kom) Program Studi Informatika
+FATURROHMAN AL-KHAIR
+105841107021
+PROGRAM STUDI INFORMATIKA
+FAKULTAS TEKNIK
+UNIVERSITAS MUHAMMADTYAH MAKASSAR
+2025
+KATA PENGANTAR
+a5) aS 5! atl aA
+Assalamw’alaikum Warahmatullahi Wabarokatuh
+Segala puji dan syukur penulis panjatkan ke hadirat Allah Subhanahu Wa
+Ta‘ala atas limpahan rahmat, karunia, dan petunjuk-Nya sehingga Proposal Skripsi
+berjudul "Implementasi Retrieval-Augmented Generation (RAG) Menggunakan
+Model GPT untuk Chatbot Pencarian Informasi Regulasi Keselamatan dan
+Kesehatan Kerja (K3)" at diselesaikan dengan baik.
+Proposal skripsi ini disusun sebagai salah satu syarat akadenik yang harus
+dipenuhi dalam menyelesaikan program Sarjana di Fakultas Teknik Program Studi
+Informatika Universitas Muhammadiyah Makassar. Penulis menyadari bahwa
+karya ini masih jauh dari kesempurnaan, oleh karena itu masukan berupa kritik dan
+saran yang membangun dari berbagai pihak sangat penulis harapkan demi
+penyempurnaan proposal skripsi ini.
+Dalam proses penyusunan proposal skripsi ini, penulis memperoleh
+berbagai bentuk bantuan, bimbingan, dan dukungan dari berbagai pihak, baik secara
+materiil maupun moril. pene menempuh perkuliahan, penulis juga senantiasa
+mendapatkan dukungan yang luar biasa. Oleh sebab itu, penulis menyampaikan
+rasa hormat dan terima kasih yang setulus-tulusnya kepada:
+1. Kedua orang tua kami tercinta, penulis mengucapkan terima kasih yang
+sebesgy-besarnya atas segala limpahan kasih sayang, doa yang tiada putus,
+serta dukungan moral dan materiil yang sangat berarti bagi penulis.
+‘ @ Bapak Ir Muh Syafaat S. Kuba, S.T,M.T.,.PM, selaku Dekan Fakultas
+Teknik Universitas Muhammadiyah Makassar yang telah memberikan
+arahan dan fasilitas akademik.
+s
+e Bapak Muhyiddin A.M Hayat S.Kom.,M.T., selaku Ketua Program
+v
+Studi Informatika Fakultas Teknik Universitas Muhammadiyah Makassar
+yang telah memberikan arahan dan fasilitas akademik.
+4. a. Titin Wahyuni, S.Pd.,M.T., selaku Dosen Pembimbing I yang
+dengan sabar memberikan bimbingan, saran dan koreksi yang konstruktif
+selama proses penyusunan proposal ini.
+aa
+— Bapak Fachrim Irhamna Rachman S.Kom.,M.T., selaku Dosen
+Pembimbing II yang telah meluangkan waktu, tenaga dan pikiran untuk
+memberikan bimbingan, arahan, dan masukan yang sangat berharga dalam
+penyusunan proposal skripsi ini.
+6. Seluruh Bapak/Ibu Dosen dan Tenaga Kependidikan Program Studi
+Informatika Fakultas Teknik Universitas Muhammadiyah Makassar yang
+telah memberikan ilmu pengetahuan, pengalaman, dan pelayanan
+akademik.
+S Saudara/saudari kami di Fakultas Teknik. Khususnya Angkatan 2021,
+~
+dengan rasa persaudaraan yang tinggi banyak membantu, memberikan
+semangat, dukungan dan Kerjgeama yang baik dalam menjalani proses
+perkuliahan dan penyusunan proposal skripsi ini.
+Akhir kata, penulis berharap proposal ini dapat memberikan kontribusi
+positif bagi pengembangan ilmu pengetahuan dan teknologi, khususnya di bidang
+Keinformatikaan. Aamiin
+“Billahi Fii Sabilil Haq Fastabiqul Khaerat”
+Wassalamualaikum Warahmatullahi Wabarokatuh
+Makassar, Agustus 2025
+Penulis
+DAFTAR ISI
+27
+KATA PENGANTAR
+NW
+DAFTAR ISI
+>
+DAFTAR TABEL
+nu
+DAFTAR GAMBAR
+BAB I PENDAHULUAN
+A. Latar Belakang 0... ceeeeceseeeececeecuseeaececeecuacsaeacuecaacsaeecaecnaeeaeeeens
+Rumusan Masalah ..0...0......ccccecccccccccececeecececescscssusessseseseecececesesessasessseseceeeeeeees
+n Tujuan Penelitian oe ce ec ceee cece ceeeseececeeceseeeececeeceecesececueceaesaeecueceaeeaeeeens
+o
+Manfaat Penelitian 22.2.0... cece cc ccccceececeeee ce ceseeeeseeceeseceseceessececscsesesenenenase
+m
+Ruang Lingkup Penel tian 0... eee cece cee ceeeceeceeecesse cee ceaecaeceaesaesaeaeeaenaes
+F. Sistematika Penulisan. wi... ccc ccccceece ce ceecececescscssseeeseceseeeeeesesesenensees
+BAB Il TINJAUAN PUSTAKA
+A. Landasan Te ori... .c.cccccececccccceceseseseeecececeececesesececececesaesesesensesececssaseeecsens
+B. Penelitian Terkait 2.0.0.0... cccccccc cece ce ccecsseseececeesececescsssecececssesesesensseeeesneraes
+C. Kerangka Pikir oo... cece cscs cece cae cocesceeecaeceseceaecaeceseecsaeeneeeenecnaee
+BAB IT METODE PENELITIAN
+A. Tempat dan Waktu Penelitian ........... ec ecceceeceeeececeeeeceneececeeaecaeenaecaeenseeaeens
+B. Alat dan Baloathen..... eee cceeccesesceseece cece seeeceeeeceeecceseecaseeceaesesaesesaeseeneeeeneerens
+C. Perancangan Sistem ........ 2... ceeeecssesceeeceeeeseeceseceeeeseeceaecaececeaeaeeneeeenaeeaes
+D. Teknik Pengujian Sisteeee ccemee sete cee. cecee cues. caeeecne.caaecaeee enaenaee 25
+25
+E. Teknik Analisis Data wo... ccc ccceccccccee ce ceecececescscsseeessseseseseecesesesenensees
+DAFTAR PUSTAKA 27
+DAFTAR TABEL
+Table 1. Penelitian Terkait 0.000000. cece cc ccccecccce cece ccececenceeecesesecececeseececesenesenseseseseees
+Table 2. Waktu Penelitian 00.0000... ccc cee ceceececsece cece ccececenceeeceseceaececeseececenesenesseseseceses 18
+1
+DAFTAR GAMBAR
+Gambar |. Kerangka Berpikir 20.0.0... cece cece ce eeesececee ce eecoececeecuaecaeeecuecnaeeseeecnaesaee 17
+Gambar 2. Alur Penelitiane eee ee ccece esses se essesseceeceeecaeceaesaeceaesaecaeceeeceeeeeneenees 21
+Gambar 3. Use case diagram .........ccccecceceeceseseseececoeceeeeceeecessecececaueeaesueceeaeeneeeeaaes 21
+Gambar4 . Activity Diagceereeesesceaeecee essmes ceeecee.ceseecuae.caeeeceec.saeeateec eaeeae® 23
+BABI
+PENDAHULUAN
+A. Lay Belakang
+Keselamatan dan Kesehatan Kerja (K3) merupakan aspek krusial yang
+menjamin perlindungan tenaga kerjpgpri risiko kecelakaan maupun penyakit
+akibat aktivitas kerja. Menurut Undang-Undang No. | Tahun 1970,
+keselamatan kerja adalah seluruh upaya untuk menjaga keutuhan jasmani dan
+rohani pekerja di lingkungan kerja. Regulasi K3 telah banyak diterbitkan oleh
+pemerintah melalui peraturan menteri, standar operasional prosedur (SOP),
+hingga dokumen teknis yang berlaku di berbagai sektor industri. Regulasi
+tersebut bertujuan tidak hanya untuk menurunkan angka kecelakaan kerja,
+tetapi juga menciptakan lingkungan kerja yang produktif, sehat, dan
+berkelanjutan.
+Namun, meskipun dokumen regulasi K3 tersedia secara resmi, tingkat
+literasi dan pemahaman pekerja terhadap isi regulasi tersebut masih tergolong
+rendah. Studi menunjukkan bahwa sebagian besar pekerja tidak memahami
+secara menyeluruh isi prosedur keselamatan kerja, bahkan setelah mengikuti
+pelatihan (Hidayah & Kamali Zaman, 2022). Hambatan yang paling sering
+itemukan meliputi keterbatasan akses terhadap informasi digital, penggunaan
+bahasa hukum yang sulit dipahami oleh orang awam, serta kurangnya media
+interaktif yang dapat menjembatani pemahaman regulasi dengan konteks kerja
+aktual (Ulzheimer et al., 2021). Di samping itu, pelatihan formal mengenai K3
+memerlukan biaya yang cukup besar, membuatnya tidak dapat diakses secara
+mea oleh semua pihak.
+Seiring dengan berkembangnya teknologi kecerdasan buatan (Artificial
+Intelligence/Al), pendekatan baru dalam penyebaran informasi regulasi mulai
+mendapatkan perhatian, salah satunya melalui pengembangan chatbot berbasis
+bahasa alami (Natural Language Processing). Model Generative Pre-trained
+Transformer (GPT) merupakan salah satu teknologi NLP paling canggih saat
+ini, dengan kemampuan menjawab pertanyaan dan memberikan informasi
+berbasis teks se instan dan mudah dipahami (Yenduri et al., 2023). GPT
+telah digunakan dalam berbagai sektor, termasuk pendidikan, kesehatan, dan
+layanan publik. Namun, GPT secara murni hanya mengandalkan data pelatihan
+umum, sehingga belum cukup kuat apabila dituntut untuk menjawab pertanyaan
+yang spesifik terhadap dokumen atau konteks tertentu seperti peraturan K3
+(Beheshti et al., 2023).
+Untuk mengatasi keterbatasan tersebut, metode Retrieval-Augmented
+Generation (RAG) diperkenalkan sebagai solusi yang menggabungkan
+pencarian dokumen relevan (retrieval) dengan kemampuan generatif model
+GPT. Dalam konteks ini, chatbot tidak hanya mengandalkan pengetahuan
+umum, tetapi juga menarik bagian teks dari dokumen K3 aktual sebagai basis
+jawabannya, sehingga menghasilkan respons yang faktual dan kontekstual.
+Studi sebelumnya telah membuktikan efektivitas RAG dalam sistem tanya
+jawab berbasis dokumen seperti fatwa, peraturan sekolah, dan modul
+pembelajaran. Namun, sejauh penelusuran penulis, belum ditemukan penelitian
+yang secara khusus mengimplementasikan RAG untuk chatbot pe ian
+regulasi K3 di Indonesia—ini merupakan gap penting yang ingin dijawab dalam
+penelitian ini.
+Penelitian ini bertujuan untuk mengembangkan sistem chatbot ere
+Generative Pre-trained Transformer (GPT) yang diintegrasikan dengan
+pendekatan Retrieval-Augmented Generation (RAG) guna memfasilitasi
+pencarian dan pemahaman informasi regulasi Keselamatan dan Kesehatan
+Kerja (K3) secara otomatis. Sistem ini dirancang sebagai solusi alternatif yang
+efisien, interaktif, dan inklusif untuk mendukung peningkatan literasi K3 bagi
+pekerja, petugas K3, maupun pelaku industri. Melalui pemanfaatan teknologi
+kecerdasan buatan gang mampu menghadirkan informasi secara cepat, akurat,
+dan kontekstual, penelitian ini diharapkan dapat memberikan kontribusi
+signifikan terhadap peningkatan keselamatan kerja serta memperluas akses
+terhadap regulasi K3 secara merata dan efektif. Selain itu, hasil penelitian ini
+berpotensi menjadi model penerapan teknologi AI pada sektor regulasi dan
+kepatuhan (compliance), yang dapat direplikasi pada berbagai domain
+pengetahuan lainnya, sehingga memberikan dampak positif bagi pengelolaan
+informasi di berbagai bidang industri.
+B. Rumusan Masalah
+Berdasarkan latar belakang diatas maka dapat dirumuskan masalah
+sebagai berikut:
+1. Bagaimana mengintegrasikan berbagai dokumen regulasi K3 dalam satu
+sistem pencarian?
+2. Apa solusi untuk membaca gambar atau tabel dalam pdf yang tidak bisa
+diekstraksi sebagai teks?
+C. Tujuan Penelitian
+Berdasarkan rumusan masalah tersebut, adapaun tujuan dari penelitian ini
+adalah sebagai berikut:
+1. Mengembangkan sistem pencarian yang mampu mengintegrasikan berbagai
+dokumen regulasi K3 (Keselamatan dan Kesehatan Kerja) dalam satu
+platform terpadu hingga memudahkan pengguna dalam menemukan
+informasi yang relevan.
+2. Merumuskan solusi teknis untuk mengekstraksi informasi dari elemen non-
+teks seperti gambaar atau tabel dalam dokumen PDF yang tidak dapat
+dibaca secara langsung sebagai teks.
+D. Manfaat Penelitian
+Penelitian ini berjudul “Implementasi Retrieval-Augmented Generation
+(RAG) menggunakan model GPT untuk chatbot pencariag,informasi regulasi
+Keselamatan dan Kesehatan Kerja (K3) yang diharapkan memberikan manfaat
+secara teoritis dan secara praktis, yaitu:
+1. Secara Teoritis:
+Penelitian ini diharapkan dapat memberikan kontribusi dalam
+pengembangan sistem pencarian informasi berbasis kecerdasan buatan yang
+bertujuan mempermudah akses terhadap regulasi Keselamatan dan
+Kesehatan Kerja secara cepat dan relevan.
+30
+2. Secara Praktis
+a. Manfaat bagi peneliti
+Penelitian ini memberikan peneliti pengalaman mendalam
+mengenai implementasi model AI, serta penerapannya dalam dunia
+nyata. Selain itu, penelitian ini juga melatih peneliti dalam proses
+perancangan sistem, pengolahan data, serta evaluasi sistem cerdas
+berbasis teks.
+b. Manfaat bagi Sosial dan Nasional
+Penelitian ini berpotensi mendukung pembangunan nasional
+melalui peningkatan pemahaman dan akses terhadape regulasi
+keselamatan kerja, yang pada akhirnya dapat mengurangi kecelakaan
+kerja dan meningkatkan kesejahteraan tenaga kerja di Indonesia.
+E. Ruang Lingkup Peneltjgn
+Berdasarkan rumusan masalah, adapun batasan pada penelitian ini sebagai
+berikut:
+1. Ruang Lingkup Regulasi K3: Regulasi yang digunakan hanya mencakup
+peraturan nasional di Indonesia, seperti Undang-Undang, Peraturan
+Pemerintah, Peraturan Menteri Ketenagakerjaan, Keputusan Menteri, dan
+SNI yang berkaitan dengan keselamatan dan kesehatan kerja (K3).
+2. Bahasa Dokumen: Seluruh dokumen yang digunakan dalam proses retrieval
+dan pemrosesan berbahasa Indonesia; dokumen berbahasa asing tidak
+disertakan dalam penelitian ini.
+3. Jenis dan Format Dokumen: Penelitian hanya memproses dokumen digital
+berformat PDF dan DOCX, dokumen hasil pemindaian (scan) tanpa
+teknologi OCR tidak digunakan.
+4. Retrieval-Augmented Generation (RAG): Penelitian berfokus pada
+penerapan model RAG dengan GPT sebagai komponen §generatif;
+pendekatan lain seperti rule-based, keyword matching, atau fine-tuning
+murni tidak dieksplorasi.
+5. Sistem Chatbot: Chatbot dirancang sebagai prototipe berbasis teks; tidak
+mendukung antarmuka berbasis suara atau integrasi dengan platform
+komunikasi seperti WhatsApp atau Telegram.
+6. Uji Coba Sistem: Pengujian dilakukan secara terbatas pada kelompok kecil,
+seperti mahasiswa, akademisi, dan praktisi K3; tidak diterapkan secara luas
+dalam skala industri atau organisasi.
+F. Sistematika Penulisan
+Secara keseluruhan, struktur penlusisan ini ditge! ke beberapa bab utama
+yang masing-masing memuat aspek-aspek penting sebagai berikut:
+BAB I PENDAHULUAN
+Bab ini menjelaskan uraian mengenai latar belakang masalah, rumusan
+masalah, tujuan penelitian, manfaat penelitian, ruang lingkup dan sistematika
+penulisan.
+BAB II TINJAUAN PUSTAKA
+Bab ini berisi landasan teoritis yang relevan dengan topik penelitian. Teori-
+ri dan hasil studi terdahulu yang mendukung pelaksanaan penelitian.
+BAB III METODE PENELITIAN
+Bab ini membahas secara rinci metode yang digunakan dalam penelitian,
+mencakup pendekatan, tahap pelaksanaan, serta perangkat dan sumber daya
+yang dimanfaatkan dalam proses perancangan dan pembangunan sistem.
+BAB II
+TINJAUAN PUSTAKA
+A. Landasan Teori
+1. Keselamatan dan Kesehatan Kerja (K3) =
+Keselamatan dan Kesehatan Kerja (K3) adalah seperangkat upaya
+sistematis yang dilakukan untuk menjamin kondisi kerja yang amp Sehat.
+dan terhindar dari risiko kecelakaan maupun penyakit akibat kerja. Undang-
+Undang No. | Tahun 1970 mendefinisikan keselamatan kerja sebagai segala
+kegiatan untuk menjamin keutuhan dan kesempurnaan jasmani dan rohani
+tenaga kerja melalui perlindungan és" di lingkungan kerja. (Waisapi,
+2022) menjelaskan bahwasanya_ tujuan da KS adalah mencegah
+kecelakaan kerja, meningkatkan produktivitas, serta menciptakan suasana
+kerja yang aman dan nyaman.
+Menurut (Djoko Subagijo) regulasi K3 mencakup _berbagai
+ketentuan teknis dan hukum yang kompleks, sehingga pemahaman
+terhadapnya membutuhkan sistem pendukung berbasis teknologi yang
+mampu menjembatani antara dokumen regulatif dengan kebutuhan
+pengguna. Maka dari itu, pendekatan digital yang interaktif seperti chatbot
+aenadi penting untuk mempermudah akses informasi ini.
+2. Sistem Informasi
+Sistem informasi adalah kumpulan elemen yang saling berkaitan
+untuk mengumpulkan, mengelola, menyimpan, dan mendistribusikan
+informasi guna mendukung pengambilan keputusan dan pengendalian
+dalam organisasi. Sistem informasi terdiri dari input, proses, output, dan
+feedback, yang semuanya dikoordinasikan oleh perangkat keras, perangkat
+lunak, manusia, serta data (Vargas Saputra et al., 2025)
+Dalam konteks penelitian ini, sistem informasi yang dibangun
+berfungsi untuk memfasilitasi interaksi antara pengguna dan data regulasi
+K3 melalui antarmuka chatbot yang cerdas dan adaptif.
+18
+3. Kecerdasan Buatan (Artificial Intelligence)
+Kecerdasan Buatan (AI) adalah ears ilmu komputer yang
+berfokus pada pembuatan mesin yang dapat meniru kecerdasan manusia. Al
+memungkinkan komputer untuk melakukan tugas-tugas kompleks seperti
+mengenali suara, memahami bahasa alami, membuat prediksi, dan belajar
+dari data (Strohmeier, 2022).
+AI menjadi fondasi dalam pengembangan sistem chatbot yang
+siguaakan dalam penelitian ini. Salah satu bentuk AI yang digunakan adalah
+pemrosesan bahasa alami (Natural Language Processing/NLP), yang
+memungkinkan sistem memahami dan menjawab pertanyaan dalam bahasa
+nusia (Strohmeier, 2022)
+4. Chatbot
+Chatbot adalah sistem komputer yang dirancang untuk berinteraksi
+dengan manusia melalui antarmuka percakapan berbasis teks atau suara.
+Chatbot dapat bersifat rule-based (berbasis aturan) atau Al-based (berbasis
+kecerdasan buatan). Chatbot AI mampu mempelajari konteks dan
+memberikan jawaban yang lebih fleksibel dan personal (Sharifi et al., 2021)
+Dalam penelitian ini, chatbot dikembangkan untuk memudahkan
+pencarian dan pemahaman tpgulast K3, menjadikannya sebagai sarana
+bantu edukatif dan informatif yang dapat diakses kapan saja dan oleh siapa
+ja.
+5. Generative Pre-trained Transformer (GPT) =
+GPT adalah model bahasa berbasis deep learning yang dilatih pada
+jumlah besar data teks untuk memahami dan menghasilkan bahasa alami.
+GPT bekerja berdasarkan arsitektur transformer yang, memungkinkan
+pemrosesan urutan teks dalam konteks yang lebih luas (Brown et al., 2020)
+Menurut (Brown et al., 2020) model GPT memiliki kemampuan
+zero-shot, one-shot, dan few-shot learning, sehingga sangat efektif dalam
+menjawab pertanyaan berbasis teks tanpa pelatihan ulang. GPT digunakan
+dalam penelitian ini sebagai model inti dalam memberikan jawaban dari
+tbot secara natural dan sesuai konteks.
+. Retrieval-Augmented Generation (RAG)
+RAG adalah pendekatan dalam pengembangan sistem tanya-jawab
+(question answering system) yang menggabungkan proses pencarian
+informasi (retrieval) dari dokumen eksternal dengan kemampuan generatif
+model bahasa seperti GPT. Dalam arsitektur RAG, dua komponen utama
+digunakan: retriever untuk mencari dokumen relevan, dan generator untuk
+aenyusun jawaban berdasarkan dokumen tersebut (Lewis et al., 2021a)
+7. Unified Modeling Language (UML)
+UML adalah bahasa pemodelan standar yang digunakan untuk
+merancang dan mendokumentasikan sistem perangkat lunak. UML
+menyediakan berbagai jenis diagram seperti use case, class, sequence, dan
+activity diagram yang membantu dalam perancangan sistem secara visual
+dan struktural (Booch et al., 2005(M Teguh, 2018)).
+Dalam penelitian ini, UML digunakan untuk memodelkan alur kerja
+sistem chatbot, interaksi antar komponen, serta hubungan antara pengguna,
+sistem, dan basis data regulasi K3.
+1
+B. Penelitian Terkait
+Peneliti memperolah banyak inspirasi dan referensi untuk penyusunan
+proposal skripsi ini dari penelitian sebelumnya, terkait dengan latar belakang
+masalah pada proposal ini. Penelitian sebelumnya yang terkait antara lain:
+Table 1. Penelitian Terkait
+No Nama/Tahun — Judul Metode Hasil
+1 (Ahadietal., — Retrieval- RAG+GPT-3, Mengurangi
+2025) Augmented web-based QA _halusinasi LLM,
+Generation in meningkatkan
+a Web-Based akurasi jawaban
+Question berbasis
+Answering
+System for dokumen
+Figh Books referensi.
+MineBot: LangChain + Memberikan
+Chatbot to GPT-3.5-turbo —_akses real-time
+Respond to + RAG, ke regulasi
+Text Queries _integrasi tambang.
+Pertaining to Wikipedia &
+Acts, Rules, Google API
+and
+Regulations in
+Mining
+Retrieval- RAG yang Peningkatan
+Augmented menggabungkan akurasi dan
+Generation for Dense Passage relevansi
+Knowledge- Retriever jawaban pada
+Intensive NLP dengan model tugas
+Task generatif BART knowledge-
+intensive
+question
+answering.
+Aplikasi Long Short- Akurasi tertinggi
+Chatbot Untuk Term Memory 99,20% dengan
+Faq Akademik (LSTM) + optimizer
+Di Ibi-K57 Word Adam/RMSprop;
+Dengan Lstm Embedding chatbot mampu
+Dan (CBOW) + menjawab
+Penyematan Flask (server) + pertanyaan FAQ
+Kata Kotlin (client) akademik
+berbasis Android
+dengan koneksi
+server
+5 Ranjit etal., _ Retrieval- Retrieval- RAG
+2023) Augmented Augmented meningkatkan
+Chest X-ray Generation kualitas laporan
+Report (RAG) +CLIP X-ray dengan
+Generation (Contrastive memanfaatkan
+using a Language— retrieval data
+Pretrained Image historis yang
+Contrastive Pretraining) relevan,
+Language— untuk retrieval §menghasilkan
+Image Model +GPT-2 deskripsi lebih
+and akurat dan kaya
+Generative informasi
+Language dibanding model
+Model generatif murni
+1
+C. Kerangka Pikir
+Kerangka pikir pada penelitian ini menunjukkan bagaimana membangun
+sebuah sistem chatbot yang mampu membantu pekerja, petugas K3, dan pelaku
+industri dalam mengakses serta memahami regulasi Keselamatan dan
+Kesehatan Kerja (K3) dengan lebih mudah. Alasan yang melatarbelakangi
+pengembangan sistem ini adalah masih rendahnya pemahaman terhadap
+regulasi K3 di kalangan masyarakat pekerja, yang disebabkan oleh keterbatasan
+sumber informasi yang relevan, bahasa regulasi yang sulit dipahami, serta
+minimnya media interaktif yang dapat menyajikan informasi tersebut secara
+cepat, akurat, dan kontekstual.
+Gambar |. Kerangka Berpikir
+BAB III
+METODE PENELITIAN
+A. Tempat dan Waktu Penelitian
+1. Tempat Penelitian
+Tempat lokasi penelitian yang dipilih peneliti adalah di sebuah
+kantor Keselamatan dan Kesehatan Kerja (K3) di Kampus Universitas
+Muhammadiyah Makassar.
+2. Waktu Penelitian
+Pelaksanaan penelitian ini berlangsung pada bulan Juni hingga
+Agustus 2025, dimulai dari tahap pengumpulan data hingga penyusunan
+laporan akhir.
+Table 2. Waktu Penelitian
+BULAN
+NO KEGIATAN JUNI | JULI USTUS
+3/4/1/2/3]4 2/3\4
+1 | Perumusan topik penelitian
+2 | Perencanaan penelitian
+3 | Pelaksanaan penelitian
+a. Pembuatan program
+b. Penelitian uji program
+4 | Penulisan laporan
+] |
+e -. Alat dan Bahan
+Alat penelitian berupa laptop yang akan digunaknan peneliti untuk
+merancang sistem chatbot untuk pencagan informasi regulasi Keselamatan dan
+Kesehatan Kerja (K3) berbasis RAG. Adapun perangkat keras dan perangkat
+lunak yang digunakan adalah sebagai berikut:
+1. Perangkat keras (Pengembang)
+a. Processor Intel Core-I5 (2 core, 8 thread)
+b. Besar Memory Ram 24GB
+So Kapasitas SSD 119GB
+2. Perangkat Lunak
+a. Windows Home
+b. Text editor Visual Studio Code
+Python sebagai bahasa programming
+9
+a
+FastAPI dan Uvicorn sebagai framerowk dan server backend
+HTML, CSS dan Javascript sebagai User Interface (frontend)
+MongoDB dan ChromaDB sebagai sistem manajemen basis data
+(Vector dan dokumentasi)
+ogle Chrome sebagai browser.
+Data yang digunakan dalam penelitian ini berupa dokumen-dokumen
+regulasi K3, yang diperoleh dari berbagai sumber resmi. Dokumen tersebut
+diunggah ke dalam sistem dan diproses untuk menjadi sumber pengetahuan
+yang digunakan dalam menjawab pertanyaan pengguna secara kontekstual
+melalui chatbot.
+C. Perancangan Sistem
+Perancangan sistem sangat penting dalam pembangunan suatu sistem
+karena menguraikan bagaimana suatu sistem dibangun dari tahap perencanaan
+hingga tahap pembuatan fungsi-fungsi yang diperlukan untuk pengoperasian
+sistem. Tujuan dari perancangan sistem adalah untuk menentukan apakah
+sistem yang akan dikembangkan akan menghasilkan hasil yang diinginkan.
+Alur jalannya penelitian pembyatan chatbot informasi regulasi Keselamatan
+dan Kesehatan Kerja (K3) seperti pada gambar 2 terbagi menjadi 7 (tujuh) blok
+penelitian, antara lain:
+1. Konsep, tahapan ini dimulai dengan merumuskan ide dasar dari sistem
+chatbot yang akan dikembangkan. Pada tahap ini ditentukan
+permasalahan utama, batasan sistem, dan dirancang kebutuhan
+fungsional. Konsep chatbot diarahkan pada integrasi dan teknologi
+Artificial Intelligence (GPT) dan pencarian semantik (RAG) untuk
+meningkatkan aksesibilitas regulasi Keselamatan dan Kesehatan Kerja
+(K3) dari dokumen.
+. Pengumpulan data, setelah konsep sistem telah ditetapkan, tahapan
+selanjutnya adalah pengumpulan data berupa dokumen regulasi K3
+dalam format PDF. Selain itu, dilakukan studi literatur terhadap
+teknologi pendukung seperti GPT, LangChain, OpenAI Embedding, dan
+ChromaDB yang akan digunakan dalam proses pengolahan data.
+. Perancangan Sistem, Pada blok ini dilakukan perancangan teknis sistem,
+yang meliputi alur kerja sistem (workflow), perancangan modul utama,
+desain basis data, dan pemilihan algoritma yang akan digunakan.
+Komponen yang dirancang meliputi proses ekstraksi teks dari PDF,
+pembagian teks menjadi chunk, pembuatan embedding vektor
+menggunakan API OpenAl, penyimpanan embedding di MongoDB,
+hingga pengembangan sistem retrieval dan generation menggunakan
+LangChain dan GPT.
+. Pembuatan sistem, Tahap ini merupakan proses implementasi dari
+rancangan sistem sebelumnya. Pembuatan sistem dilakukan
+menggunakan bahasa pemrograman Python, dengan integrasi beberapa
+library seperti PyMuPDF, LangChain, ChromaDB, OpenAI, dan
+MongoDB. Pada tahap ini dibangun pipeline RAG yang mencakup
+ekstraksi teks, embedding, penyimpanan data, pencarian vektor, dan
+generasi jawaban oleh model GPT berdasarkan dokumen sumber.
+. Pengujian sistem, Setelah sistem selesai diimplementasikan, dilakukan
+pengujian terhadap berbagai jenis pertanyaan, baik pertanyaan langsung
+maupun pertanyaan lanjutan (multi-turn conversation). Pengujian
+mencakup keakuratan jawaban, relevansi konteks, serta responsivitas
+chatbot dalam menjawab berdasarkan isi dokumen regulasi K3. Hasil
+pengujian dianalisis secara deskriptif untuk menilai performa sistem.
+. Evaluasi dan penyimpulan, Setelah sistem selesai diimplementasikan,
+dilakukan pengujian terhadap berbagai jenis pertanyaan, baik
+pertanyaan langsung maupun pertanyaan lanjutan (multi-turn
+conversation). Pengujian mencakup keakuratan jawaban, relevansi
+konteks, serta responsivitas chatbot dalam menjawab berdasarkan isi
+kumen regulasi K3.
+7. Hasil akhir, setelah melalui proses pengulian dan perbaikan, chatbot
+sudah dapay diimplementasikan. Jalannya penelitian dapat diliat pada
+gambar 2 di bawah ini:
+Pengumpulan Perancangan
+Konsep [> .
+Data Sistem
+Pembuatan
+Sistem
+Evaluasi Pengujian
+Hasil Akhir |<+— .
+Sistem Sistem
+Gambar 2. Alur Penelitian
+Alur Adapun perancang9p web chatbot regulasi Keselamatan dan
+Kesehatan Kerja digambarkan sebagai berikut:
+1. Use case diagram
+Chatbot K3
+© Ajukan Pertanyaan
+a
+( Terima Jawaban dari Dokumen
+| —? _ =
+—_— re
+Ajukan Pertanyaan Lanjutan
+\
+User
+‘Lihat Riwayat Pertanyaan »
+Gambar 3. Use case diagram
+Pada tahap perancangan use case diagram, diagram ini berfugsi
+untuk menggambarkan interaksi antara pengguna (user) dengan sistem
+chatbot regulasi Keselamatan dan Kesehatan Kerja (K3). Diagram ini
+menunjukkan proses awal hingga akhir penggunaan sistem, serta fitur-
+fitur utama yang tersedia bagi pengguna. Dalam sistem ini hanya
+terdapat satu jenis akun yaitu akun pengguna (user), karena sistem
+bersifat publik dan ditujukan untuk akses informasi K3 secara mudah.
+a. Ajukan pertanyaan, pada tahap awal, pengguna dapat langsung
+mengakses halaman antarnuka chatbot dan mengajukan pertanyaan
+seputar regulasi K3. Pertanyaan ini dapat berupa definisi, prosedur,
+atau ketentuan hukum terkait keselamatan kerja, seperti “Apa itu
+APD?”, atau “Apa isi pasal tentang pemadam kebakaran?”. Sistem
+kemudian menerima input ini dan memprosesnya melalui tahap
+retrieval dan generation menggunakan model RAG.
+Terima jawaban dari Dokumen, setelah sistem menerima
+pertanyaan, modul retrieval akan mencari bagian dokumen PDF
+yang relevan menggunakan pencarian berbasis vektor. Kemudian
+hasil pencarian tersebut akan dijadikan konteks oleh model GPT
+untuk menghasilkan jawaban yang informatif dan mudah dipahami.
+Jawaban ini ditampilkan secara instan kepada pengguna di tampilan
+chatbot.
+Ajukan pertanyaan lanjutan, Jika pengguna merasa jawabannya
+belum cukup lengkap, mereka dapat mengajukan pertanyaan
+lanjutan tanpa perlu mengulang konteks. Fitur ini memungkinkan
+percakapan berkelanjutan (multi-turn conversation), seperti
+“lanjutkan” atau “bagaimana dengan pengecualian pasal tersebut?”,
+dan sistem tetap mempertahankan konteks pertanyaan sebelumnya.
+. Lihat riwayat pertanyaan, Pengguna juga dapat melihat kembali
+riwayat percakapan mereka dalam sesi sebelumnya. Fitur ini
+berguna untuk merevisi, menyimpan, atau menyalin informasi yang
+sudah diterima tanpa harus bertanya ulang. Riwayat disimpan secara
+lokal selama sesi berlangsung, atau secara opsional dapat diarsipkan.
+)=
+de Activity diagram
+Activity Diagram adalah representasi grafis dari seluruh tahapan
+alur kerja yang mengandung aktivitas, pilihan tindakan, perulangan dan
+hasil dari aktivitas tersebut. Diagram ini dapat digunakan untuk
+menjelaskan proses dan alur kerja operasional secara langkah demi
+langkah dari komponen suatu sistem. Adapun activity diagram dari
+sistem ini adalah sebagai berikut:
+Mula
+| User membuka Chatbot |
++
+Input pertanyaan
+regulasi K3 —__——
+i
+Preprocessing Pertanyaan
+(Preprocessing + Embedding)
+$
+Retrieval dokumen dari
+ChromaDB
+Generate Jawaban Tamp
+Menggunakan GPT “Data Tidak Ditemukan” |——
+Tampilkan Output
+jawaban ke user
+Gen)
+Gambar 4. Activity Diagram
+a. User membuka chatbot
+Tahapan pertama adalah ketuka pengguna (user) mengakses
+antarmuka chatbot yang sudah dibangun berbasis web. Pada
+tahap ini, pengguna siap untuk melakukan interaksi awal dengan
+sistem.
+. User menginput pertanyaan
+Pengguna kemudian mengetikkan pertanyaan seputar regulasi
+K3 yang ingin diketahui, misalnya “Apa isi pasal tentang APD?”
+atau “Bagaimana prosedur evakuasi darurat?”.
+. Preprocessing pertanyaan (embedding)
+Setelah Pertanyaan dari pengguna kemudian diproses melalui
+tahap preprocessing. Pada tahap ini, pertanyaan diubah menjadi
+representasi vektor (embedding) agar bisa dibandingkan secara
+semantik dengan data yang ada di basis data ChromaDB.
+. Retrieval dokumen dari ChromaDB
+Setelah embedding pertanyaan dihasilkan, sistem melakukan
+pencarian ke dalam basis data vektor (ChromaDB) untuk
+menemukan dokumen yang memiliki kemiripan semantik tinggi.
+Proses ini dikenal dengan retrieval..
+. Percabangan: Apakah dokumen ditemukan?
+Sistem akan mengecek apakah ada dokumen atau bagian
+dokumen yang relevan dengan pertanyaan pengguna. Jika
+dokumen ditemukan, maka proses akan dilanjutkan ke tahap
+generasi jawaban. Jika tidak ditemukan, sistem akan
+menampilkan informasi bahwa “Data Tidak Ditemukan”’.
+Generative jawaban menggunakan GPT
+Apabila dokumen berhasil ditemukan, potongan teks yang
+relevan akan dikirimkan ke model GPT untuk menghasilkan
+jawaban yang utuh dan mudah dipahami. Model GPT akan
+melakukan proses reasoning dengan konteks yang diberikan.
+. Tampilkan output jawaban ke user
+Jawaban yang telah dihasilkan oleh GPT akan ditampilkan
+langsung di antarmuka pengguna. Sistem juga mempertahankan
+konteks untuk memungkinkan pertanyaan lanjutan (multi-turn
+conversation).Selesai
+Setelah jawaban diterima oleh pengguna, proses sesi tanya-
+jawab dapat dihentikan, atau pengguna dapat memilih untuk
+melanjutkan percakapan dengan pertanyaan berikutnya.
+Teknik Pengujian Sistem
+D.
+Teknik Pengujian Sistem dilakukan dengan metode black box testing. Uji
+coba yang dilakukan bersifat mandiri dan diuji coba langsung dengan
+memperhatikan rancangan yang dibuat.
+Pengujian blackbox (blackbox testing) adalah salah satu metode pengujian
+perangkat lunak yang berfokus pada sisi fungsionalitas, khususnya pada input
+dan output (apakah sudah sesuai dengan apa yang diharapkan atau belum).
+Black box testing adalah pengujian yang dilakukan untuk mengamati hasil
+input dan output dari perangkat lunak tanpa mengetahui struktur kode dari
+perangkat lunak. Pengujian ini dilakukan di akhir pembuatan perangkat lunak
+untuk mengetahui apakah perangkat lunak dapat berfungsi dengan baik.
+Teknik Analisis Data
+Setelah semua data yang diperlukan dalam pengembangan sistem chatbot
+regulasi Keselamatan dan Kesehatan Kerja (K3) berhasil dikumpulkan, proses
+analisis data menjadi salah satu langkah penting dalam menjamin kualitas dan
+akurasi sistem yang dikembangkan. Analisis data berperan dalam mengevaluasi
+kinerja sistem serta memvalidasi apakah sistem mampu memenuhi kebutuhan
+pengguna secara optimal. Ketepatan dalam pemilihan metode analisis sangat
+menentukan kualitas kesimpulan yang dihasilkan, sehingga dapat berdampak
+besar pada kebermanfaatan dan penerapan hasil penelitian ini dalam dunia kerja
+nyata, khususnya pada bidang keselamatan kerja.
+Dalam penelitian ini, pendekatan analisis data yang digunakan adalah
+analisis kualitatif deskriptif. Hal ini disebabkan oleh sifat data yang dianalisis
+berasal dari hasil pengujian sistem berupa interaksi teks (pertanyaan dan
+jawaban) serta observasi terhadap performa chatbot dalam menjawab
+pertanyaan berbasis dokumen regulasi. Analisis dilakukan dengan cara
+membandingkan antara hasil jawaban chatbot dengan isi dokumen K3 asli
+untuk menilai akurasi, kelengkapan jawaban, dan koherensi konteks, terutama
+dalam pertanyaan bertingkat (multi-turn).
+Proses pengujian dilakukan melalui serangkaian skenario pertanyaan yang
+meliputi: pertanyaan definisi, prosedural, hingga pertanyaan lanjutan
+kontekstual seperti “lanjutkan” atau “jelaskan lebih dalam.” Log dari sesi tanya-
+jawab tersebut disimpan dalam bentuk file json sebagai bagian dari
+dokumentasi, yang kemudian dianalisis secara manual untuk menilai apakah
+sistem mampu memberikan jawaban relevan berdasarkan isi dokumen sumber
+dan mengikuti konteks percakapan sebelumnya.
+Selain itu, dilakukan juga evaluasi fungsional sistem dengan cara menguji
+keandalan proses ekstraksi teks, pembuatan embedding, penyimpanan data ke
+database, serta kemampuan sistem dalam menangani error seperti file PDF
+kosong atau pertanyaan tanpa hasil pencarian. Hasil evaluasi ini digunakan
+untuk mengidentifikasi kelemahan sistem dan memberikan dasar dalam
+menyusun rekomendasi pengembangan selanjutnya.
+Dengan demikian, teknik analisis data pada penelitian ini difokuskan untuk
+mengevaluasi sistem secara menyeluruh dari segi fungsi, konteks pemahaman,
+serta keakuratan isi jawaban, sehingga dapat dipastikan bahwa sistem yang
+dikembangkan mampu menjadi solusi efektif dalam membantu pekerja atau
+petugas K3 dalam mengakses regulasi yang relevan secara efisien.
+DAFTAR PUSTAKA
+Ahadi, R., Safaat Harahap, N., Fikry, M., & Kurnia, F. (2025). Retrieval-
+Augmented Generation in a Web-Based Question Answering System for
+Figh Books. Journal of Artificial Intelligence and Software Engineering,
+5(2), 626-635. https://doi.org/10.308 1 1/jaise.v5i2.7005
+Beheshti, A., Yang, J., Sheng, Q. Z., Benatallah, B., Casati, F., Dustdar, S.,
+Nezhad, H.R. M., Zhang, X., & Xue, S. (2023). ProcessGPT: Transforming
+Business Process Management with Generative Artificial Intelligence.
+http://arxiv.org/abs/2306.01771
+Brown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan, J., Dhariwal, P.,
+Neelakantan, A., Shyam, P., Sastry, G., Askell, A., Agarwal, S., Herbert-
+Voss, A., Krueger, G., Henighan, T., Child, R., Ramesh, A., Ziegler, D. M.,
+Wu, J., Winter, C., ... Amodei, D. (2020). Language Models are Few-Shot
+Learners. http://arxiv .org/abs/2005.14165
+Hidayah, P., & Kamali Zaman, M. (2022). Science Midwifery Implementation of
+Occupational Safety and Health (K3) Inspection as a Work Accident
+Prevention Effort in Palm Oil Factory, Kampar Regency, Riau Province A R
+TICLEIN FO ABSTRACT. In Science Midwifery (Vol. 10, Issue 3).
+Online. www.midwifery .iocspublisher.org
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Kiittler, H.,
+Lewis, M., Yih, W., Rocktischel,T. , Riedel, S., & Kiela, D. (2021a).
+Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.
+http://arxiv.org/abs/2005.11401
+Lewis, P., Perez, E., Piktus, A., Petroni, F., Karpukhin, V., Goyal, N., Kiittler, H.,
+Lewis, M., Yih, W., Rocktischel,T. , Riedel, S., & Kiela, D. (2021b).
+Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks.
+http://arxiv .org/abs/2005.11401
+Gayathri Devi., K, Siranjeevi., S, Rupeshwar., & T, Oviya. (2024). Minebot:
+Chatbot to Respond to Text Queries Pertaining to Various Acts, Rules, And
+Regulations Applicable to Mining Industries. International Journal of
+Research Publication and Reviews, 5(3), 4317-4325.
+https://doi.org/10.55248/gengpi.5.0324.07107
+M Teguh, P. (2018). Unified Modeling Language (UML) Model Untuk
+Pengembangan Sistem Informasi Akademik Berbasis Web.
+Ranjit, M., Ganapathy, G., Manuel, R., & Ganu, T. (2023). Retrieval Augmented
+Chest X-Ray Report Generation using OpenAI GPT models.
+http://arxiv.org/abs/2305 .03660
+Sharifi, A., Zibaei, A., & Rezaei, M. (2021). A deep learning based hazardous
+materials (HAZMAT) sign detection robot with restricted computational
+resources. Machine Learning with Applications , 6, 100104.
+https://doi.org/10.1016/j.mlwa.2021.100104
+Silvanie, A., & Subekti, R. (2022). APLIKASI CHATBOT UNTUK FAQ
+AKADEMIK DI IBI-K57 DENGAN LSTM DAN PENYEMATAN KATA.
+Jurnal Informatika Dan Komputer) Akreditasi KEMENRISTEKDIKTI, 5(1).
+https://doi.org/10.33387/jiko
+Strohmeier, Stefan. (2022). Handbook of research on artificial intelligence in
+human resource management. Edward Elgar Publishing.
+Ulzheimer, L., Kanzinger, A., Ziegler, A., Martin, B., Zender,J., Ro6mhild, A., &
+Leyhe, C. (2021). Barriers in times of digital teaching and learning — a
+german case study: Challenges and recommendations for action. Journal of
+Interactive Media in Education, 2021(1). https://doi.org/10.5334/jime.638
+Vargas Saputra, T., Harlina, T., Studi, P., Informatika, M., Pgri Banyuwangi, S.,
+& Korespondensi, P. (2025). Penerapan Sistem Informasi Perpustakaan
+Berbasis Web Pada STIKOM PGRI Banyuwangi.6(1).
+https://doi.org/10.31284/j.kernel.2025 .v6i1l .7804
+Yenduri, G.,M,R.,G,C.S., Y, S., Srivastava, G., Maddikunta, P. K.R.,G,D-.R.,
+Jhaveri, R. H.,B, P., Wang, W., Vasilakos, A. V., & Gadekallu, T. R. (2023).
+Generative Pre-trained Transformer: A Comprehensive Review on Enabling
+Technologies, Potential Applications, Emerging Challenges, and Future
+Directions. http://arxiv .org/abs/2305.10435
+PROPOSAL_FATUR_ALKHAIR_1_.pdf
+ORIGINALITY REPORT
+314 30% 14% 20.
+SIMILARITY INDEX INTERNET SOURCES PUBLICATIONS STUDENT PAPERS
+PRIMARY SOURCES
+=
+digilibadmin.unismuh.ac.id 15%
+Internet Source
+sb[
+1%
+123dok.com
+Internet Source
+se[
+1%
+Submitted to Universitas Budi Luhur
+Student Paper
+S
+| Komang Sugiartha, Dw Ayu Agung Indra 1%
+Swari, Dedy Panji Agustino, Tria Hikmah
+Fratiwi. "Pengembangan Aplikasi Mobile E-
+Pasraman Hindu untuk Optimalisasi
+Pengelolaan Data Akademik", remik, 2025
+Publication
+a[
+Submitted to Universitas Muhammadiyah 1%
+Makassar
+Student Paper
+repository.uinjkt.ac.id 1%
+Internet Source
+fB
+Submitted to Keimyung University 1%
+Student Paper
+1%
+Submitted to Universitas Muslim Indonesia
+Student Paper
+Agrawal, Tejas Prakash. "RadGraph: 1%
+Integrating Fine-Grained and Global Features
+Using GCNs and LLMs", State University of
+New York at Buffalo, 2024
+Publication
+docplayer.info
+Internet Source <1 %
+eroustakaan.pancabudi.ac.id
+tee P <1 %
+Submitted to Universitas Maritim Raja Ali Haji
+Student Paper <7 %
+Submitted to Universitas Sebelas Maret <1
+Student Paper %
+id.123dok.com
+Internet Source <1 %
+Submitted to Universitas Musamus Merauke <1
+Student Paper %
+docobook.com
+Internet Source <1 %
+enerbit.gunadarma.ac.id
+Pee <1 %
+repository.iainpalopo.ac.id
+Internet Source <1 %
+ejournal.unkhair.ac.id
+soe <1 %
+repository.iainbengkulu.ac.id
+Internet Source <1 %
+repository.uinfasbengkulu.ac.id
+paeeineed 6 <1 %
+repository.ukwms.ac.id
+Internet Source <1 %
+Www. iiror.com
+aaah <1 %
+Submitted to STT PLN
+Student Paper
+<1%
+submitted to Universitas Pendidikan Ganesha <1 %
+erence <1%
+saeciheaadll <1%
+pkm.tunasbangsa.ac.id <1 9
+eee UPA ac ic <1%
+eae eeaete <1%
+eon” CO TGFOUP <1%
+kappppppp-blogspot.com <1 9
+pore owed <1%
+www.kajlanpustaka.com <1 9
+www.pinterpolitik.com <1 9
+rsene <1%
+Muhammad Yusuf, Asyrofi Anam, <1 9
+Muhammad Rifki Raihan. "SISTEM PAKAR
+PENENTUAN KOMPOSISI SKINCARE
+BERDASARKAN MASALAH KULIT WAJAH
+MENGGUNAKAN NATURAL LANGUAGE
+PROCESSING (NLP)", Jurnal Informatika dan
+Rekayasa Elektronik, 2025
+Publication
+Submitted to Universitas Brawijaya
+Student Paper y <] %
+digilib.uns.ac.id
+tenet cine <1 %
+jer.or.id
+se net conrce <1 %
+ijournal.iom2kpe.or.id
+Joe P <1 %
+penerbitbukudeepublish.com
+Internet Source <1 %
+repository.unmuhjember.ac.id
+pened <| %
+www.scribd.com
+Internet Source <1 %
+www.springerprofessional.de
+aaa an P <| %
+Yeni Risyani, Susi Japit, Conrad Bombongan, <1 9
+Tanda Selamat, Yuliana Yuliana. "Pelatihan °
+Pembuatan Video dengan Al untuk Pemuda-
+Pemudi GPS!I Medan Utara", Jurnal Minfo
+Polgan, 2024
+Publication
+tintanhmerah.wordpress.com
+Internet Source P <1 %
+www.maxmanroe.com
+Internet Source <1 %
+Exclude quotes On Exclude matches Off
+Exclude bibliography On

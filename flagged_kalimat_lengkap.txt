@@ -1,0 +1,114 @@
+================================================================================
+SEMUA KALIMAT YANG DI-FLAG DARI testing.pdf (35 pages)
+================================================================================
+Berdasarkan OCR dengan ocrmypdf --force-ocr
+
+KALIMAT YANG BERISI FLAGGED PHRASES:
+================================================================================
+
+TECHNICAL TERMS (CRITICAL):
+
+1. Implementasi Retrieval-Augmented Generation (RAG)
+2. Menggunakan Model GPT untuk Chatbot Pencarian Informasi
+3. Model RAG dengan GPT sebagai komponen generatif
+4. Generative Pre-trained Transformer (GPT)
+5. GPT secara murni hanya mengandalkan data pelatihan umum
+6. Metode Retrieval-Augmented Generation (RAG) diperkenalkan sebagai solusi
+7. Pendekatan Retrieval-Augmented Generation (RAG) guna memfasilitasi pencarian
+8. Chatbot berbasis bahasa alami (Natural Language Processing)
+9. Pembagian teks menjadi chunk, pembuatan embedding vektor menggunakan API OpenAI
+10. Generasi jawaban oleh model GPT berdasarkan dokumen sumber
+11. Pipeline RAG yang mencakup ekstraksi teks, embedding, penyimpanan data
+
+K3 CONTENT (HIGH RISK):
+
+12. Keselamatan dan Kesehatan Kerja (K3) merupakan aspek krusial
+13. Regulasi K3 telah banyak diterbitkan oleh pemerintah
+14. Untuk menurunkan angka kecelakaan kerja, tetapi juga menciptakan lingkungan kerja yang produktif
+15. Literasi dan pemahaman pekerja terhadap isi regulasi K3 masih tergolong rendah
+16. Pelatihan formal mengenai K3 memerlukan biaya yang cukup besar
+17. Menarik bagian teks dari dokumen K3 aktual sebagai basis jawabannya
+18. RAG untuk chatbot pencarian regulasi K3 di Indonesia
+19. Penelitian ini bertujuan untuk mengembangkan sistem chatbot untuk K3
+20. Sistem ini dirancang untuk mendukung peningkatan literasi K3
+21. Konteks penelitian ini, sistem informasi yang dibangun berfungsi untuk memfasilitasi interaksi data regulasi K3
+22. Dokumen regulasi K3, yang diperoleh dari berbagai sumber resmi
+23. Dokumen regulasi K3 dalam format PDF
+24. Sistem chatbot informasi regulasi Keselamatan dan Kesehatan Kerja (K3)
+25. Regulasi K3: Regulasi yang digunakan hanya mencakup peraturan nasional Indonesia
+26. Basis data regulasi K3
+
+CHATBOT METHODOLOGY:
+
+27. Pengembangan chatbot berbasis bahasa alami
+28. Sistem chatbot yang akan dikembangkan
+29. Sistem chatbot yang diintegrasikan dengan pendekatan RAG
+30. Sistem pencarian yang mampu mengintegrasikan berbagai dokumen regulasi K3
+31. Chatbot dirancang sebagai prototipe berbasis teks
+32. Chatbot AI mampu mempelajari konteks dan memberikan jawaban lebih fleksibel
+33. Chatbot adalah sistem komputer yang dirancang untuk berinteraksi dengan manusia
+34. Chatbot dapat bersifat rule-based atau AI-based
+35. Chatbot dikembangkan untuk memudahkan pencarian dan pemahaman K3
+36. Sistem chatbot regulasi Keselamatan dan Kesehatan Kerja
+37. Antarmuka chatbot dan mengajukan pertanyaan seputar regulasi K3
+38. MineBot: Chatbot to Respond to Text Queries Pertaining to Various Acts
+39. APLIKASI CHATBOT UNTUK FAQ AKADEMIK
+
+RESEARCH METHODOLOGY & OBJECTIVES:
+
+40. Penelitian ini bertujuan untuk mengembangkan sistem chatbot
+41. Tujuan dari penelitian ini adalah sebagai berikut
+42. Penelitian ini diharapkan dapat memberikan kontribusi
+43. Penelitian ini diharapkan dapat memberikan kontribusi signifikan
+44. Penelitian ini diharapkan dapat memberikan kontribusi dalam pengembangan sistem
+45. Hasil penelitian ini berpotensi menjadi model penerapan teknologi AI
+46. Penelitian ini memberikan peneliti pengalaman mendalam mengenai implementasi model AI
+47. Penelitian ini juga melatih peneliti dalam proses perancangan sistem
+48. Penelitian ini berpotensi mendukung pembangunan nasional
+49. Alasan yang melatarbelakangi pengembangan sistem ini adalah masih rendahnya pemahaman
+50. Perancangan use case diagram untuk menggambarkan interaksi dengan sistem chatbot
+
+DEFINITION & FRAMEWORK:
+
+51. Keselamatan dan Kesehatan Kerja (K3) adalah seperangkat upaya sistematis
+52. Tujuan K3 adalah mencegah kecelakaan kerja, meningkatkan produktivitas
+53. Regulasi K3 mencakup berbagai ketentuan teknis dan hukum yang kompleks
+54. Sistem informasi terdiri dari input, proses, output, dan feedback
+55. AI menjadi fondasi dalam pengembangan sistem chatbot
+56. Chatbot AI mampu mempelajari konteks dan memberikan jawaban fleksibel
+57. GPT adalah model bahasa berbasis deep learning yang dilatih
+58. Model GPT memiliki kemampuan zero-shot, one-shot, dan few-shot learning
+59. RAG adalah pendekatan dalam pengembangan sistem tanya-jawab
+60. Dalam arsitektur RAG, dua komponen utama digunakan: retriever dan generator
+61. UML digunakan untuk memodelkan alur kerja sistem chatbot
+
+RESEARCH STUDIES & REFERENCES:
+
+62. Studi sebelumnya telah membuktikan efektivitas RAG dalam sistem tanya jawab
+63. Retrieval-Augmented Generation in a Web-Based Question Answering System
+64. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks
+65. Retrieval-Augmented Generation + GPT-3, meningkatkan akurasi jawaban
+66. MineBot: Chatbot to Respond to Text Queries in Mining Industries
+67. Retrieval-Augmented Generation untuk Dense Passage Retriever
+68. Aplikasi Chatbot Untuk FAQ Akademik Di IBI-K57 Dengan LSTM
+69. Retrieval Augmented Chest X-Ray Report Generation using GPT
+70. Generative Pre-trained Transformer: Comprehensive Review on Technologies
+
+IMPLEMENTATION & PROCESS:
+
+71. Komponen yang dirancang meliputi proses ekstraksi teks dari PDF
+72. Ekstraksi teks, embedding, penyimpanan data, pencarian vektor
+73. Pengujian mencakup keakurasi jawaban, relevansi konteks chatbot
+74. Pengguna dapat mengakses halaman antarmuka chatbot
+75. Pengguna dapat mengajukan pertanyaan seputar regulasi K3
+76. Preprocessing Pertanyaan (Preprocessing + Embedding)
+77. Retrieval dokumen dari ChromaDB, Generate Jawaban Menggunakan GPT
+
+================================================================================
+SUMMARY:
+Total Unique Flagged Sentences: 77
+Main Categories: Technical Terms, K3 Content, Chatbot Methods, Research
+
+These are ALL the sentences/phrases that contain flagged keywords that 
+would trigger Turnitin detection.
+================================================================================

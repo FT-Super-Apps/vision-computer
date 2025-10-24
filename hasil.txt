@@ -1,0 +1,340 @@
+================================================================================
+FLAGGED TEXT DARI testing.pdf (TURNITIN HIGHLIGHTS)
+================================================================================
+Extracted dari 35 pages
+Total flagged items: 165
+
+1. Diajukan sebagai Salah Satu Syarat untuk mendapatkan
+
+2. epada:
+
+3. ebesgy-besarnya atas segala limpahan kasih sayang, doa
+
+4. saran yang membangun
+
+5. sangat penulis harapkan demi
+
+6. penyempurnaan
+
+7. ini.
+
+8. Bapak Muhyiddin A.M Hayat S.Kom.,M.T., selaku Ketua Program
+
+9. Bapak
+
+10. Muh Syafaat S. Kuba, S.T,M.T.
+
+11. selaku Dekan Fakultas
+
+12. eknik
+
+13. maupun
+
+14. yang luar biasa. Oleh sebab itu, penulis menyampaikan
+
+15. terima kasih yang
+
+16. ukungan
+
+17. Keinformatikaan. Aamiin
+
+18. Makassar,
+
+19. selama
+
+20. penyusunan
+
+21. Dosen dan
+
+22. Program Studi
+
+23. Fakultas
+
+24. Universitas Muhammadiyah
+
+25. yang
+
+26. telah memberikan
+
+27. Pembimbing
+
+28. yang telah meluangkan waktu, tenaga dan pikiran untuk
+
+29. memberikan bimbingan, arahan, dan masukan yang sangat berharga dalam
+
+30. A. Latar Belakang
+
+31. Rumusan Masalah
+
+32. Manfaat Penelitian
+
+33. Ruang Lingkup
+
+34. F. Sistematika Penulisan.
+
+35. A. Landasan Te or
+
+36. B. Penelitian Terkait
+
+37. C. Kerangka Pikir
+
+38. A. Tempat dan Waktu Penelitian ........... ec ecceceeceeeececeeeeceneececeeaecaeenaecaeenseeaeens
+
+39. C. Perancangan Sistem
+
+40. D. Teknik Pengujian S
+
+41. E. Teknik Analisis Data
+
+42. 1. Penelitian
+
+43. Gambar |. Kerangka
+
+44. Gambar 2.
+
+45. Gambar 3.
+
+46. Gambar4.
+
+47. Seiring dengan berkembangnya teknologi kecerdasan buatan (Artificial
+
+48. ntelligence/Al)
+
+49. alam berbagai sektor, termasuk pendidikan, kesehatan, dan
+
+50. Namun,
+
+51. dengan
+
+52. pendekatan Retrieval-Augmented Generation (RAG)
+
+53. pencarian dan
+
+54. enelitian ini diharapkan dapat memberikan kontribusi
+
+55. alam
+
+56. penelitian ini.
+
+57. Penelitian ini bertujuan untuk mengembangkan
+
+58. memberikan manfaat
+
+59. secara teoritis dan secara praktis, yaitu:
+
+60. adalah sebagai berikut:
+
+61. Berdasarkan latar belakang diatas maka dapat dirumuskan masalah
+
+62. sebagai berikut:
+
+63. 1. Bagaimana
+
+64. masalah, adapun batasan pada penelitian ini sebagai
+
+65. erikut:
+
+66. yang berkaitan dengan keselamatan dan kesehatan kerja (K3).
+
+67. 2. Secara Praktis
+
+68. Penelitian ini memberikan
+
+69. pengalaman
+
+70. ecelakaan
+
+71. di Indonesia, seperti Undang-Undang, Peraturan
+
+72. Bab ini menjelaskan
+
+73. latar belakang
+
+74. umusan
+
+75. masalah, tujuan penelitian, manfaat penelitian, ruang lingkup dan sistematika
+
+76. Secara keseluruhan, struktur
+
+77. beberapa bab
+
+78. Bab ini membahas secara
+
+79. metode yang digunakan dalam penelitian,
+
+80. endekatan, tahap
+
+81. an sumber
+
+82. untuk mengumpulkan,
+
+83. menyimpan, dan mendistribusikan
+
+84. A. Landasan Teori
+
+85. Keselamatan dan Kesehatan Kerja (K3)
+
+86. Undang-
+
+87. untuk menjamin keutuhan dan kesempurnaan jasmani
+
+88. ohani
+
+89. erja
+
+90. adalah
+
+91. terhindar dari
+
+92. serta menciptakan suasana
+
+93. kerja yang aman dan nyaman.
+
+94. kecelakaan
+
+95. yang dapat diakses kapan saja dan oleh siapa
+
+96. iguaakan dalam
+
+97. entuk
+
+98. yang digunakan adalah
+
+99. hatbot adalah
+
+100. komputer yang dirancang untuk berinteraksi
+
+101. Chatbot
+
+102. Artificial Intelligence)
+
+103. Kecerdasan Buatan (AI) adalah ears ilmu komputer yang
+
+104. esar data teks untuk memahami dan menghasilkan bahasa alami.
+
+105. pemrosesan bahasa alami (Natural Language Processing
+
+106. Generative Pre-trained Transformer (GPT)
+
+107. Brown et al., 2020)
+
+108. memungkinkan komputer
+
+109. melakukan tugas
+
+110. masalah pada
+
+111. ini. Penelitian sebelumnya yang terkait
+
+112. 1. Penelitian Terkait
+
+113. menyediakan berbagai jenis diagram seperti
+
+114. lass, sequence, dan
+
+115. activity diagram yang membantu
+
+116. Retrieval-Augmented Generation (RAG)
+
+117. Retrieval-
+
+118. eneration for
+
+119. nowledge-
+
+120. Intensive NLP
+
+121. Faq Akademik
+
+122. Di Ibi-K57
+
+123. Dengan Lstm
+
+124. MineBot:
+
+125. ext Queries
+
+126. Pertaining to
+
+127. Acts, Rules,
+
+128. Regulations
+
+129. Mining
+
+130. anjit etal.
+
+131. Chest X-ray
+
+132. Report
+
+133. Generation
+
+134. using
+
+135. Tempat Penelitian
+
+136. yang dipilih peneliti adalah di sebuah
+
+137. . Alat dan Bahan
+
+138. 2. Waktu Penelitian
+
+139. Pelaksanaan penelitian ini
+
+140. pada bulan
+
+141. Pelaksanaan penelitian
+
+142. a. Pembuatan
+
+143. Besar Memory Ram
+
+144. 2. Perangkat Lunak
+
+145. a. Windows Home
+
+146. sebagai bahasa programming
+
+147. ada gambar 2 terbagi menjadi
+
+148. penelitian, antara lain:
+
+149. Perancangan sistem sangat penting dalam pembangunan suatu
+
+150. sistem yang akan dikembangkan akan
+
+151. hasil yang
+
+152. sudah
+
+153. iimplementasikan.
+
+154. penelitian dapat
+
+155. pada
+
+156. gambar 2 di bawah ini:
+
+157. ambar 2.
+
+158. Penelitian
+
+159. Activity diagram
+
+160. ctivity Diagram adalah representasi grafis dari seluruh tahapan
+
+161. hasil dari aktivitas tersebut. Diagram ini dapat digunakan untuk
+
+162. sistem ini adalah sebagai berikut:
+
+163. Pengujian blackbox (blackbox testing) adalah salah satu metode pengujian
+
+164. Dalam penelitian ini,
+
+165. analisis data yang digunakan adalah
+
+
+================================================================================
+TOTAL: 165 flagged text items
+================================================================================
