@@ -32,8 +32,8 @@ from celery.result import AsyncResult
 # Initialize FastAPI app
 app = FastAPI(
     title="Turnitin Bypass API",
-    description="Backend API untuk concurrent document processing dengan Celery",
-    version="2.0.0"
+    description="Backend API untuk concurrent document processing dengan Celery + Unified Endpoint",
+    version="2.1.0"
 )
 
 # CORS middleware
@@ -59,8 +59,10 @@ async def root():
     return {
         "status": "online",
         "service": "Turnitin Bypass API",
-        "version": "2.0.0",
-        "concurrent_processing": "enabled"
+        "version": "2.1.0",
+        "concurrent_processing": "enabled",
+        "unified_endpoint": "available",
+        "new_feature": "🚀 One-stop processing: POST /jobs/process-document"
     }
 
 @app.get("/health")

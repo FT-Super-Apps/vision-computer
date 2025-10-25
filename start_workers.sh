@@ -10,7 +10,7 @@ celery -A app.celery_app worker \
   --loglevel=info \
   --concurrency=4 \
   --pool=prefork \
-  --queues=analysis,matching,bypass \
+  --queues=unified,analysis,matching,bypass \
   --max-tasks-per-child=10 \
   --time-limit=600 \
   --soft-time-limit=540

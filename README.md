@@ -1,6 +1,8 @@
-# Turnitin Bypass System - Backend API v2.0
+# Turnitin Bypass System - Backend API v2.1
 
 FastAPI backend dengan concurrent processing (Celery + Redis) untuk sistem bypass detection Turnitin menggunakan homoglyphs dan invisible characters.
+
+🚀 **NEW**: Unified endpoint untuk one-stop processing (Analyze → Match → Bypass dalam satu request)
 
 ## 🎯 Tujuan Penelitian
 
@@ -15,25 +17,49 @@ Sistem ini dikembangkan untuk **tujuan pendidikan** di bawah bimbingan dosen pem
 
 ## 🚀 Features
 
+### ⭐ Unified Endpoint (NEW - RECOMMENDED)
+
+**One-stop processing**: Upload 2 files → Get modified document
+
+```bash
+POST /jobs/process-document
+Input: turnitin_pdf + original_doc (DOCX)
+Output: Modified DOCX with bypassed flags
+```
+
+**Combines all 3 phases in one request:**
+- Phase 1/3: Analyze & detect flags (Steps 1-5)
+- Phase 2/3: Match flags with original (Steps 6-9)
+- Phase 3/3: Bypass matched items (Steps 10-13)
+
+**Progress tracking**: 13 unified steps (0% → 100%)
+
 ### ✅ Concurrent Processing
+
 - **Celery + Redis**: Background task queue untuk multiple concurrent jobs
 - **Real-time Progress Tracking**: Status updates (PENDING → PROGRESS → SUCCESS)
 - **4 Concurrent Workers**: Process 4+ documents simultaneously
 - **Job Management**: Submit job → Poll status → Get result
 
-### ✅ 3 Main Workflows
+### ✅ 4 Main Workflows
 
-1. **Analyze Flags** (Async Job)
+1. **🚀 Unified Processing** (RECOMMENDED)
+   - One request untuk complete workflow
+   - Analyze → Match → Bypass otomatis
+   - 13 unified progress steps
+   - Comprehensive result output
+
+2. **Analyze Flags** (Async Job)
    - Detect colored highlights dari Turnitin PDF
    - OCR extraction dengan ocrmypdf --force-ocr
    - Extract flagged text dari highlighted areas
 
-2. **Match Flags** (Async Job)
+3. **Match Flags** (Async Job)
    - Fuzzy matching flagged items dengan original document
    - 80% similarity threshold
    - Support DOCX, PDF, TXT
 
-3. **Bypass Matched Flags** (Async Job)
+4. **Bypass Matched Flags** (Async Job)
    - Apply bypass ke ALL matched items
    - 95% Homoglyphs + 40% Invisible Characters
    - Process paragraphs AND tables
@@ -145,7 +171,7 @@ celery -A app.celery_app worker \
   --loglevel=info \
   --concurrency=4 \
   --pool=prefork \
-  --queues=analysis,matching,bypass
+  --queues=unified,analysis,matching,bypass
 ```
 
 **Terminal 3 - FastAPI:**
@@ -166,7 +192,56 @@ curl http://localhost:8000/
 celery -A app.celery_app inspect active
 ```
 
-## 📡 API Endpoints (11 Total)
+## 📡 API Endpoints (15 Total)
+
+### 🚀 Unified Endpoint - RECOMMENDED (4)
+
+```bash
+# 1. Submit unified job (Analyze → Match → Bypass)
+POST /jobs/process-document
+Content-Type: multipart/form-data
+Body:
+  - turnitin_pdf (PDF file with highlights)
+  - original_doc (DOCX file)
+  - homoglyph_density (optional, default: 0.95)
+  - invisible_density (optional, default: 0.40)
+
+Returns: {
+  "job_id": "uuid",
+  "total_steps": 13,
+  "status_url": "/jobs/{id}/status",
+  "result_url": "/jobs/{id}/result"
+}
+
+# 2. Check unified job status (poll every 2-5 seconds)
+GET /jobs/{job_id}/status
+
+Returns: {
+  "state": "PROGRESS",
+  "message": "Phase 2/3: Matching 45/67...",
+  "progress": 65,
+  "current": 8,
+  "total": 13
+}
+
+# 3. Get unified job result (when state = SUCCESS)
+GET /jobs/{job_id}/result
+
+Returns: {
+  "success": true,
+  "total_flags": 67,
+  "total_matched": 45,
+  "match_percentage": 67.16,
+  "total_replacements": 128,
+  "output_file": "outputs/unified_bypass_20251024_175430_original.docx",
+  "flagged_items": [...],
+  "matched_items": [...],
+  "processed_flags": [...]
+}
+
+# 4. Download modified document
+GET /bypass/download/unified_bypass_20251024_175430_original.docx
+```
 
 ### Health Check (2)
 
@@ -333,7 +408,136 @@ Each request includes auto-extraction script for `job_id`, so you can run them s
 
 ## 💡 Usage Examples
 
-### cURL Examples
+### 🚀 Unified Endpoint (RECOMMENDED)
+
+#### cURL Example
+
+```bash
+# 1. Submit unified job
+curl -X POST http://localhost:8000/jobs/process-document \
+  -F "turnitin_pdf=@turnitin.pdf" \
+  -F "original_doc=@original.docx" \
+  -F "homoglyph_density=0.95" \
+  -F "invisible_density=0.40"
+
+# Response:
+# {
+#   "success": true,
+#   "job_id": "abc-123-xyz",
+#   "total_steps": 13,
+#   "status_url": "/jobs/abc-123-xyz/status"
+# }
+
+# 2. Poll status (repeat every 2-5 seconds)
+curl http://localhost:8000/jobs/abc-123-xyz/status
+
+# Response (PROGRESS):
+# {
+#   "state": "PROGRESS",
+#   "message": "Phase 2/3: Matching 45/67...",
+#   "progress": 65,
+#   "current": 8,
+#   "total": 13
+# }
+
+# Response (SUCCESS):
+# {
+#   "state": "SUCCESS",
+#   "message": "Complete! Document processed successfully.",
+#   "progress": 100,
+#   "result_url": "/jobs/abc-123-xyz/result"
+# }
+
+# 3. Get final result
+curl http://localhost:8000/jobs/abc-123-xyz/result
+
+# Response:
+# {
+#   "success": true,
+#   "total_flags": 67,
+#   "total_matched": 45,
+#   "match_percentage": 67.16,
+#   "total_replacements": 128,
+#   "output_file": "outputs/unified_bypass_20251024_175430_original.docx",
+#   ...
+# }
+
+# 4. Download modified document
+curl -O http://localhost:8000/bypass/download/unified_bypass_20251024_175430_original.docx
+```
+
+#### Python Example
+
+```python
+import requests
+import time
+
+# 1. Submit unified job
+url = "http://localhost:8000/jobs/process-document"
+files = {
+    "turnitin_pdf": open("turnitin.pdf", "rb"),
+    "original_doc": open("original.docx", "rb")
+}
+data = {
+    "homoglyph_density": 0.95,
+    "invisible_density": 0.40
+}
+
+response = requests.post(url, files=files, data=data)
+result = response.json()
+job_id = result["job_id"]
+total_steps = result["total_steps"]
+
+print(f"Job ID: {job_id}")
+print(f"Total steps: {total_steps}")
+
+# 2. Poll for status
+status_url = f"http://localhost:8000/jobs/{job_id}/status"
+print("\nPolling for progress...")
+
+while True:
+    status = requests.get(status_url).json()
+    state = status['state']
+    progress = status.get('progress', 0)
+    message = status.get('message', '')
+
+    print(f"[{progress}%] {state}: {message}")
+
+    if state == 'SUCCESS':
+        print("\n✅ Job completed successfully!")
+        break
+    elif state == 'FAILURE':
+        print(f"\n❌ Job failed: {message}")
+        exit(1)
+
+    time.sleep(3)  # Poll every 3 seconds
+
+# 3. Get comprehensive result
+result_url = f"http://localhost:8000/jobs/{job_id}/result"
+result = requests.get(result_url).json()
+
+print("\n📊 Results Summary:")
+print(f"  Total flags detected: {result['total_flags']}")
+print(f"  Total matched: {result['total_matched']}")
+print(f"  Match percentage: {result['match_percentage']}%")
+print(f"  Total replacements: {result['total_replacements']}")
+print(f"  Output file: {result['output_file']}")
+
+# 4. Download modified document
+filename = result['output_file'].split('/')[-1]
+download_url = f"http://localhost:8000/bypass/download/{filename}"
+response = requests.get(download_url)
+
+output_path = f"downloaded_{filename}"
+with open(output_path, "wb") as f:
+    f.write(response.content)
+
+print(f"\n💾 File saved: {output_path}")
+```
+
+### Individual Endpoints (Legacy)
+
+#### cURL Examples
 
 ```bash
 # 1. Submit analyze job
@@ -490,6 +694,7 @@ task_routes = {
     'app.tasks.analyze_detect_flags_task': {'queue': 'analysis'},
     'app.tasks.match_flags_task': {'queue': 'matching'},
     'app.tasks.bypass_matched_flags_task': {'queue': 'bypass'},
+    'app.tasks.process_document_unified_task': {'queue': 'unified'},  # NEW
 }
 ```
 
@@ -687,11 +892,13 @@ Developed for academic research on plagiarism detection systems analysis.
 
 ---
 
-**Status**: ✅ Production Ready with Concurrent Processing
-**Version**: 2.0.0
-**API Version**: 2.0
+**Status**: ✅ Production Ready with Unified Endpoint
+**Version**: 2.1.0
+**API Version**: 2.1
 **Last Updated**: 2025-10-24
+**New Features**: 🚀 Unified Endpoint (One-stop processing)
 **OCR Method**: ocrmypdf v15.2.0 with --force-ocr
 **Background Processing**: Celery 5.3.4 + Redis 5.0.1
 **Concurrent Workers**: 4 (configurable)
 **Architecture**: FastAPI + Celery + Redis
+**Total Endpoints**: 15 (4 unified + 11 legacy)
