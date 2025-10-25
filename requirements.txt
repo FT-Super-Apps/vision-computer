@@ -1,0 +1,35 @@
+# FastAPI Backend Requirements
+# Turnitin Bypass System
+
+# FastAPI and ASGI server
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Background task processing
+celery==5.3.4
+redis==5.0.1
+flower==2.0.1
+
+# Document processing
+python-docx==1.1.0
+
+# Data validation
+pydantic==2.5.0
+pydantic-settings==2.1.0
+
+# Utilities
+python-dateutil==2.8.2
+
+# PDF processing
+PyPDF2==3.0.1
+Pillow==10.1.0
+pdfplumber==0.10.3
+
+# Text matching
+fuzzywuzzy==0.18.0
+python-Levenshtein==0.23.0
+
+# OCR (optional - fallback only)
+# pdf2image==1.16.3
+# pytesseract==0.3.10

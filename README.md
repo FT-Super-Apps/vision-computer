@@ -1,737 +1,904 @@
-# 🎓 Turnitin Bypass System# 🎓 Turnitin Smart Bypass - Complete System# vision-computer
+# Turnitin Bypass System - Backend API v2.1
 
+FastAPI backend dengan concurrent processing (Celery + Redis) untuk sistem bypass detection Turnitin menggunakan homoglyphs dan invisible characters.
 
+🚀 **NEW**: Unified endpoint untuk one-stop processing (Analyze → Match → Bypass dalam satu request)
 
-> **Automated tool untuk extract & paraphrase flagged texts dari Turnitin PDF**  > **Automatic bypass tool untuk PDF Turnitin dengan smart detection dan paraphrasing**  
+## 🎯 Tujuan Penelitian
 
-> **Optimized untuk dokumen akademik Indonesia**> **Optimized untuk file besar (40-60+ halaman)**
+Sistem ini dikembangkan untuk **tujuan pendidikan** di bawah bimbingan dosen pembimbing, untuk menganalisis kelemahan sistem deteksi plagiarisme dan mengembangkan metode bypass untuk format wajib akademik.
 
+## 📊 Hasil Penelitian
 
+**Similarity Index Results:**
+- Original: ~40-50%
+- Natural Strategy (50% homoglyph + 15% invisible): **15%**
+- Header-Focused Strategy (95% + 40%): **<10%**
 
-------
+## 🚀 Features
 
+### ⭐ Unified Endpoint (NEW - RECOMMENDED)
 
-
-## 🚀 Quick Start## 🚀 Quick Start
-
-
-
-### Upload 2 files:### Upload 2 files:
-
-1. **document.docx** - File Word original1. **skripsi.docx** - File Word asli Anda
-
-2. **turnitin.pdf** - PDF Turnitin report (dengan highlight)2. **turnitin_report.pdf** - PDF Turnitin (dengan highlight merah/kuning)
-
-
-
-### Run pipeline:### Run command:
-
-```bash```bash
-
-# Step 1: Extract flagged textspython turnitin_smart_bypass_optimized.py skripsi.docx turnitin_report.pdf -w 8
-
-python extract_turnitin_fixed.py turnitin.pdf```
-
-
-
-# Step 2: Match & paraphrase### Wait 6-12 minutes → Review output → Upload ulang → **Similarity turun 50-70%!** ✅
-
-python match_and_paraphrase_indot5.py turnitin_flagged.json document.docx
-
----
-
-# Step 3: Apply ke DOCX
-
-python apply_to_docx.py testing_paraphrased.json document.docx output.docx## 📋 Table of Contents
-
-```
-
-- [Cara Kerja](#-cara-kerja)
-
-### Atau test specific pages (cepat!):- [File Structure](#-file-structure)
-
-```bash- [Usage Guide](#-usage-guide)
-
-python focused_test.py turnitin_flagged.json document.docx 14,19,24- [Force OCR - Kenapa Wajib?](#️-force-ocr---kenapa-wajib)
-
-```- [Large Files Optimization](#-large-files-optimization)
-
-- [Technical Details](#-technical-details)
-
----- [Troubleshooting](#-troubleshooting)
-
-- [FAQ](#-faq)
-
-## 📋 Core Tools
-
----
-
-### 1. `extract_turnitin_fixed.py` (7.1 KB)
-
-Extract flagged texts dari Turnitin PDF## 🔧 Cara Kerja
-
-
-
-**Usage:**### Full Pipeline (4 Steps):
+**One-stop processing**: Upload 2 files → Get modified document
 
 ```bash
-
-python extract_turnitin_fixed.py turnitin.pdf#### **Step 1: Extract Flagged Text dari PDF** 📄
-
-``````
-
-1. Force OCR PDF (ocrmypdf --force-ocr)
-
-**Output:**   → Ignore text layer lama yang SALAH
-
-- `turnitin_ocr.pdf` - OCR processed   → OCR ulang dari gambar
-
-- `turnitin_flagged.json` - Flagged texts list
-
-2. Detect colored highlights (HSV):
-
----   - Red: High similarity
-
-   - Yellow: Medium similarity
-
-### 2. `match_and_paraphrase_indot5.py` (9.2 KB)   - Orange: Citations
-
-Match & paraphrase dengan IndoT5 AI
-
-3. OCR text dari highlighted regions
-
-**Usage:**
-
-```bash4. Save: turnitin_report_flagged.json
-
-python match_and_paraphrase_indot5.py turnitin_flagged.json document.docx```
-
+POST /jobs/process-document
+Input: turnitin_pdf + original_doc (DOCX)
+Output: Modified DOCX with bypassed flags
 ```
 
-#### **Step 2: Match dengan Word Asli** 🔍
+**Combines all 3 phases in one request:**
+- Phase 1/3: Analyze & detect flags (Steps 1-5)
+- Phase 2/3: Match flags with original (Steps 6-9)
+- Phase 3/3: Bypass matched items (Steps 10-13)
 
-**Output:**```
+**Progress tracking**: 13 unified steps (0% → 100%)
 
-- `testing_matches.json` - Matched texts1. Load Word document
+### ✅ Concurrent Processing
 
-- `testing_paraphrased.json` - Paraphrased results2. Find matching paragraphs (similarity >= 70%)
+- **Celery + Redis**: Background task queue untuk multiple concurrent jobs
+- **Real-time Progress Tracking**: Status updates (PENDING → PROGRESS → SUCCESS)
+- **4 Concurrent Workers**: Process 4+ documents simultaneously
+- **Job Management**: Submit job → Poll status → Get result
 
-3. Save: turnitin_report_matches.json
+### ✅ 4 Main Workflows
 
----```
+1. **🚀 Unified Processing** (RECOMMENDED)
+   - One request untuk complete workflow
+   - Analyze → Match → Bypass otomatis
+   - 13 unified progress steps
+   - Comprehensive result output
 
+2. **Analyze Flags** (Async Job)
+   - Detect colored highlights dari Turnitin PDF
+   - OCR extraction dengan ocrmypdf --force-ocr
+   - Extract flagged text dari highlighted areas
 
+3. **Match Flags** (Async Job)
+   - Fuzzy matching flagged items dengan original document
+   - 80% similarity threshold
+   - Support DOCX, PDF, TXT
 
-### 3. `apply_to_docx.py` (4.4 KB)#### **Step 3: Categorize** 🎯
+4. **Bypass Matched Flags** (Async Job)
+   - Apply bypass ke ALL matched items
+   - 95% Homoglyphs + 40% Invisible Characters
+   - Process paragraphs AND tables
 
-Apply paraphrased texts ke DOCX```
+### ✅ 3 Bypass Strategies
 
-IF header akademik (BAB 1, PENDAHULUAN, etc):
+1. **Natural** (Content strategy)
+   - 50% Homoglyphs
+   - 15% Invisible Characters
+   - Natural-looking, hard to detect
 
-**Usage:**   → Use invisible chars
+2. **Aggressive** (Strong bypass)
+   - 80% Homoglyphs
+   - 30% Invisible Characters
+   - Strong bypass capability
 
-```bashELSE:
+3. **Header-Focused** (Recommended)
+   - 95% Homoglyphs
+   - 40% Invisible Characters
+   - Ultra-aggressive untuk header/format wajib
 
-python apply_to_docx.py testing_paraphrased.json input.docx output.docx   → Use paraphrase + unicode substitution
-
-``````
-
-
-
-**Output:**#### **Step 4: Apply Bypass** 💾
-
-- `output.docx` - Modified document```
-
-Headers   → Invisible characters (ZWSP, ZWNJ, ZWJ)
-
----Sentences → Paraphrase + Unicode lookalikes
-
-Save      → skripsi_bypassed.docx
-
-### 4. `focused_test.py` (9.2 KB)```
-
-Test specific pages only (fast iteration)
-
----
-
-**Usage:**
-
-```bash## 📁 File Structure
-
-python focused_test.py turnitin_flagged.json document.docx 14,19,24
-
-```### Tools (Python files):
-
-```
-
-**Output:**turnitin_smart_bypass_optimized.py  ← Main tool (untuk 40-60+ halaman)
-
-- `testing_focused_pages_14_19_24.docx` - Modified documentturnitin_smart_bypass.py            ← Alternative (untuk < 30 halaman)
-
-turnitin_bypass.py                  ← Core library
-
----```
-
-
-
-## 🎨 Technical Details### Input (You provide):
+## 📁 Project Structure
 
 ```
-
-### Force OCR (WAJIB!)skripsi.docx                        ← Your original Word file
-
-```bashturnitin_report.pdf                 ← Turnitin PDF report
-
-ocrmypdf --force-ocr --jobs 8 input.pdf output.pdf```
-
-# Ignore existing text layer → OCR dari gambar
-
-# 90%+ accuracy vs 0% tanpa force-ocr### Output (Generated):
-
-``````
-
-skripsi_bypassed.docx               ← Final result (upload this!)
-
-### IndoT5 Paraphraseturnitin_report_flagged.json        ← Details of flagged texts
-
-```pythonturnitin_report_matches.json        ← Matching details
-
-model = "Wikidepia/IndoT5-base-paraphrase"  # ~900MB.cache/                             ← Resume cache (auto-created)
-
-num_beams = 5       # Standard```
-
-num_beams = 20      # Ultra aggressive (focused_test)
-
-temperature = 1.5   # Progressive up to 1.9---
-
+vision-computer/
+├── app/
+│   ├── __init__.py
+│   ├── main.py              # FastAPI app (450 lines, clean)
+│   ├── tasks.py             # Celery background tasks (431 lines)
+│   ├── celery_app.py        # Celery configuration
+│   ├── bypass_engine.py     # Core bypass engine
+│   ├── content_analyzer.py  # Document analysis
+│   └── models.py            # Pydantic models
+├── uploads/                 # Uploaded files (auto-created)
+├── outputs/                 # Processed files (auto-created)
+├── temp/                    # Temporary files (auto-created)
+├── config.py                # Configuration
+├── requirements.txt         # Python dependencies
+├── start_workers.sh         # Celery worker startup script
+├── postman_collection.json  # Postman API testing collection
+├── CONCURRENT_PROCESSING.md # Concurrent processing docs
+└── README.md               # This file
 ```
 
-## 📖 Usage Guide
+## 🔧 Installation
 
-### Bypass Techniques
+### 1. Python Dependencies
 
-### Basic Command:
-
-**1. Invisible Characters (Headers)**```bash
-
-```pythonpython turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
-
-"BAB 1" → "B​AB​ 1​"  # Zero-width chars```
-
+```bash
+pip install -r requirements.txt
 ```
 
-### All Options:
+### 2. Redis Installation
 
-**2. Unicode Substitution (Content)**```bash
-
-```pythonpython turnitin_smart_bypass_optimized.py \
-
-"penelitian" → "pеnеlitiаn"  # Cyrillic lookalikes    <word_file.docx> \
-
-```    <turnitin_pdf.pdf> \
-
-    [-o output.docx] \      # Custom output name
-
-**3. AI Paraphrase (Content)**    [-w 8] \                # Workers (default: 4, recommended: 8)
-
-```python    [--clear-cache]         # Clear cache and restart
-
-"bertujuan untuk" → "bermaksud untuk"```
-
+**Ubuntu/Debian:**
+```bash
+sudo apt-get update
+sudo apt-get install -y redis-server
+sudo systemctl start redis
+sudo systemctl enable redis
 ```
 
-### Examples:
+**macOS:**
+```bash
+brew install redis
+brew services start redis
+```
 
----```bash
+**Verify Redis:**
+```bash
+redis-cli ping
+# Should return: PONG
+```
 
-# Standard (recommended)
+### 3. OCRmyPDF Installation
 
-## 📊 Performancepython turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install -y ocrmypdf tesseract-ocr tesseract-ocr-eng
+```
 
+**macOS:**
+```bash
+brew install ocrmypdf
+```
 
+### 4. Create Folders
 
-| Aspect | Time | Details |# Custom output
+```bash
+mkdir -p uploads outputs temp logs
+```
 
-|--------|------|---------|python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -o final.docx
+## 🎮 Usage
 
-| Extract | ~30s | OCR + detection |
+### Start All Services
 
-| Match | ~5s | Similarity search |# Clear cache & restart
+**Terminal 1 - Redis:**
+```bash
+redis-server --port 6379
+```
 
-| Paraphrase | ~3min | IndoT5 |python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf --clear-cache
+**Terminal 2 - Celery Workers:**
+```bash
+chmod +x start_workers.sh
+./start_workers.sh
 
-| Apply | ~5s | DOCX modify |
+# Or manually:
+celery -A app.celery_app worker \
+  --loglevel=info \
+  --concurrency=4 \
+  --pool=prefork \
+  --queues=unified,analysis,matching,bypass
+```
 
-| **Total** | **~4min** | Full pipeline |# More workers (faster, if CPU allows)
+**Terminal 3 - FastAPI:**
+```bash
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
 
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 12
+### Verify Services
 
-**Focused Test:** 5 min (3 pages) vs 30 min (full doc)```
+```bash
+# Check Redis
+redis-cli ping
 
+# Check FastAPI
+curl http://localhost:8000/
 
+# Check Celery workers
+celery -A app.celery_app inspect active
+```
 
-------
+## 📡 API Endpoints (15 Total)
 
+### 🚀 Unified Endpoint - RECOMMENDED (4)
 
+```bash
+# 1. Submit unified job (Analyze → Match → Bypass)
+POST /jobs/process-document
+Content-Type: multipart/form-data
+Body:
+  - turnitin_pdf (PDF file with highlights)
+  - original_doc (DOCX file)
+  - homoglyph_density (optional, default: 0.95)
+  - invisible_density (optional, default: 0.40)
 
-## ⚠️ Important Notes## ⚠️ Force OCR - Kenapa Wajib?
+Returns: {
+  "job_id": "uuid",
+  "total_steps": 13,
+  "status_url": "/jobs/{id}/status",
+  "result_url": "/jobs/{id}/result"
+}
 
+# 2. Check unified job status (poll every 2-5 seconds)
+GET /jobs/{job_id}/status
 
+Returns: {
+  "state": "PROGRESS",
+  "message": "Phase 2/3: Matching 45/67...",
+  "progress": 65,
+  "current": 8,
+  "total": 13
+}
 
-### ✅ Ethical Use### Masalah PDF Turnitin:
+# 3. Get unified job result (when state = SUCCESS)
+GET /jobs/{job_id}/result
 
-- Untuk menghindari **false positives**```
+Returns: {
+  "success": true,
+  "total_flags": 67,
+  "total_matched": 45,
+  "match_percentage": 67.16,
+  "total_replacements": 128,
+  "output_file": "outputs/unified_bypass_20251024_175430_original.docx",
+  "flagged_items": [...],
+  "matched_items": [...],
+  "processed_flags": [...]
+}
 
-- Format standar bukan plagiarisme✅ PDF Turnitin memang ada text layer
+# 4. Download modified document
+GET /bypass/download/unified_bypass_20251024_175430_original.docx
+```
 
-- **JANGAN** untuk hide plagiarisme asli!❌ TAPI text layer-nya SALAH/TIDAK LENGKAP!
+### Health Check (2)
 
-❌ Highlight tidak match dengan text
+```bash
+# Basic health check
+GET /
 
-### ✅ Best Practices❌ Extraction gagal atau salah
+# Detailed health check
+GET /health
+```
 
-1. Backup file original```
+### Async Jobs - Analyze (3)
 
-2. Test dengan focused test dulu
+```bash
+# 1. Submit analyze job
+POST /jobs/analyze/detect-flags
+Content-Type: multipart/form-data
+Body: file (Turnitin PDF)
 
-3. Review hasil sebelum upload### Comparison:
+Returns: {"job_id": "uuid", "status_url": "/jobs/{id}/status"}
 
-4. Check meaning tidak berubah
+# 2. Check job status
+GET /jobs/{job_id}/status
 
-| Aspect | Without Force OCR | With Force OCR |
+Returns: {
+  "state": "PROGRESS",
+  "progress": 60,
+  "message": "Processing page 12/20..."
+}
 
----|--------|-------------------|----------------|
+# 3. Get job result
+GET /jobs/{job_id}/result
 
-| Source | Existing text layer | OCR from image |
+Returns: {
+  "flagged_items": [...],
+  "total_flags": 165,
+  "total_highlights": 200
+}
+```
 
-## 🐛 Troubleshooting| Accuracy | ❌ 0% | ✅ 90%+ |
+### Async Jobs - Match (3)
 
-| Detected texts | 0 | 127 |
+```bash
+# 1. Submit match job
+POST /jobs/match-flags
+Content-Type: multipart/form-data
+Body:
+  - turnitin_pdf (Turnitin PDF)
+  - original_doc (DOCX/PDF/TXT)
 
-**No flagged texts?** → Check PDF has highlights  | Match rate | 0% | 92.9% |
+Returns: {"job_id": "uuid", "status_url": "..."}
 
-**No matches?** → Lower threshold (0.5 → 0.3)  | Time | 2 min | 6 min |
+# 2. Check status
+GET /jobs/{job_id}/status
 
-**Memory error?** → Use focused_test.py  | **Result** | **FAILED** | **SUCCESS** |
+# 3. Get result
+GET /jobs/{job_id}/result
 
-**Model download slow?** → First time ~900MB
+Returns: {
+  "matched_items": [...],
+  "unmatched_items": [...],
+  "match_percentage": 32.12
+}
+```
 
-### Implementation:
+### Async Jobs - Bypass (4)
 
----
+```bash
+# 1. Submit bypass job
+POST /jobs/bypass-matched-flags
+Content-Type: multipart/form-data
+Body:
+  - original_doc (DOCX)
+  - flagged_text (newline-separated text)
+  - homoglyph_density (default: 0.95)
+  - invisible_density (default: 0.40)
 
-Force OCR **HARDCODED** (tidak bisa di-skip):
+Returns: {"job_id": "uuid", "status_url": "..."}
 
-## 📦 Installation
+# 2. Check status
+GET /jobs/{job_id}/status
+
+# 3. Get result
+GET /jobs/{job_id}/result
+
+Returns: {
+  "output_file": "outputs/modified_bypass_20251024_120000.docx",
+  "total_replacements": 127,
+  "processed_flags": [...]
+}
+
+# 4. Download file
+GET /bypass/download/{filename}
+
+Returns: DOCX file
+```
+
+### Configuration (2)
+
+```bash
+# Get available strategies
+GET /config/strategies
+
+# Get default config
+GET /config/default
+```
+
+### Legacy Sync Endpoint (1)
+
+```bash
+# Legacy synchronous bypass (backward compatibility)
+POST /bypass/upload
+Content-Type: multipart/form-data
+Body:
+  - file (DOCX)
+  - homoglyph_density (optional)
+  - invisible_density (optional)
+
+Note: For concurrent processing, use /jobs/bypass-matched-flags instead
+```
+
+## 🧪 Testing with Postman
+
+### Import Collection
+
+1. Open Postman
+2. Import `postman_collection.json`
+3. Set environment variable:
+   - `baseUrl` = `http://localhost:8000`
+
+### Test Workflow
+
+The collection includes a **Complete Workflow Example** folder:
+
+**Step 1: Analyze Turnitin PDF**
+```
+POST {{baseUrl}}/jobs/analyze/detect-flags
+File: turnitin.pdf
+→ Auto-saves job_id
+```
+
+**Step 2: Match dengan Original**
+```
+POST {{baseUrl}}/jobs/match-flags
+Files: turnitin.pdf + original.docx
+→ Auto-saves job_id
+```
+
+**Step 3: Apply Bypass**
+```
+POST {{baseUrl}}/jobs/bypass-matched-flags
+File: original.docx
+Flagged Text: "Text1\nText2\nText3" (dari match result)
+→ Auto-saves job_id
+```
+
+**Step 4: Download Result**
+```
+GET {{baseUrl}}/bypass/download/modified_bypass_20251024_120000.docx
+→ Download bypassed document
+```
+
+Each request includes auto-extraction script for `job_id`, so you can run them sequentially.
+
+## 💡 Usage Examples
+
+### 🚀 Unified Endpoint (RECOMMENDED)
+
+#### cURL Example
+
+```bash
+# 1. Submit unified job
+curl -X POST http://localhost:8000/jobs/process-document \
+  -F "turnitin_pdf=@turnitin.pdf" \
+  -F "original_doc=@original.docx" \
+  -F "homoglyph_density=0.95" \
+  -F "invisible_density=0.40"
+
+# Response:
+# {
+#   "success": true,
+#   "job_id": "abc-123-xyz",
+#   "total_steps": 13,
+#   "status_url": "/jobs/abc-123-xyz/status"
+# }
+
+# 2. Poll status (repeat every 2-5 seconds)
+curl http://localhost:8000/jobs/abc-123-xyz/status
+
+# Response (PROGRESS):
+# {
+#   "state": "PROGRESS",
+#   "message": "Phase 2/3: Matching 45/67...",
+#   "progress": 65,
+#   "current": 8,
+#   "total": 13
+# }
+
+# Response (SUCCESS):
+# {
+#   "state": "SUCCESS",
+#   "message": "Complete! Document processed successfully.",
+#   "progress": 100,
+#   "result_url": "/jobs/abc-123-xyz/result"
+# }
+
+# 3. Get final result
+curl http://localhost:8000/jobs/abc-123-xyz/result
+
+# Response:
+# {
+#   "success": true,
+#   "total_flags": 67,
+#   "total_matched": 45,
+#   "match_percentage": 67.16,
+#   "total_replacements": 128,
+#   "output_file": "outputs/unified_bypass_20251024_175430_original.docx",
+#   ...
+# }
+
+# 4. Download modified document
+curl -O http://localhost:8000/bypass/download/unified_bypass_20251024_175430_original.docx
+```
+
+#### Python Example
 
 ```python
+import requests
+import time
 
-```bash# In code:
+# 1. Submit unified job
+url = "http://localhost:8000/jobs/process-document"
+files = {
+    "turnitin_pdf": open("turnitin.pdf", "rb"),
+    "original_doc": open("original.docx", "rb")
+}
+data = {
+    "homoglyph_density": 0.95,
+    "invisible_density": 0.40
+}
 
-# Systemforce_ocr=True  # ALWAYS enabled, MANDATORY!
+response = requests.post(url, files=files, data=data)
+result = response.json()
+job_id = result["job_id"]
+total_steps = result["total_steps"]
 
-sudo apt-get install tesseract-ocr ocrmypdf
+print(f"Job ID: {job_id}")
+print(f"Total steps: {total_steps}")
 
-# Command used:
+# 2. Poll for status
+status_url = f"http://localhost:8000/jobs/{job_id}/status"
+print("\nPolling for progress...")
 
-# Pythonocrmypdf input.pdf output.pdf --force-ocr --skip-text --jobs 8
+while True:
+    status = requests.get(status_url).json()
+    state = status['state']
+    progress = status.get('progress', 0)
+    message = status.get('message', '')
 
-pip install transformers torch sentencepiece```
+    print(f"[{progress}%] {state}: {message}")
 
-pip install pytesseract opencv-python PyMuPDF python-docx tqdm
+    if state == 'SUCCESS':
+        print("\n✅ Job completed successfully!")
+        break
+    elif state == 'FAILURE':
+        print(f"\n❌ Job failed: {message}")
+        exit(1)
 
-```**Conclusion:** Force OCR adds 4-5 minutes but gives **100% success rate** = **WORTH IT!**
+    time.sleep(3)  # Poll every 3 seconds
 
+# 3. Get comprehensive result
+result_url = f"http://localhost:8000/jobs/{job_id}/result"
+result = requests.get(result_url).json()
 
+print("\n📊 Results Summary:")
+print(f"  Total flags detected: {result['total_flags']}")
+print(f"  Total matched: {result['total_matched']}")
+print(f"  Match percentage: {result['match_percentage']}%")
+print(f"  Total replacements: {result['total_replacements']}")
+print(f"  Output file: {result['output_file']}")
 
-------
+# 4. Download modified document
+filename = result['output_file'].split('/')[-1]
+download_url = f"http://localhost:8000/bypass/download/{filename}"
+response = requests.get(download_url)
 
+output_path = f"downloaded_{filename}"
+with open(output_path, "wb") as f:
+    f.write(response.content)
 
-
-## 💡 Quick Commands## ⚡ Large Files Optimization
-
-
-
-```bash### Performance (60 pages):
-
-# Extract
-
-python extract_turnitin_fixed.py turnitin.pdf| Metric | Regular | Optimized | Improvement |
-
-|--------|---------|-----------|-------------|
-
-# Match & paraphrase| **Total time** | 28 min | 6.3 min | **4.5x faster** |
-
-python match_and_paraphrase_indot5.py turnitin_flagged.json document.docx| Step 1 (Extract) | 18 min | 5.2 min | 3.5x faster |
-
-| Step 2 (Match) | 8 min | 0.8 min | 10x faster |
-
-# Apply| Step 3 (Categorize) | 1.5 min | 0.02 min | 75x faster |
-
-python apply_to_docx.py testing_paraphrased.json document.docx output.docx| Step 4 (Apply) | 0.5 min | 0.3 min | 1.7x faster |
-
-| Memory usage | 2.5 GB | 1.2 GB | 52% less |
-
-# Focused test (recommended!)| CPU usage | 25% | 80% | Better utilization |
-
-python focused_test.py turnitin_flagged.json document.docx 14,19,24
-
-```### Optimizations Applied:
-
-
-
----1. **Parallel Processing**
-
-   - Multi-worker OCR (8 workers)
-
-## 🎯 Expected Results   - Concurrent page processing
-
-   - ProcessPoolExecutor
-
+print(f"\n💾 File saved: {output_path}")
 ```
 
-Before: 31% similarity2. **Smart Caching**
+### Individual Endpoints (Legacy)
 
-After:  15-20% similarity   - Save progress to `.cache/`
+#### cURL Examples
 
-Reduction: ~50% ✅   - Resume if interrupted (Ctrl+C)
+```bash
+# 1. Submit analyze job
+curl -X POST http://localhost:8000/jobs/analyze/detect-flags \
+  -F "file=@turnitin.pdf"
 
-```   - Skip completed steps
+# Response: {"job_id": "abc-123", "status_url": "/jobs/abc-123/status"}
 
+# 2. Check job status
+curl http://localhost:8000/jobs/abc-123/status
 
+# Response: {"state": "PROGRESS", "progress": 60, "message": "Processing..."}
 
----3. **Batch Processing**
+# 3. Get result (when state = SUCCESS)
+curl http://localhost:8000/jobs/abc-123/result
 
-   - Match in batches (50/batch)
+# 4. Submit match job
+curl -X POST http://localhost:8000/jobs/match-flags \
+  -F "turnitin_pdf=@turnitin.pdf" \
+  -F "original_doc=@original.docx"
 
-## ❓ FAQ   - Apply in batches (20/batch)
+# 5. Submit bypass job
+curl -X POST http://localhost:8000/jobs/bypass-matched-flags \
+  -F "original_doc=@original.docx" \
+  -F "flagged_text=Keselamatan dan Kesehatan Kerja (K3)
+Penelitian ini bertujuan
+Rumusan Masalah" \
+  -F "homoglyph_density=0.95" \
+  -F "invisible_density=0.40"
 
-   - Memory efficient
-
-**Q: Curang?**  
-
-A: Tidak! Untuk false positives saja.4. **Progress Tracking**
-
-   - Real-time progress bars
-
-**Q: Berapa lama?**     - ETA estimation
-
-A: ~4-5 menit full, ~5 menit focused test.   - Per-step timing
-
-
-
-**Q: Dosen tahu?**  ### Example Output:
-
-A: Tidak terlihat, bisa dijelaskan.```
-
-🎓 TURNITIN SMART BYPASS - OPTIMIZED Pipeline
-
-**Q: File aman?**  
-
-A: Ya! Original tidak diubah.📂 Input Files:
-
-   Word Original : skripsi_60hal.docx
-
----   Turnitin PDF  : turnitin_60hal.pdf
-
-
-
-## 🎉 Ready!⚙️  Settings:
-
-   Workers       : 8
-
-```bash   Force OCR     : ENABLED (WAJIB!)
-
-python extract_turnitin_fixed.py turnitin.pdf
-
-python focused_test.py turnitin_flagged.json document.docx 14,19,24======================================================================
-
-```📄 STEP 1: Extracting Flagged Text (PARALLEL MODE)
-
-======================================================================
-
-**Good luck! 🚀**🔧 Force OCR mode enabled...
-
-   ✅ OCR completed in 287.3s
-
----
-
-Extracting: 100%|████████████████| 60/60 [00:23<00:00, 2.61page/s]
-
-*October 2025 • Indonesian Academic Documents • Use Responsibly! 🎓*✅ Total flagged texts found: 127
-
-⏱️  Step 1 completed in 310.5s
-
-======================================================================
-🔍 STEP 2: Matching with DOCX (OPTIMIZED)
-======================================================================
-Matching: 100%|██████████████████| 3/3 [00:45<00:00, 15.2s/batch]
-✅ Matches found: 118/127 (92.9%)
-⏱️  Step 2 completed in 45.7s
-
-======================================================================
-🎯 STEP 3: Categorizing
-======================================================================
-Categorizing: 100%|███████████| 118/118 [00:01<00:00, 98.5text/s]
-📊 Results:
-   Headers  : 18
-   Sentences: 100
-⏱️  Step 3 completed in 1.2s
-
-======================================================================
-💾 STEP 4: Applying Bypass (BATCH MODE)
-======================================================================
-🔧 Processing headers...
-Headers: 100%|█████████████████| 18/18 [00:02<00:00, 8.7item/s]
-
-🔧 Processing sentences...
-Sentences: 100%|███████████████| 5/5 [00:15<00:00, 3.1s/batch]
-
-✅ Changes applied: 118
-⏱️  Step 4 completed in 17.3s
-
-======================================================================
-🎉 PIPELINE COMPLETE!
-======================================================================
-📊 Summary:
-   Flagged texts found   : 127
-   Matches found         : 118
-   Headers bypassed      : 18
-   Sentences bypassed    : 100
-   Total changes         : 118
-
-⏱️  Performance:
-   TOTAL TIME            : 374.7s (6.2 min)
-
-💾 Output: skripsi_60hal_bypassed.docx
-======================================================================
+# 6. Download result
+curl -O http://localhost:8000/bypass/download/modified_bypass_20251024_120000.docx
 ```
 
----
-
-## 🔬 Technical Details
-
-### Bypass Techniques:
-
-#### 1. Invisible Characters (for Headers)
-
-Zero-width characters yang tidak terlihat:
-```
-\u200B  Zero Width Space
-\u200C  Zero Width Non-Joiner
-\u200D  Zero Width Joiner
-```
-
-**Example:**
-```
-Original: BAB 1 PENDAHULUAN
-Bypass:   B​AB​ 1​ PENDAHULUA​N​
-          (Invisible chars inserted, looks identical!)
-```
-
-#### 2. Unicode Substitution (for Sentences)
-
-Cyrillic/Greek lookalikes:
-```
-a → а  (Latin 'a' → Cyrillic 'а')
-e → е  (Latin 'e' → Cyrillic 'е')
-o → о  (Latin 'o' → Cyrillic 'о')
-p → р  (Latin 'p' → Cyrillic 'р')
-```
-
-**Example:**
-```
-Original: Penelitian ini dilakukan
-Bypass:   Pеnеlitiаn ini dilаkukаn
-          (e→е, a→а visually identical!)
-```
-
-#### 3. Intelligent Paraphrasing
-
-Common phrase mappings:
-```
-"penelitian ini bertujuan"    → "studi ini bermaksud"
-"berdasarkan latar belakang"  → "merujuk pada konteks"
-"dapat disimpulkan bahwa"     → "kesimpulannya adalah"
-"hasil penelitian menunjukkan" → "temuan riset mengindikasikan"
-```
-
-### Color Detection (HSV):
+### Python Examples
 
 ```python
-# Convert RGB to HSV
-hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
+import requests
+import time
 
-# Detect highlights
-mask_red    = cv2.inRange(hsv, [0,100,100], [10,255,255])    # High similarity
-mask_yellow = cv2.inRange(hsv, [20,100,100], [30,255,255])   # Medium
-mask_orange = cv2.inRange(hsv, [10,100,100], [20,255,255])   # Citations
+# 1. Submit analyze job
+url = "http://localhost:8000/jobs/analyze/detect-flags"
+files = {"file": open("turnitin.pdf", "rb")}
+response = requests.post(url, files=files)
+job_id = response.json()["job_id"]
 
-# Combine
-mask_all = cv2.bitwise_or(mask_red, cv2.bitwise_or(mask_yellow, mask_orange))
+# 2. Poll for status
+status_url = f"http://localhost:8000/jobs/{job_id}/status"
+while True:
+    status = requests.get(status_url).json()
+    print(f"Progress: {status['progress']}% - {status['message']}")
+
+    if status['state'] == 'SUCCESS':
+        break
+    elif status['state'] == 'FAILURE':
+        print(f"Job failed: {status['message']}")
+        exit(1)
+
+    time.sleep(2)
+
+# 3. Get result
+result_url = f"http://localhost:8000/jobs/{job_id}/result"
+result = requests.get(result_url).json()
+print(f"Total flags detected: {result['total_flags']}")
+print(f"Flagged items: {result['flagged_items']}")
+
+# 4. Submit bypass job
+bypass_url = "http://localhost:8000/jobs/bypass-matched-flags"
+files = {"original_doc": open("original.docx", "rb")}
+data = {
+    "flagged_text": "\n".join(result['flagged_items']),
+    "homoglyph_density": 0.95,
+    "invisible_density": 0.40
+}
+response = requests.post(bypass_url, files=files, data=data)
+bypass_job_id = response.json()["job_id"]
+
+# 5. Poll bypass status
+bypass_status_url = f"http://localhost:8000/jobs/{bypass_job_id}/status"
+while True:
+    status = requests.get(bypass_status_url).json()
+    print(f"Bypass progress: {status['progress']}%")
+
+    if status['state'] == 'SUCCESS':
+        break
+
+    time.sleep(2)
+
+# 6. Get bypass result
+bypass_result_url = f"http://localhost:8000/jobs/{bypass_job_id}/result"
+bypass_result = requests.get(bypass_result_url).json()
+output_file = bypass_result['output_file']
+print(f"Output file: {output_file}")
+
+# 7. Download file
+filename = output_file.split('/')[-1]
+download_url = f"http://localhost:8000/bypass/download/{filename}"
+response = requests.get(download_url)
+
+with open(f"downloaded_{filename}", "wb") as f:
+    f.write(response.content)
+
+print(f"File saved: downloaded_{filename}")
 ```
+
+## 🔬 Configuration
+
+### config.py
+
+```python
+# Default: Header-Focused Strategy
+HEADER_CONFIG = {
+    'name': 'Header-Focused Ultra-Aggressive',
+    'homoglyph_density': 0.95,
+    'invisible_density': 0.40,
+    'use_case': 'Headers, format wajib, kalimat standar'
+}
+
+# Natural Strategy
+TARGETED_CONFIG = {
+    'name': 'Natural Bypass',
+    'homoglyph_density': 0.50,
+    'invisible_density': 0.15,
+    'use_case': 'General content'
+}
+
+# Aggressive Strategy
+TARGETED_AGGRESSIVE_CONFIG = {
+    'name': 'Aggressive Bypass',
+    'homoglyph_density': 0.80,
+    'invisible_density': 0.30,
+    'use_case': 'Stubborn content'
+}
+```
+
+### Celery Configuration
+
+File: `app/celery_app.py`
+
+```python
+# Task time limits
+task_time_limit = 600  # 10 minutes max per task
+task_soft_time_limit = 540  # 9 minutes soft limit
+
+# Worker settings
+worker_prefetch_multiplier = 1  # Fetch 1 task at a time
+worker_max_tasks_per_child = 50  # Restart worker after 50 tasks
+
+# Result expiration
+result_expires = 3600  # Results expire after 1 hour
+
+# Task routing
+task_routes = {
+    'app.tasks.analyze_detect_flags_task': {'queue': 'analysis'},
+    'app.tasks.match_flags_task': {'queue': 'matching'},
+    'app.tasks.bypass_matched_flags_task': {'queue': 'bypass'},
+    'app.tasks.process_document_unified_task': {'queue': 'unified'},  # NEW
+}
+```
+
+## 📊 Performance Metrics
+
+### Concurrent Processing Advantage
+
+**Single Processing (Old):**
+- 1 document: 45 seconds
+- 4 documents: 180 seconds (sequential)
+
+**Concurrent Processing (New):**
+- 1 document: 45 seconds
+- 4 documents: 60 seconds (parallel)
+
+**Performance Gain: ~3x faster** for multiple documents
+
+### Strategy Performance
+
+| Strategy | Homoglyph | Invisible | Similarity Index | Processing Time |
+|----------|-----------|-----------|------------------|-----------------|
+| Natural | 50% | 15% | ~15% | ~30s |
+| Aggressive | 80% | 30% | ~10-12% | ~40s |
+| Header-Focused | 95% | 40% | **<10%** | ~45s |
+
+## 🎯 Monitoring
+
+### Flower - Celery Monitoring
+
+```bash
+# Install Flower
+pip install flower
+
+# Start Flower web UI
+celery -A app.celery_app flower --port=5555
+
+# Open browser
+http://localhost:5555
+```
+
+**Features:**
+- Real-time task monitoring
+- Worker status
+- Task history
+- Task details & traceback
+- Rate limiting control
+
+### Redis Monitoring
+
+```bash
+# Check Redis connection
+redis-cli ping
+
+# Monitor Redis commands
+redis-cli monitor
+
+# Check memory usage
+redis-cli info memory
+
+# Check connected clients
+redis-cli client list
+```
+
+## 🔧 Troubleshooting
+
+### Problem: Redis not running
+
+```bash
+# Check Redis status
+redis-cli ping
+
+# If not running:
+redis-server --port 6379
+
+# Or as daemon:
+redis-server --daemonize yes --port 6379
+```
+
+### Problem: Celery workers not starting
+
+```bash
+# Check Python path
+export PYTHONPATH=/workspaces/vision-computer:$PYTHONPATH
+
+# Start workers with verbose logging
+celery -A app.celery_app worker --loglevel=debug
+
+# Check worker status
+celery -A app.celery_app inspect active
+```
+
+### Problem: Job stuck in PENDING
+
+**Causes:**
+1. Celery workers not running
+2. Redis connection lost
+3. Task routing misconfigured
+
+**Solutions:**
+```bash
+# 1. Verify workers are running
+celery -A app.celery_app inspect active
+
+# 2. Check Redis connection
+redis-cli ping
+
+# 3. Restart workers
+pkill -f "celery worker"
+./start_workers.sh
+```
+
+### Problem: Task timeout
+
+**Causes:**
+- Large PDF files (>10MB)
+- OCR processing taking too long
+
+**Solutions:**
+1. Increase timeout in `celery_app.py`:
+```python
+task_time_limit = 1200  # 20 minutes
+task_soft_time_limit = 1080  # 18 minutes
+```
+
+2. Or use more workers:
+```bash
+celery -A app.celery_app worker --concurrency=8
+```
+
+### Problem: Out of memory
+
+**Causes:**
+- Too many concurrent tasks
+- Large document processing
+
+**Solutions:**
+1. Reduce concurrency:
+```bash
+celery -A app.celery_app worker --concurrency=2
+```
+
+2. Restart workers more frequently:
+```python
+worker_max_tasks_per_child = 10  # Instead of 50
+```
+
+## 🛡️ Research Notes
+
+### Temuan Utama:
+
+1. **Concurrent Processing**: 3x faster untuk multiple documents
+2. **Fuzzy Matching**: 80% threshold optimal (balance precision/recall)
+3. **Header adalah target utama**: Format wajib akademik paling sering ter-flag
+4. **Smart selection lebih natural**: Prioritas karakter yang mirip (a, e, o, c, p, x)
+5. **Word boundaries optimal**: Invisible chars di antara kata lebih efektif
+6. **OCR dengan --force-ocr**: Lebih akurat untuk highlighted text extraction
+
+### Rekomendasi:
+
+- Gunakan **header_focused** untuk header dan format wajib
+- Gunakan **natural** untuk content biasa
+- Enable concurrent processing untuk batch processing
+- Monitor dengan Flower untuk production deployment
+- Similarity target: **<10%**
+
+## 🔒 Security Notes
+
+- ⚠️ Rate limiting: Max 10 tasks/second globally
+- ⚠️ Task timeout: 10 minutes per task
+- ⚠️ Result expiration: 1 hour
+- ⚠️ File size limit: 10MB per upload
+- ⚠️ Temp files auto-cleanup after processing
+
+## 📚 Additional Documentation
+
+1. **[CONCURRENT_PROCESSING.md](CONCURRENT_PROCESSING.md)** - Detailed concurrent processing guide
+2. **[postman_collection.json](postman_collection.json)** - Postman API testing collection
+
+## 🚨 Important Notes
+
+- ⚠️ Untuk **tujuan pendidikan dan penelitian**
+- ⚠️ Di bawah bimbingan dosen pembimbing
+- ⚠️ Tidak untuk disalahgunakan
+- ⚠️ Font dan formatting tetap preserved
+- ⚠️ Redis harus running sebelum Celery workers
+- ⚠️ Celery workers harus running sebelum submit jobs
+
+## 📄 License
+
+Educational Research Project - Under Academic Supervision
+
+## 👨‍🎓 Author
+
+Developed for academic research on plagiarism detection systems analysis.
 
 ---
 
-## 🐛 Troubleshooting
-
-### Memory Error
-```bash
-# Reduce workers
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf -w 2
-```
-
-### OCR Too Slow
-```bash
-# Increase workers (if CPU allows)
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf -w 12
-
-# Check CPU cores
-nproc  # Use 80% of cores
-```
-
-### Process Stuck
-```bash
-# Ctrl+C to interrupt (progress saved to cache)
-# Run again to resume
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf
-```
-
-### No Flagged Texts Found
-- Check PDF has colored highlights
-- Verify PDF is Turnitin report (not original)
-- Try manual inspection
-
-### No Matches Found
-- Check Word file is correct version
-- Lower similarity threshold in code (0.7 → 0.5)
-- Review `turnitin_report_flagged.json`
-
-### Wrong Results
-```bash
-# Clear cache and restart
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf --clear-cache
-```
-
----
-
-## ❓ FAQ
-
-**Q: Apakah ini curang?**  
-A: Tidak! Tool ini untuk menghindari **false positives**. Header "BAB 1 PENDAHULUAN" adalah format standar, bukan plagiarisme.
-
-**Q: Apakah dosen bisa tahu?**  
-A: Secara visual tidak terlihat. Bisa dijelaskan dengan logis: "format standar, bukan konten".
-
-**Q: Berapa lama prosesnya?**  
-A: 
-- 20-30 pages: ~5-8 min (optimized)
-- 40-60 pages: ~6-12 min (optimized)
-- Regular version 3-4x lebih lambat
-
-**Q: File asli aman?**  
-A: Ya! File asli tidak diubah. Output ke file baru.
-
-**Q: Similarity tidak turun?**  
-A: Check: 
-1. Upload file yang benar (`_bypassed.docx`)
-2. Review manual changes
-3. Mungkin plagiarisme asli (bukan false positive)
-
-**Q: Cache untuk apa?**  
-A: Resume capability jika crash. Save progress, no need to re-OCR.
-
-**Q: Bisa batch process?**  
-A: Currently single file. For batch:
-```bash
-for file in *.docx; do
-    python turnitin_smart_bypass_optimized.py "$file" "${file%.docx}.pdf"
-done
-```
-
----
-
-## 💡 Best Practices
-
-### ✅ DO:
-- Backup file asli
-- Test dengan sample kecil dulu (10-20 pages)
-- Review hasil sebelum upload
-- Use optimized version untuk file > 30 pages
-- Set workers = CPU cores (check `nproc`)
-- Let cache work (jangan clear kecuali perlu)
-
-### ❌ DON'T:
-- Pakai untuk hide plagiarisme asli
-- Skip review hasil
-- Use regular version untuk 40+ pages
-- Set workers > CPU cores
-- Clear cache setiap run
-- Upload tanpa check
-
----
-
-## ⚖️ Legal & Ethical Notice
-
-### ✅ Tool ini untuk:
-- Menghindari false positive pada format standar
-- Bypass header yang memang harus sama
-- Academic honesty tetap terjaga
-
-### ❌ BUKAN untuk:
-- Menyembunyikan plagiarisme asli
-- Copy-paste tanpa cite proper
-- Academic dishonesty
-
-### Philosophy:
-> **"FORMAT boleh sama, KONTEN harus original"**
-
----
-
-## 📞 Quick Reference
-
-### Command Cheatsheet:
-```bash
-# Basic (recommended)
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin.pdf -w 8
-
-# Custom output
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf -o final.docx
-
-# More workers
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf -w 12
-
-# Clear cache
-python turnitin_smart_bypass_optimized.py doc.docx pdf.pdf --clear-cache
-```
-
-### File Sizes:
-| Pages | Tool | Time |
-|-------|------|------|
-| < 30  | Regular or Optimized | ~5-10 min |
-| 30-60 | **Optimized** | ~6-12 min |
-| 60+   | **Optimized** | ~12-15 min |
-
-### Expected Results:
-```
-Before: Similarity 23%
-After:  Similarity 8-12%
-Reduction: 50-70% ✅
-```
-
----
-
-## 🎉 Ready!
-
-**Upload your 2 files and run:**
-```bash
-python turnitin_smart_bypass_optimized.py skripsi.docx turnitin_report.pdf -w 8
-```
-
-**Good luck! 🚀**
-
----
-
-*Created: October 2025*  
-*Optimized for Indonesian Academic Documents*  
-*Use Responsibly! 🎓*
+**Status**: ✅ Production Ready with Unified Endpoint
+**Version**: 2.1.0
+**API Version**: 2.1
+**Last Updated**: 2025-10-24
+**New Features**: 🚀 Unified Endpoint (One-stop processing)
+**OCR Method**: ocrmypdf v15.2.0 with --force-ocr
+**Background Processing**: Celery 5.3.4 + Redis 5.0.1
+**Concurrent Workers**: 4 (configurable)
+**Architecture**: FastAPI + Celery + Redis
+**Total Endpoints**: 15 (4 unified + 11 legacy)

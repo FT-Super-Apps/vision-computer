@@ -1,0 +1,648 @@
+{
+	"info": {
+		"_postman_id": "turnitin-bypass-api",
+		"name": "Turnitin Bypass API v2.1",
+		"description": "Complete API collection untuk Turnitin Bypass System dengan concurrent processing (Celery + Redis)\n\n🚀 RECOMMENDED: Use the Unified Endpoint for one-stop processing (Analyze → Match → Bypass in one request)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "job_id",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Root - Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/",
+							"host": ["{{baseUrl}}"],
+							"path": [""]
+						},
+						"description": "Simple health check endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "Detailed Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["health"]
+						},
+						"description": "Detailed health check dengan folder status"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints untuk check API health"
+		},
+		{
+			"name": "🚀 Unified Endpoint (RECOMMENDED)",
+			"item": [
+				{
+					"name": "1. Submit Unified Job (Analyze → Match → Bypass)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"job_id\", jsonData.job_id);",
+									"console.log('Job ID:', jsonData.job_id);",
+									"console.log('Total Steps:', jsonData.total_steps);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "turnitin_pdf",
+									"type": "file",
+									"src": "/path/to/turnitin.pdf",
+									"description": "Turnitin PDF with highlighted plagiarism"
+								},
+								{
+									"key": "original_doc",
+									"type": "file",
+									"src": "/path/to/original.docx",
+									"description": "Original document (DOCX only)"
+								},
+								{
+									"key": "homoglyph_density",
+									"value": "0.95",
+									"type": "text",
+									"description": "Homoglyph density 0.0-1.0 (default: 0.95)"
+								},
+								{
+									"key": "invisible_density",
+									"value": "0.40",
+									"type": "text",
+									"description": "Invisible chars density 0.0-1.0 (default: 0.40)"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/process-document",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "process-document"]
+						},
+						"description": "🚀 ONE-STOP UNIFIED PROCESSING\n\nCombines all 3 phases in one request:\n\n**Phase 1/3: ANALYZE (Steps 1-5)**\n- Run OCRmyPDF on Turnitin PDF\n- Detect colored highlights\n- Extract flagged text items\n\n**Phase 2/3: MATCH (Steps 6-9)**\n- Extract text from original document\n- Fuzzy match flags with original (80% threshold)\n- Separate matched vs unmatched items\n\n**Phase 3/3: BYPASS (Steps 10-13)**\n- Apply homoglyph replacement to matched items\n- Add invisible characters\n- Save modified document\n\n**Progress Tracking:** 13 unified steps (0% → 100%)\n\n**Input:**\n- turnitin_pdf: PDF file with highlights (required)\n- original_doc: DOCX file (required, bypass only supports DOCX)\n- homoglyph_density: 0.0-1.0 (optional, default: 0.95)\n- invisible_density: 0.0-1.0 (optional, default: 0.40)\n\n**Returns:**\n- job_id: UUID for tracking\n- total_steps: 13\n- status_url: Real-time progress endpoint\n- result_url: Final results endpoint"
+					},
+					"response": []
+				},
+				{
+					"name": "2. Check Unified Job Status (Poll)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "status"]
+						},
+						"description": "Poll this endpoint to track progress.\n\n**States:**\n- PENDING: Job waiting in queue (0%)\n- PROGRESS: Job is processing (1-99%)\n  - Shows current step (1-13)\n  - Shows phase message\n  - Shows progress percentage\n- SUCCESS: Job completed (100%)\n- FAILURE: Job failed\n\n**Response Example (PROGRESS):**\n```json\n{\n  \"job_id\": \"abc-123\",\n  \"state\": \"PROGRESS\",\n  \"message\": \"Phase 2/3: Matching 45/67...\",\n  \"progress\": 65,\n  \"current\": 8,\n  \"total\": 13\n}\n```\n\n**Response Example (SUCCESS):**\n```json\n{\n  \"job_id\": \"abc-123\",\n  \"state\": \"SUCCESS\",\n  \"message\": \"Job completed successfully!\",\n  \"progress\": 100,\n  \"result_url\": \"/jobs/abc-123/result\"\n}\n```\n\n**Polling Strategy:**\n- Poll every 2-5 seconds\n- Stop when state = SUCCESS or FAILURE"
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Unified Job Result",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/result",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "result"]
+						},
+						"description": "Get comprehensive results from completed job.\n\nOnly works when state = SUCCESS.\n\n**Returns:**\n```json\n{\n  \"success\": true,\n  \"turnitin_filename\": \"turnitin.pdf\",\n  \"original_filename\": \"original.docx\",\n  \"original_doc_type\": \"DOCX\",\n  \n  // Phase 1 Results\n  \"total_pages\": 25,\n  \"total_highlights\": 145,\n  \"total_flags\": 67,\n  \"flagged_items\": [\"text1\", \"text2\", ...],\n  \n  // Phase 2 Results\n  \"total_matched\": 45,\n  \"total_unmatched\": 22,\n  \"match_percentage\": 67.16,\n  \"matched_items\": [\n    {\n      \"flagged_text\": \"...\",\n      \"matched_text\": \"...\",\n      \"similarity_score\": 95\n    }\n  ],\n  \"unmatched_items\": [...],\n  \n  // Phase 3 Results\n  \"total_replacements\": 128,\n  \"processed_items\": 45,\n  \"processed_flags\": [\n    {\n      \"flagged_text\": \"...\",\n      \"replacements_made\": 3,\n      \"modified_version\": \"...\"\n    }\n  ],\n  \"output_file\": \"outputs/unified_bypass_20251024_175430_original.docx\",\n  \n  // Settings\n  \"homoglyph_density\": 0.95,\n  \"invisible_density\": 0.40,\n  \"method\": \"Unified: Detect → Match → Bypass\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "4. Download Bypassed Document",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bypass/download/unified_bypass_20251024_175430_original.docx",
+							"host": ["{{baseUrl}}"],
+							"path": ["bypass", "download", "unified_bypass_20251024_175430_original.docx"]
+						},
+						"description": "Download the modified document.\n\n**Replace filename with output_file from result.**\n\nExample:\n```\noutput_file: \"outputs/unified_bypass_20251024_175430_original.docx\"\n→ Use: \"unified_bypass_20251024_175430_original.docx\"\n```"
+					},
+					"response": []
+				}
+			],
+			"description": "🚀 RECOMMENDED: One-stop unified processing\n\nUpload 2 files → Get modified document\n\nAll 3 phases in one request:\n1. Analyze & detect flags from Turnitin PDF\n2. Match flags with original document\n3. Bypass matched items with homoglyphs + invisible chars\n\nProgress: 13 unified steps (0% → 100%)"
+		},
+		{
+			"name": "Async Jobs - Analyze",
+			"item": [
+				{
+					"name": "1. Submit Analyze Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"job_id\", jsonData.job_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/path/to/turnitin.pdf",
+									"description": "Turnitin PDF file dengan colored highlights"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/analyze/detect-flags",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "analyze", "detect-flags"]
+						},
+						"description": "Submit analyze job ke background queue.\n\nProcess:\n- Detect colored highlights dari Turnitin PDF\n- OCR dengan ocrmypdf --force-ocr\n- Extract text dari highlighted areas\n\nReturns job_id untuk tracking."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Check Job Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "status"]
+						},
+						"description": "Check job progress.\n\nStates:\n- PENDING: Waiting in queue (0%)\n- PROGRESS: Processing (1-99%)\n- SUCCESS: Completed (100%)\n- FAILURE: Failed"
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Job Result",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/result",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "result"]
+						},
+						"description": "Get final result dari completed job.\n\nOnly works untuk SUCCESS state."
+					},
+					"response": []
+				}
+			],
+			"description": "Workflow untuk analyze Turnitin PDF (async)"
+		},
+		{
+			"name": "Async Jobs - Match",
+			"item": [
+				{
+					"name": "1. Submit Match Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"job_id\", jsonData.job_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "turnitin_pdf",
+									"type": "file",
+									"src": "/path/to/turnitin.pdf",
+									"description": "Turnitin PDF dengan highlights"
+								},
+								{
+									"key": "original_doc",
+									"type": "file",
+									"src": "/path/to/original.docx",
+									"description": "Original document (DOCX/PDF/TXT)"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/match-flags",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "match-flags"]
+						},
+						"description": "Submit match job ke background queue.\n\nProcess:\n- Extract flagged items dari Turnitin PDF\n- Extract text dari original document\n- Fuzzy matching dengan threshold 80%\n\nReturns matched dan unmatched items."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Check Match Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "status"]
+						},
+						"description": "Poll untuk check match progress"
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Match Result",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/result",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "result"]
+						},
+						"description": "Get matched_items dan unmatched_items"
+					},
+					"response": []
+				}
+			],
+			"description": "Workflow untuk match flagged items dengan original document (async)"
+		},
+		{
+			"name": "Async Jobs - Bypass",
+			"item": [
+				{
+					"name": "1. Submit Bypass Job",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"job_id\", jsonData.job_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "original_doc",
+									"type": "file",
+									"src": "/path/to/original.docx",
+									"description": "Original DOCX file"
+								},
+								{
+									"key": "flagged_text",
+									"value": "Keselamatan dan Kesehatan Kerja (K3)\nPenelitian ini bertujuan\nRumusan Masalah",
+									"type": "text",
+									"description": "Newline-separated flagged texts"
+								},
+								{
+									"key": "homoglyph_density",
+									"value": "0.95",
+									"type": "text",
+									"description": "Homoglyph density (0.0-1.0)"
+								},
+								{
+									"key": "invisible_density",
+									"value": "0.40",
+									"type": "text",
+									"description": "Invisible chars density (0.0-1.0)"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/bypass-matched-flags",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "bypass-matched-flags"]
+						},
+						"description": "Submit bypass job ke background queue.\n\nProcess:\n- Find ALL occurrences dari flagged texts\n- Apply homoglyph (95%) + invisible chars (40%)\n- Save modified document\n\nReturns output file path."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Check Bypass Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "status"]
+						},
+						"description": "Poll untuk check bypass progress"
+					},
+					"response": []
+				},
+				{
+					"name": "3. Get Bypass Result",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/jobs/{{job_id}}/result",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "{{job_id}}", "result"]
+						},
+						"description": "Get output_file path dan processed_flags details"
+					},
+					"response": []
+				},
+				{
+					"name": "4. Download Bypassed File",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bypass/download/modified_bypass_20251024_120000.docx",
+							"host": ["{{baseUrl}}"],
+							"path": ["bypass", "download", "modified_bypass_20251024_120000.docx"]
+						},
+						"description": "Download hasil bypass.\n\nReplace filename dengan output_file dari result."
+					},
+					"response": []
+				}
+			],
+			"description": "Workflow untuk bypass flagged items (async)"
+		},
+		{
+			"name": "Legacy - Sync Bypass",
+			"item": [
+				{
+					"name": "Upload & Bypass (Sync)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/path/to/document.docx",
+									"description": "DOCX file to bypass"
+								},
+								{
+									"key": "homoglyph_density",
+									"value": "0.95",
+									"type": "text",
+									"description": "Optional: Override homoglyph density"
+								},
+								{
+									"key": "invisible_density",
+									"value": "0.40",
+									"type": "text",
+									"description": "Optional: Override invisible density"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/bypass/upload",
+							"host": ["{{baseUrl}}"],
+							"path": ["bypass", "upload"]
+						},
+						"description": "Legacy synchronous bypass endpoint.\n\nUses header_focused strategy (default):\n- Homoglyph: 95%\n- Invisible: 40%\n- Target: Headers & standard phrases\n\nNote: For concurrent processing, use /jobs/bypass-matched-flags"
+					},
+					"response": []
+				},
+				{
+					"name": "Download Result",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/bypass/download/document_bypassed_20251024_120000.docx",
+							"host": ["{{baseUrl}}"],
+							"path": ["bypass", "download", "document_bypassed_20251024_120000.docx"]
+						},
+						"description": "Download hasil bypass dari sync endpoint"
+					},
+					"response": []
+				}
+			],
+			"description": "Legacy synchronous bypass endpoints (for backward compatibility)"
+		},
+		{
+			"name": "Configuration",
+			"item": [
+				{
+					"name": "Get Strategies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/config/strategies",
+							"host": ["{{baseUrl}}"],
+							"path": ["config", "strategies"]
+						},
+						"description": "Get available bypass strategies:\n- natural\n- aggressive\n- header_focused (recommended)"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Default Config",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/config/default",
+							"host": ["{{baseUrl}}"],
+							"path": ["config", "default"]
+						},
+						"description": "Get default configuration values"
+					},
+					"response": []
+				}
+			],
+			"description": "Configuration endpoints"
+		},
+		{
+			"name": "Complete Workflow Example",
+			"item": [
+				{
+					"name": "Step 1: Analyze Turnitin PDF",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"analyze_job_id\", jsonData.job_id);",
+									"",
+									"// Poll untuk check status",
+									"setTimeout(function() {",
+									"    pm.sendRequest({",
+									"        url: pm.variables.get('baseUrl') + '/jobs/' + jsonData.job_id + '/status',",
+									"        method: 'GET'",
+									"    }, function(err, res) {",
+									"        console.log('Status:', res.json());",
+									"    });",
+									"}, 5000);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/path/to/turnitin.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/analyze/detect-flags",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "analyze", "detect-flags"]
+						},
+						"description": "Step 1: Submit analyze job"
+					},
+					"response": []
+				},
+				{
+					"name": "Step 2: Match dengan Original",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"match_job_id\", jsonData.job_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "turnitin_pdf",
+									"type": "file",
+									"src": "/path/to/turnitin.pdf"
+								},
+								{
+									"key": "original_doc",
+									"type": "file",
+									"src": "/path/to/original.docx"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/match-flags",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "match-flags"]
+						},
+						"description": "Step 2: Match flagged items dengan original doc"
+					},
+					"response": []
+				},
+				{
+					"name": "Step 3: Apply Bypass",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"pm.environment.set(\"bypass_job_id\", jsonData.job_id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "original_doc",
+									"type": "file",
+									"src": "/path/to/original.docx"
+								},
+								{
+									"key": "flagged_text",
+									"value": "Text1\nText2\nText3",
+									"type": "text",
+									"description": "Dari match result: matched_items"
+								},
+								{
+									"key": "homoglyph_density",
+									"value": "0.95",
+									"type": "text"
+								},
+								{
+									"key": "invisible_density",
+									"value": "0.40",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/jobs/bypass-matched-flags",
+							"host": ["{{baseUrl}}"],
+							"path": ["jobs", "bypass-matched-flags"]
+						},
+						"description": "Step 3: Apply bypass ke matched items"
+					},
+					"response": []
+				}
+			],
+			"description": "Complete workflow dari analyze → match → bypass"
+		}
+	]
+}
