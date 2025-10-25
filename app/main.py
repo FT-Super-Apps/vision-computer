@@ -18,6 +18,7 @@ sys.path.append(str(Path(__file__).parent.parent))
 from app.bypass_engine import BypassEngine
 from app.content_analyzer import ContentAnalyzer
 from app.models import BypassRequest, BypassResponse
+from app.middleware import APIKeyMiddleware
 from config import API_CONFIG, MAX_UPLOAD_SIZE, ALLOWED_EXTENSIONS
 
 # Celery imports
@@ -43,6 +44,13 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+)
+
+# API Key Authentication Middleware
+# Public endpoints yang tidak perlu API key: /, /health, /docs
+app.add_middleware(
+    APIKeyMiddleware,
+    exclude_paths=["/", "/health", "/docs", "/openapi.json", "/redoc"]
 )
 
 # Initialize engines
