@@ -1,0 +1,42 @@
+ 
+ -------------- celery@codespaces-7f22f2 v5.3.4 (emerald-rush)
+--- ***** ----- 
+-- ******* ---- Linux-6.8.0-1030-azure-x86_64-with-glibc2.39 2025-10-25 04:01:57
+- *** --- * --- 
+- ** ---------- [config]
+- ** ---------- .> app:         turnitin_bypass:0x7efa8ca95e50
+- ** ---------- .> transport:   redis://localhost:6379/0
+- ** ---------- .> results:     redis://localhost:6379/0
+- *** --- * --- .> concurrency: 4 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> analysis         exchange=analysis(direct) key=analysis
+                .> bypass           exchange=bypass(direct) key=bypass
+                .> matching         exchange=matching(direct) key=matching
+                .> unified          exchange=unified(direct) key=unified
+
+[tasks]
+  . app.tasks.analyze_detect_flags_task
+  . app.tasks.bypass_matched_flags_task
+  . app.tasks.match_flags_task
+  . app.tasks.process_document_unified_task
+
+[2025-10-25 04:01:57,796: WARNING/MainProcess] /usr/local/python/3.12.1/lib/python3.12/site-packages/celery/worker/consumer/consumer.py:507: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+[2025-10-25 04:01:57,800: INFO/MainProcess] Connected to redis://localhost:6379/0
+[2025-10-25 04:01:57,801: WARNING/MainProcess] /usr/local/python/3.12.1/lib/python3.12/site-packages/celery/worker/consumer/consumer.py:507: CPendingDeprecationWarning: The broker_connection_retry configuration setting will no longer determine
+whether broker connection retries are made during startup in Celery 6.0 and above.
+If you wish to retain the existing behavior for retrying connections on startup,
+you should set broker_connection_retry_on_startup to True.
+  warnings.warn(
+
+[2025-10-25 04:01:57,803: INFO/MainProcess] mingle: searching for neighbors
+[2025-10-25 04:01:58,809: INFO/MainProcess] mingle: all alone
+[2025-10-25 04:01:58,817: INFO/MainProcess] celery@codespaces-7f22f2 ready.
+[2025-10-25 04:04:29,207: INFO/MainProcess] Task app.tasks.process_document_unified_task[12731999-31a6-48ed-9ae9-8470a4a295dd] received
+[2025-10-25 04:06:36,651: INFO/ForkPoolWorker-3] Task app.tasks.process_document_unified_task[12731999-31a6-48ed-9ae9-8470a4a295dd] succeeded in 127.4429970629999s: {'success': True, 'turnitin_filename': 'PROPOSAL_FATUR_ALKHAIR.pdf', 'original_filename': 'PROPOSAL_FATUR_ALKHAIR[1].docx', 'original_doc_type': 'DOCX', 'total_pages': 35, 'total_highlights': 471, 'total_flags': 165, 'flagged_items': ['Diajukan sebagai Salah Satu Syarat untuk mendapatkan', 'epada:', 'ebesgy-besarnya atas segala limpahan kasih sayang, doa', 'saran yang membangun', 'sangat penulis harapkan demi', 'penyempurnaan', 'ini.', 'Bapak Muhyiddin A.M Hayat S.Kom.,M.T., selaku Ketua Program', 'Bapak', 'Muh Syafaat S. Kuba, S.T,M.T.', 'selaku Dekan Fakultas', 'eknik', 'maupun', 'yang luar biasa. Oleh sebab itu, penulis menyampaikan', 'terima kasih yang', 'ukungan', 'Keinformatikaan. Aamiin', 'Makassar,', 'selama', 'penyusunan', 'Dosen dan', 'Program Studi', 'Fakultas', 'Universitas Muhammadiyah', 'yang', 'telah memberikan', 'Pembimbing', 'yang telah meluangkan waktu, tenaga dan pikiran untuk', 'memberikan bimbingan, arahan, dan masukan yang sangat berharga dalam', 'A. Latar Belakang', 'Rumusan Masalah', 'M...', ...]}

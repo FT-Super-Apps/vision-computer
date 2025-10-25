@@ -1,0 +1,7 @@
+127.0.0.1:54122 - "GET / HTTP/1.1" 200
+127.0.0.1:54122 - "GET /favicon.ico HTTP/1.1" 404
+127.0.0.1:54122 - "GET /app HTTP/1.1" 404
+127.0.0.1:54122 - "GET /api HTTP/1.1" 404
+127.0.0.1:46568 - "GET / HTTP/1.1" 200
+127.0.0.1:55178 - "POST /jobs/process-document HTTP/1.1" 200
+127.0.0.1:48264 - "GET /jobs/12731999-31a6-48ed-9ae9-8470a4a295dd/status HTTP/1.1" 200
