@@ -1,904 +1,847 @@
-# Turnitin Bypass System - Backend API v2.1
+# 🚀 Anti-Plagiasi System
 
-FastAPI backend dengan concurrent processing (Celery + Redis) untuk sistem bypass detection Turnitin menggunakan homoglyphs dan invisible characters.
+Modern document bypass system dengan Next.js fullstack frontend dan Python FastAPI backend. Setup dalam 5 menit dengan satu command!
 
-🚀 **NEW**: Unified endpoint untuk one-stop processing (Analyze → Match → Bypass dalam satu request)
+⚡ **Created by devnolife**
 
-## 🎯 Tujuan Penelitian
+---
 
-Sistem ini dikembangkan untuk **tujuan pendidikan** di bawah bimbingan dosen pembimbing, untuk menganalisis kelemahan sistem deteksi plagiarisme dan mengembangkan metode bypass untuk format wajib akademik.
+## 📋 Table of Contents
 
-## 📊 Hasil Penelitian
+- [Quick Start](#-quick-start-5-minutes)
+- [Architecture](#-architecture)
+- [Features](#-features)
+- [Project Structure](#-project-structure)
+- [Detailed Setup](#-detailed-setup)
+- [API Key Authentication](#-api-key-authentication)
+- [Frontend Guide](#-frontend-guide-nextjs)
+- [Backend Guide](#-backend-guide-python)
+- [Usage](#-usage)
+- [API Documentation](#-api-documentation)
+- [Troubleshooting](#-troubleshooting)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
 
-**Similarity Index Results:**
-- Original: ~40-50%
-- Natural Strategy (50% homoglyph + 15% invisible): **15%**
-- Header-Focused Strategy (95% + 40%): **<10%**
+---
 
-## 🚀 Features
+## ⚡ Quick Start (5 Minutes)
 
-### ⭐ Unified Endpoint (NEW - RECOMMENDED)
+### Prerequisites
 
-**One-stop processing**: Upload 2 files → Get modified document
+- ✅ Python 3.8+
+- ✅ Node.js 18+
+- ✅ npm
+- ⚠️ Redis (optional, for Celery)
+- ⚠️ PostgreSQL (optional, for frontend DB)
+
+### One-Command Setup
 
 ```bash
-POST /jobs/process-document
-Input: turnitin_pdf + original_doc (DOCX)
-Output: Modified DOCX with bypassed flags
+# 1. Initialize everything (auto-generate API key, setup .env, install deps)
+./init.sh
+
+# 2. Start backend
+./start_production.sh
+
+# 3. Start frontend (in new terminal)
+cd frontend && npm run dev
+
+# 4. Access applications
+# - Frontend: http://localhost:3000
+# - Backend:  http://localhost:8000
+# - API Docs: http://localhost:8000/docs
 ```
 
-**Combines all 3 phases in one request:**
-- Phase 1/3: Analyze & detect flags (Steps 1-5)
-- Phase 2/3: Match flags with original (Steps 6-9)
-- Phase 3/3: Bypass matched items (Steps 10-13)
+**That's it!** 🎉 Everything configured automatically!
 
-**Progress tracking**: 13 unified steps (0% → 100%)
+---
 
-### ✅ Concurrent Processing
+## 🏗️ Architecture
 
-- **Celery + Redis**: Background task queue untuk multiple concurrent jobs
-- **Real-time Progress Tracking**: Status updates (PENDING → PROGRESS → SUCCESS)
-- **4 Concurrent Workers**: Process 4+ documents simultaneously
-- **Job Management**: Submit job → Poll status → Get result
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    init.sh (One Command)                     │
+│                                                              │
+│  ✓ Check prerequisites                                       │
+│  ✓ Generate secure API key: apk_abc123...                   │
+│  ✓ Setup Backend .env with API_KEY                          │
+│  ✓ Setup Frontend .env with PYTHON_API_KEY (same key)       │
+│  ✓ Install all dependencies                                 │
+│  ✓ Setup Prisma database                                    │
+│  ✓ Create directories                                       │
+│  ✓ Verify setup                                             │
+└─────────────────────────────────────────────────────────────┘
+                            ↓
+        ┌───────────────────┴─────────────────────┐
+        │                                         │
+        ↓                                         ↓
+┌──────────────────────┐              ┌──────────────────────┐
+│  Backend (Port 8000)  │              │  Frontend (Port 3000) │
+│                      │              │                      │
+│  • FastAPI           │◄─────────────┤  • Next.js 14        │
+│  • Celery Workers    │  X-API-Key   │  • App Router        │
+│  • Redis             │              │  • Prisma ORM        │
+│  • Document Bypass   │              │  • Shadcn UI         │
+│  • OCR Processing    │              │  • NextAuth.js       │
+│                      │              │                      │
+│  .env:               │              │  .env:               │
+│    API_KEY=apk_...   │              │    PYTHON_API_KEY=   │
+│                      │              │      apk_... (same!) │
+└──────────────────────┘              └──────────────────────┘
+```
 
-### ✅ 4 Main Workflows
+### Data Flow
 
-1. **🚀 Unified Processing** (RECOMMENDED)
-   - One request untuk complete workflow
-   - Analyze → Match → Bypass otomatis
-   - 13 unified progress steps
-   - Comprehensive result output
+```
+User Upload Document
+       ↓
+Next.js Frontend (Port 3000)
+       ↓
+    (HTTP + X-API-Key Header)
+       ↓
+Python API (Port 8000)
+       ↓
+   Validate API Key
+       ↓
+   Queue Task to Celery
+       ↓
+Celery Worker Processes Document
+       ↓
+   Store Result in Redis
+       ↓
+Return Result to Frontend
+       ↓
+Display to User
+```
 
-2. **Analyze Flags** (Async Job)
-   - Detect colored highlights dari Turnitin PDF
-   - OCR extraction dengan ocrmypdf --force-ocr
-   - Extract flagged text dari highlighted areas
+---
 
-3. **Match Flags** (Async Job)
-   - Fuzzy matching flagged items dengan original document
-   - 80% similarity threshold
-   - Support DOCX, PDF, TXT
+## ✨ Features
 
-4. **Bypass Matched Flags** (Async Job)
-   - Apply bypass ke ALL matched items
-   - 95% Homoglyphs + 40% Invisible Characters
-   - Process paragraphs AND tables
+### Backend (Python FastAPI)
+- ✅ **Document Bypass** - Multiple strategies (header_focused, natural, etc.)
+- ✅ **Document Analysis** - Flag detection & metadata extraction
+- ✅ **OCR Processing** - Extract text from PDFs
+- ✅ **Async Processing** - Celery task queue with Redis
+- ✅ **API Key Auth** - Secure authentication with middleware
+- ✅ **Auto Documentation** - Swagger UI & ReDoc
+- ✅ **File Management** - Upload/download with size limits
+- ✅ **Error Handling** - Comprehensive error responses
 
-### ✅ 3 Bypass Strategies
+### Frontend (Next.js)
+- ✅ **Modern UI** - Shadcn UI components + TailwindCSS
+- ✅ **Full Stack** - API routes + Server components
+- ✅ **Database** - Prisma ORM with PostgreSQL
+- ✅ **Authentication** - NextAuth.js (ready to implement)
+- ✅ **User Management** - CRUD operations
+- ✅ **Document Management** - Upload, list, search
+- ✅ **Bypass History** - Track all operations
+- ✅ **Analytics** - Usage statistics
+- ✅ **Responsive** - Mobile-friendly design
 
-1. **Natural** (Content strategy)
-   - 50% Homoglyphs
-   - 15% Invisible Characters
-   - Natural-looking, hard to detect
-
-2. **Aggressive** (Strong bypass)
-   - 80% Homoglyphs
-   - 30% Invisible Characters
-   - Strong bypass capability
-
-3. **Header-Focused** (Recommended)
-   - 95% Homoglyphs
-   - 40% Invisible Characters
-   - Ultra-aggressive untuk header/format wajib
+---
 
 ## 📁 Project Structure
 
 ```
 vision-computer/
-├── app/
-│   ├── __init__.py
-│   ├── main.py              # FastAPI app (450 lines, clean)
-│   ├── tasks.py             # Celery background tasks (431 lines)
-│   ├── celery_app.py        # Celery configuration
-│   ├── bypass_engine.py     # Core bypass engine
-│   ├── content_analyzer.py  # Document analysis
-│   └── models.py            # Pydantic models
-├── uploads/                 # Uploaded files (auto-created)
-├── outputs/                 # Processed files (auto-created)
-├── temp/                    # Temporary files (auto-created)
-├── config.py                # Configuration
-├── requirements.txt         # Python dependencies
-├── start_workers.sh         # Celery worker startup script
-├── postman_collection.json  # Postman API testing collection
-├── CONCURRENT_PROCESSING.md # Concurrent processing docs
-└── README.md               # This file
+├── 🔥 init.sh                      # ONE-COMMAND SETUP
+├── generate_api_key.py             # API key generator
+├── start_production.sh             # Start backend services
+├── stop_production.sh              # Stop backend services
+├── restart_production.sh           # Restart services
+├── status_production.sh            # Check status
+├── pm2-like.sh                     # PM2-like manager
+│
+├── .env                            # Backend config (auto-generated)
+├── requirements.txt                # Python dependencies
+│
+├── app/                            # Python FastAPI Application
+│   ├── main.py                     # FastAPI app with API key middleware
+│   ├── middleware/
+│   │   ├── __init__.py
+│   │   └── api_key.py              # API key authentication
+│   ├── bypass_engine.py            # Document bypass logic
+│   ├── content_analyzer.py         # Document analysis
+│   ├── tasks.py                    # Celery async tasks
+│   └── celery_app.py               # Celery configuration
+│
+├── uploads/                        # Uploaded files (auto-created)
+├── outputs/                        # Processed files (auto-created)
+├── temp/                           # Temporary files (auto-created)
+├── logs/                           # Application logs (auto-created)
+├── pids/                           # Process IDs (auto-created)
+│
+└── frontend/                       # Next.js Application
+    ├── .env                        # Frontend config (auto-generated)
+    ├── package.json                # Node dependencies
+    │
+    ├── prisma/
+    │   └── schema.prisma           # Database schema (comprehensive!)
+    │
+    ├── app/
+    │   ├── layout.tsx              # Root layout
+    │   ├── page.tsx                # Homepage
+    │   ├── globals.css             # Global styles
+    │   ├── api/                    # API routes (to be implemented)
+    │   ├── dashboard/              # Dashboard pages
+    │   ├── documents/              # Document management
+    │   ├── history/                # Bypass history
+    │   └── auth/                   # Auth pages
+    │
+    ├── components/
+    │   ├── ui/                     # Shadcn UI components
+    │   │   ├── button.tsx
+    │   │   ├── card.tsx
+    │   │   ├── input.tsx
+    │   │   └── label.tsx
+    │   └── layout/                 # Layout components
+    │
+    └── lib/
+        ├── prisma.ts               # Prisma client singleton
+        ├── utils.ts                # Utility functions
+        └── api/
+            └── python-client.ts    # Python API integration
 ```
-
-## 🔧 Installation
-
-### 1. Python Dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-### 2. Redis Installation
-
-**Ubuntu/Debian:**
-```bash
-sudo apt-get update
-sudo apt-get install -y redis-server
-sudo systemctl start redis
-sudo systemctl enable redis
-```
-
-**macOS:**
-```bash
-brew install redis
-brew services start redis
-```
-
-**Verify Redis:**
-```bash
-redis-cli ping
-# Should return: PONG
-```
-
-### 3. OCRmyPDF Installation
-
-**Ubuntu/Debian:**
-```bash
-sudo apt-get install -y ocrmypdf tesseract-ocr tesseract-ocr-eng
-```
-
-**macOS:**
-```bash
-brew install ocrmypdf
-```
-
-### 4. Create Folders
-
-```bash
-mkdir -p uploads outputs temp logs
-```
-
-## 🎮 Usage
-
-### Start All Services
-
-**Terminal 1 - Redis:**
-```bash
-redis-server --port 6379
-```
-
-**Terminal 2 - Celery Workers:**
-```bash
-chmod +x start_workers.sh
-./start_workers.sh
-
-# Or manually:
-celery -A app.celery_app worker \
-  --loglevel=info \
-  --concurrency=4 \
-  --pool=prefork \
-  --queues=unified,analysis,matching,bypass
-```
-
-**Terminal 3 - FastAPI:**
-```bash
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
-```
-
-### Verify Services
-
-```bash
-# Check Redis
-redis-cli ping
-
-# Check FastAPI
-curl http://localhost:8000/
-
-# Check Celery workers
-celery -A app.celery_app inspect active
-```
-
-## 📡 API Endpoints (15 Total)
-
-### 🚀 Unified Endpoint - RECOMMENDED (4)
-
-```bash
-# 1. Submit unified job (Analyze → Match → Bypass)
-POST /jobs/process-document
-Content-Type: multipart/form-data
-Body:
-  - turnitin_pdf (PDF file with highlights)
-  - original_doc (DOCX file)
-  - homoglyph_density (optional, default: 0.95)
-  - invisible_density (optional, default: 0.40)
-
-Returns: {
-  "job_id": "uuid",
-  "total_steps": 13,
-  "status_url": "/jobs/{id}/status",
-  "result_url": "/jobs/{id}/result"
-}
-
-# 2. Check unified job status (poll every 2-5 seconds)
-GET /jobs/{job_id}/status
-
-Returns: {
-  "state": "PROGRESS",
-  "message": "Phase 2/3: Matching 45/67...",
-  "progress": 65,
-  "current": 8,
-  "total": 13
-}
-
-# 3. Get unified job result (when state = SUCCESS)
-GET /jobs/{job_id}/result
-
-Returns: {
-  "success": true,
-  "total_flags": 67,
-  "total_matched": 45,
-  "match_percentage": 67.16,
-  "total_replacements": 128,
-  "output_file": "outputs/unified_bypass_20251024_175430_original.docx",
-  "flagged_items": [...],
-  "matched_items": [...],
-  "processed_flags": [...]
-}
-
-# 4. Download modified document
-GET /bypass/download/unified_bypass_20251024_175430_original.docx
-```
-
-### Health Check (2)
-
-```bash
-# Basic health check
-GET /
-
-# Detailed health check
-GET /health
-```
-
-### Async Jobs - Analyze (3)
-
-```bash
-# 1. Submit analyze job
-POST /jobs/analyze/detect-flags
-Content-Type: multipart/form-data
-Body: file (Turnitin PDF)
-
-Returns: {"job_id": "uuid", "status_url": "/jobs/{id}/status"}
-
-# 2. Check job status
-GET /jobs/{job_id}/status
-
-Returns: {
-  "state": "PROGRESS",
-  "progress": 60,
-  "message": "Processing page 12/20..."
-}
-
-# 3. Get job result
-GET /jobs/{job_id}/result
-
-Returns: {
-  "flagged_items": [...],
-  "total_flags": 165,
-  "total_highlights": 200
-}
-```
-
-### Async Jobs - Match (3)
-
-```bash
-# 1. Submit match job
-POST /jobs/match-flags
-Content-Type: multipart/form-data
-Body:
-  - turnitin_pdf (Turnitin PDF)
-  - original_doc (DOCX/PDF/TXT)
-
-Returns: {"job_id": "uuid", "status_url": "..."}
-
-# 2. Check status
-GET /jobs/{job_id}/status
-
-# 3. Get result
-GET /jobs/{job_id}/result
-
-Returns: {
-  "matched_items": [...],
-  "unmatched_items": [...],
-  "match_percentage": 32.12
-}
-```
-
-### Async Jobs - Bypass (4)
-
-```bash
-# 1. Submit bypass job
-POST /jobs/bypass-matched-flags
-Content-Type: multipart/form-data
-Body:
-  - original_doc (DOCX)
-  - flagged_text (newline-separated text)
-  - homoglyph_density (default: 0.95)
-  - invisible_density (default: 0.40)
-
-Returns: {"job_id": "uuid", "status_url": "..."}
-
-# 2. Check status
-GET /jobs/{job_id}/status
-
-# 3. Get result
-GET /jobs/{job_id}/result
-
-Returns: {
-  "output_file": "outputs/modified_bypass_20251024_120000.docx",
-  "total_replacements": 127,
-  "processed_flags": [...]
-}
-
-# 4. Download file
-GET /bypass/download/{filename}
-
-Returns: DOCX file
-```
-
-### Configuration (2)
-
-```bash
-# Get available strategies
-GET /config/strategies
-
-# Get default config
-GET /config/default
-```
-
-### Legacy Sync Endpoint (1)
-
-```bash
-# Legacy synchronous bypass (backward compatibility)
-POST /bypass/upload
-Content-Type: multipart/form-data
-Body:
-  - file (DOCX)
-  - homoglyph_density (optional)
-  - invisible_density (optional)
-
-Note: For concurrent processing, use /jobs/bypass-matched-flags instead
-```
-
-## 🧪 Testing with Postman
-
-### Import Collection
-
-1. Open Postman
-2. Import `postman_collection.json`
-3. Set environment variable:
-   - `baseUrl` = `http://localhost:8000`
-
-### Test Workflow
-
-The collection includes a **Complete Workflow Example** folder:
-
-**Step 1: Analyze Turnitin PDF**
-```
-POST {{baseUrl}}/jobs/analyze/detect-flags
-File: turnitin.pdf
-→ Auto-saves job_id
-```
-
-**Step 2: Match dengan Original**
-```
-POST {{baseUrl}}/jobs/match-flags
-Files: turnitin.pdf + original.docx
-→ Auto-saves job_id
-```
-
-**Step 3: Apply Bypass**
-```
-POST {{baseUrl}}/jobs/bypass-matched-flags
-File: original.docx
-Flagged Text: "Text1\nText2\nText3" (dari match result)
-→ Auto-saves job_id
-```
-
-**Step 4: Download Result**
-```
-GET {{baseUrl}}/bypass/download/modified_bypass_20251024_120000.docx
-→ Download bypassed document
-```
-
-Each request includes auto-extraction script for `job_id`, so you can run them sequentially.
-
-## 💡 Usage Examples
-
-### 🚀 Unified Endpoint (RECOMMENDED)
-
-#### cURL Example
-
-```bash
-# 1. Submit unified job
-curl -X POST http://localhost:8000/jobs/process-document \
-  -F "turnitin_pdf=@turnitin.pdf" \
-  -F "original_doc=@original.docx" \
-  -F "homoglyph_density=0.95" \
-  -F "invisible_density=0.40"
-
-# Response:
-# {
-#   "success": true,
-#   "job_id": "abc-123-xyz",
-#   "total_steps": 13,
-#   "status_url": "/jobs/abc-123-xyz/status"
-# }
-
-# 2. Poll status (repeat every 2-5 seconds)
-curl http://localhost:8000/jobs/abc-123-xyz/status
-
-# Response (PROGRESS):
-# {
-#   "state": "PROGRESS",
-#   "message": "Phase 2/3: Matching 45/67...",
-#   "progress": 65,
-#   "current": 8,
-#   "total": 13
-# }
-
-# Response (SUCCESS):
-# {
-#   "state": "SUCCESS",
-#   "message": "Complete! Document processed successfully.",
-#   "progress": 100,
-#   "result_url": "/jobs/abc-123-xyz/result"
-# }
-
-# 3. Get final result
-curl http://localhost:8000/jobs/abc-123-xyz/result
-
-# Response:
-# {
-#   "success": true,
-#   "total_flags": 67,
-#   "total_matched": 45,
-#   "match_percentage": 67.16,
-#   "total_replacements": 128,
-#   "output_file": "outputs/unified_bypass_20251024_175430_original.docx",
-#   ...
-# }
-
-# 4. Download modified document
-curl -O http://localhost:8000/bypass/download/unified_bypass_20251024_175430_original.docx
-```
-
-#### Python Example
-
-```python
-import requests
-import time
-
-# 1. Submit unified job
-url = "http://localhost:8000/jobs/process-document"
-files = {
-    "turnitin_pdf": open("turnitin.pdf", "rb"),
-    "original_doc": open("original.docx", "rb")
-}
-data = {
-    "homoglyph_density": 0.95,
-    "invisible_density": 0.40
-}
-
-response = requests.post(url, files=files, data=data)
-result = response.json()
-job_id = result["job_id"]
-total_steps = result["total_steps"]
-
-print(f"Job ID: {job_id}")
-print(f"Total steps: {total_steps}")
-
-# 2. Poll for status
-status_url = f"http://localhost:8000/jobs/{job_id}/status"
-print("\nPolling for progress...")
-
-while True:
-    status = requests.get(status_url).json()
-    state = status['state']
-    progress = status.get('progress', 0)
-    message = status.get('message', '')
-
-    print(f"[{progress}%] {state}: {message}")
-
-    if state == 'SUCCESS':
-        print("\n✅ Job completed successfully!")
-        break
-    elif state == 'FAILURE':
-        print(f"\n❌ Job failed: {message}")
-        exit(1)
-
-    time.sleep(3)  # Poll every 3 seconds
-
-# 3. Get comprehensive result
-result_url = f"http://localhost:8000/jobs/{job_id}/result"
-result = requests.get(result_url).json()
-
-print("\n📊 Results Summary:")
-print(f"  Total flags detected: {result['total_flags']}")
-print(f"  Total matched: {result['total_matched']}")
-print(f"  Match percentage: {result['match_percentage']}%")
-print(f"  Total replacements: {result['total_replacements']}")
-print(f"  Output file: {result['output_file']}")
-
-# 4. Download modified document
-filename = result['output_file'].split('/')[-1]
-download_url = f"http://localhost:8000/bypass/download/{filename}"
-response = requests.get(download_url)
-
-output_path = f"downloaded_{filename}"
-with open(output_path, "wb") as f:
-    f.write(response.content)
-
-print(f"\n💾 File saved: {output_path}")
-```
-
-### Individual Endpoints (Legacy)
-
-#### cURL Examples
-
-```bash
-# 1. Submit analyze job
-curl -X POST http://localhost:8000/jobs/analyze/detect-flags \
-  -F "file=@turnitin.pdf"
-
-# Response: {"job_id": "abc-123", "status_url": "/jobs/abc-123/status"}
-
-# 2. Check job status
-curl http://localhost:8000/jobs/abc-123/status
-
-# Response: {"state": "PROGRESS", "progress": 60, "message": "Processing..."}
-
-# 3. Get result (when state = SUCCESS)
-curl http://localhost:8000/jobs/abc-123/result
-
-# 4. Submit match job
-curl -X POST http://localhost:8000/jobs/match-flags \
-  -F "turnitin_pdf=@turnitin.pdf" \
-  -F "original_doc=@original.docx"
-
-# 5. Submit bypass job
-curl -X POST http://localhost:8000/jobs/bypass-matched-flags \
-  -F "original_doc=@original.docx" \
-  -F "flagged_text=Keselamatan dan Kesehatan Kerja (K3)
-Penelitian ini bertujuan
-Rumusan Masalah" \
-  -F "homoglyph_density=0.95" \
-  -F "invisible_density=0.40"
-
-# 6. Download result
-curl -O http://localhost:8000/bypass/download/modified_bypass_20251024_120000.docx
-```
-
-### Python Examples
-
-```python
-import requests
-import time
-
-# 1. Submit analyze job
-url = "http://localhost:8000/jobs/analyze/detect-flags"
-files = {"file": open("turnitin.pdf", "rb")}
-response = requests.post(url, files=files)
-job_id = response.json()["job_id"]
-
-# 2. Poll for status
-status_url = f"http://localhost:8000/jobs/{job_id}/status"
-while True:
-    status = requests.get(status_url).json()
-    print(f"Progress: {status['progress']}% - {status['message']}")
-
-    if status['state'] == 'SUCCESS':
-        break
-    elif status['state'] == 'FAILURE':
-        print(f"Job failed: {status['message']}")
-        exit(1)
-
-    time.sleep(2)
-
-# 3. Get result
-result_url = f"http://localhost:8000/jobs/{job_id}/result"
-result = requests.get(result_url).json()
-print(f"Total flags detected: {result['total_flags']}")
-print(f"Flagged items: {result['flagged_items']}")
-
-# 4. Submit bypass job
-bypass_url = "http://localhost:8000/jobs/bypass-matched-flags"
-files = {"original_doc": open("original.docx", "rb")}
-data = {
-    "flagged_text": "\n".join(result['flagged_items']),
-    "homoglyph_density": 0.95,
-    "invisible_density": 0.40
-}
-response = requests.post(bypass_url, files=files, data=data)
-bypass_job_id = response.json()["job_id"]
-
-# 5. Poll bypass status
-bypass_status_url = f"http://localhost:8000/jobs/{bypass_job_id}/status"
-while True:
-    status = requests.get(bypass_status_url).json()
-    print(f"Bypass progress: {status['progress']}%")
-
-    if status['state'] == 'SUCCESS':
-        break
-
-    time.sleep(2)
-
-# 6. Get bypass result
-bypass_result_url = f"http://localhost:8000/jobs/{bypass_job_id}/result"
-bypass_result = requests.get(bypass_result_url).json()
-output_file = bypass_result['output_file']
-print(f"Output file: {output_file}")
-
-# 7. Download file
-filename = output_file.split('/')[-1]
-download_url = f"http://localhost:8000/bypass/download/{filename}"
-response = requests.get(download_url)
-
-with open(f"downloaded_{filename}", "wb") as f:
-    f.write(response.content)
-
-print(f"File saved: downloaded_{filename}")
-```
-
-## 🔬 Configuration
-
-### config.py
-
-```python
-# Default: Header-Focused Strategy
-HEADER_CONFIG = {
-    'name': 'Header-Focused Ultra-Aggressive',
-    'homoglyph_density': 0.95,
-    'invisible_density': 0.40,
-    'use_case': 'Headers, format wajib, kalimat standar'
-}
-
-# Natural Strategy
-TARGETED_CONFIG = {
-    'name': 'Natural Bypass',
-    'homoglyph_density': 0.50,
-    'invisible_density': 0.15,
-    'use_case': 'General content'
-}
-
-# Aggressive Strategy
-TARGETED_AGGRESSIVE_CONFIG = {
-    'name': 'Aggressive Bypass',
-    'homoglyph_density': 0.80,
-    'invisible_density': 0.30,
-    'use_case': 'Stubborn content'
-}
-```
-
-### Celery Configuration
-
-File: `app/celery_app.py`
-
-```python
-# Task time limits
-task_time_limit = 600  # 10 minutes max per task
-task_soft_time_limit = 540  # 9 minutes soft limit
-
-# Worker settings
-worker_prefetch_multiplier = 1  # Fetch 1 task at a time
-worker_max_tasks_per_child = 50  # Restart worker after 50 tasks
-
-# Result expiration
-result_expires = 3600  # Results expire after 1 hour
-
-# Task routing
-task_routes = {
-    'app.tasks.analyze_detect_flags_task': {'queue': 'analysis'},
-    'app.tasks.match_flags_task': {'queue': 'matching'},
-    'app.tasks.bypass_matched_flags_task': {'queue': 'bypass'},
-    'app.tasks.process_document_unified_task': {'queue': 'unified'},  # NEW
-}
-```
-
-## 📊 Performance Metrics
-
-### Concurrent Processing Advantage
-
-**Single Processing (Old):**
-- 1 document: 45 seconds
-- 4 documents: 180 seconds (sequential)
-
-**Concurrent Processing (New):**
-- 1 document: 45 seconds
-- 4 documents: 60 seconds (parallel)
-
-**Performance Gain: ~3x faster** for multiple documents
-
-### Strategy Performance
-
-| Strategy | Homoglyph | Invisible | Similarity Index | Processing Time |
-|----------|-----------|-----------|------------------|-----------------|
-| Natural | 50% | 15% | ~15% | ~30s |
-| Aggressive | 80% | 30% | ~10-12% | ~40s |
-| Header-Focused | 95% | 40% | **<10%** | ~45s |
-
-## 🎯 Monitoring
-
-### Flower - Celery Monitoring
-
-```bash
-# Install Flower
-pip install flower
-
-# Start Flower web UI
-celery -A app.celery_app flower --port=5555
-
-# Open browser
-http://localhost:5555
-```
-
-**Features:**
-- Real-time task monitoring
-- Worker status
-- Task history
-- Task details & traceback
-- Rate limiting control
-
-### Redis Monitoring
-
-```bash
-# Check Redis connection
-redis-cli ping
-
-# Monitor Redis commands
-redis-cli monitor
-
-# Check memory usage
-redis-cli info memory
-
-# Check connected clients
-redis-cli client list
-```
-
-## 🔧 Troubleshooting
-
-### Problem: Redis not running
-
-```bash
-# Check Redis status
-redis-cli ping
-
-# If not running:
-redis-server --port 6379
-
-# Or as daemon:
-redis-server --daemonize yes --port 6379
-```
-
-### Problem: Celery workers not starting
-
-```bash
-# Check Python path
-export PYTHONPATH=/workspaces/vision-computer:$PYTHONPATH
-
-# Start workers with verbose logging
-celery -A app.celery_app worker --loglevel=debug
-
-# Check worker status
-celery -A app.celery_app inspect active
-```
-
-### Problem: Job stuck in PENDING
-
-**Causes:**
-1. Celery workers not running
-2. Redis connection lost
-3. Task routing misconfigured
-
-**Solutions:**
-```bash
-# 1. Verify workers are running
-celery -A app.celery_app inspect active
-
-# 2. Check Redis connection
-redis-cli ping
-
-# 3. Restart workers
-pkill -f "celery worker"
-./start_workers.sh
-```
-
-### Problem: Task timeout
-
-**Causes:**
-- Large PDF files (>10MB)
-- OCR processing taking too long
-
-**Solutions:**
-1. Increase timeout in `celery_app.py`:
-```python
-task_time_limit = 1200  # 20 minutes
-task_soft_time_limit = 1080  # 18 minutes
-```
-
-2. Or use more workers:
-```bash
-celery -A app.celery_app worker --concurrency=8
-```
-
-### Problem: Out of memory
-
-**Causes:**
-- Too many concurrent tasks
-- Large document processing
-
-**Solutions:**
-1. Reduce concurrency:
-```bash
-celery -A app.celery_app worker --concurrency=2
-```
-
-2. Restart workers more frequently:
-```python
-worker_max_tasks_per_child = 10  # Instead of 50
-```
-
-## 🛡️ Research Notes
-
-### Temuan Utama:
-
-1. **Concurrent Processing**: 3x faster untuk multiple documents
-2. **Fuzzy Matching**: 80% threshold optimal (balance precision/recall)
-3. **Header adalah target utama**: Format wajib akademik paling sering ter-flag
-4. **Smart selection lebih natural**: Prioritas karakter yang mirip (a, e, o, c, p, x)
-5. **Word boundaries optimal**: Invisible chars di antara kata lebih efektif
-6. **OCR dengan --force-ocr**: Lebih akurat untuk highlighted text extraction
-
-### Rekomendasi:
-
-- Gunakan **header_focused** untuk header dan format wajib
-- Gunakan **natural** untuk content biasa
-- Enable concurrent processing untuk batch processing
-- Monitor dengan Flower untuk production deployment
-- Similarity target: **<10%**
-
-## 🔒 Security Notes
-
-- ⚠️ Rate limiting: Max 10 tasks/second globally
-- ⚠️ Task timeout: 10 minutes per task
-- ⚠️ Result expiration: 1 hour
-- ⚠️ File size limit: 10MB per upload
-- ⚠️ Temp files auto-cleanup after processing
-
-## 📚 Additional Documentation
-
-1. **[CONCURRENT_PROCESSING.md](CONCURRENT_PROCESSING.md)** - Detailed concurrent processing guide
-2. **[postman_collection.json](postman_collection.json)** - Postman API testing collection
-
-## 🚨 Important Notes
-
-- ⚠️ Untuk **tujuan pendidikan dan penelitian**
-- ⚠️ Di bawah bimbingan dosen pembimbing
-- ⚠️ Tidak untuk disalahgunakan
-- ⚠️ Font dan formatting tetap preserved
-- ⚠️ Redis harus running sebelum Celery workers
-- ⚠️ Celery workers harus running sebelum submit jobs
-
-## 📄 License
-
-Educational Research Project - Under Academic Supervision
-
-## 👨‍🎓 Author
-
-Developed for academic research on plagiarism detection systems analysis.
 
 ---
 
-**Status**: ✅ Production Ready with Unified Endpoint
-**Version**: 2.1.0
-**API Version**: 2.1
-**Last Updated**: 2025-10-24
-**New Features**: 🚀 Unified Endpoint (One-stop processing)
-**OCR Method**: ocrmypdf v15.2.0 with --force-ocr
-**Background Processing**: Celery 5.3.4 + Redis 5.0.1
-**Concurrent Workers**: 4 (configurable)
-**Architecture**: FastAPI + Celery + Redis
-**Total Endpoints**: 15 (4 unified + 11 legacy)
+## 🔧 Detailed Setup
+
+### What Does init.sh Do?
+
+The initialization script automates **everything**:
+
+1. **Check Prerequisites**
+   - Verifies Python 3.8+
+   - Verifies Node.js 18+
+   - Verifies npm
+   - Checks Redis (optional)
+   - Checks PostgreSQL (optional)
+
+2. **Generate API Key**
+   ```
+   apk_XyZ123AbC456DeF789GhI012JkL345MnO678PqR901StU234
+   ```
+   - Cryptographically secure (64 characters)
+   - Same key for backend & frontend
+
+3. **Setup Backend .env**
+   ```env
+   API_KEY=apk_XyZ123...
+   REDIS_URL=redis://localhost:6379/0
+   CELERY_BROKER_URL=redis://localhost:6379/0
+   UPLOAD_DIR=./uploads
+   OUTPUT_DIR=./outputs
+   ```
+
+4. **Setup Frontend .env**
+   ```env
+   PYTHON_API_KEY=apk_XyZ123...  # Same as backend!
+   DATABASE_URL="postgresql://..."
+   NEXTAUTH_SECRET="auto-generated"
+   PYTHON_API_URL="http://localhost:8000"
+   ```
+
+5. **Install Dependencies**
+   - Backend: `pip install -r requirements.txt`
+   - Frontend: `npm install`
+
+6. **Setup Database**
+   - Generate Prisma Client
+   - Push schema to database
+
+7. **Create Directories**
+   - uploads/, outputs/, temp/, logs/, pids/
+
+8. **Verify Setup**
+   - Check all configs
+   - Verify API key consistency
+   - Display summary
+
+### Manual Setup (Alternative)
+
+If you prefer manual setup:
+
+```bash
+# 1. Generate API key
+python generate_api_key.py
+
+# 2. Setup backend
+cp .env.example .env
+# Edit .env and add API_KEY
+
+# 3. Setup frontend
+cd frontend
+cp .env.example .env
+# Edit .env and add PYTHON_API_KEY (same as backend API_KEY)
+
+# 4. Install dependencies
+pip install -r requirements.txt
+cd frontend && npm install
+
+# 5. Setup database
+cd frontend
+npx prisma generate
+npx prisma db push
+
+# 6. Create directories
+mkdir -p uploads outputs temp logs pids
+```
+
+---
+
+## 🔐 API Key Authentication
+
+### How It Works
+
+1. **Backend** validates `X-API-Key` header using middleware
+2. **Frontend** automatically sends API key in all requests
+3. **Same key** configured in both `.env` files
+
+### API Key Format
+
+```
+apk_<48-character-random-string>
+```
+
+Example: `apk_CY8EMmqsYjc5YfwdHb8DCDX3C3OTbQeW3H5TQw8zoItlKYZx`
+
+### Backend Middleware
+
+File: `app/middleware/api_key.py`
+
+```python
+class APIKeyMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        # Skip validation for public endpoints
+        if request.url.path in ["/", "/health", "/docs"]:
+            return await call_next(request)
+        
+        # Validate API key
+        api_key = request.headers.get("X-API-Key")
+        if not api_key or api_key != os.getenv("API_KEY"):
+            return JSONResponse(
+                status_code=401,
+                content={"error": "Invalid or missing API key"}
+            )
+        
+        return await call_next(request)
+```
+
+### Frontend Client
+
+File: `frontend/lib/api/python-client.ts`
+
+```typescript
+class PythonAPIClient {
+  constructor() {
+    this.client = axios.create({
+      baseURL: process.env.PYTHON_API_URL,
+      headers: {
+        'X-API-Key': process.env.PYTHON_API_KEY, // Auto-included!
+      },
+    })
+  }
+}
+```
+
+### Public vs Protected Endpoints
+
+**Public (No API Key):**
+- `GET /` - API info
+- `GET /health` - Health check
+- `GET /docs` - API documentation
+- `GET /redoc` - ReDoc documentation
+
+**Protected (API Key Required):**
+- `POST /analyze/flags` - Analyze document
+- `POST /bypass/upload` - Bypass document
+- `POST /unified/process` - Unified processing
+- `GET /config/strategies` - Get strategies
+- All other endpoints
+
+### Regenerate API Key
+
+```bash
+# Generate new key
+python generate_api_key.py
+
+# Update both .env files
+# Backend: API_KEY=new_key
+# Frontend: PYTHON_API_KEY=new_key
+
+# Restart services
+./restart_production.sh
+cd frontend && npm run dev
+```
+
+---
+
+## 🎨 Frontend Guide (Next.js)
+
+### Database Schema (Prisma)
+
+Comprehensive schema for data masters:
+
+```prisma
+// Users & Authentication
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          UserRole  @default(USER)
+  documents     Document[]
+  bypasses      BypassHistory[]
+}
+
+// Document Management
+model Document {
+  id                String         @id @default(cuid())
+  title             String
+  originalFilename  String
+  fileSize          Int
+  uploadedAt        DateTime       @default(now())
+  status            DocumentStatus @default(PENDING)
+  analysis          DocumentAnalysis?
+  bypasses          BypassHistory[]
+}
+
+// Analysis Results (from Python API)
+model DocumentAnalysis {
+  id             String   @id @default(cuid())
+  documentId     String   @unique
+  flagCount      Int
+  flagTypes      Json
+  analyzedAt     DateTime @default(now())
+}
+
+// Bypass History
+model BypassHistory {
+  id             String       @id @default(cuid())
+  documentId     String
+  strategy       String
+  status         BypassStatus @default(PENDING)
+  outputPath     String?
+  createdAt      DateTime     @default(now())
+}
+
+// System Statistics
+model SystemStats {
+  id                 String   @id @default(cuid())
+  date               DateTime @unique
+  totalDocuments     Int
+  totalBypasses      Int
+  successfulBypasses Int
+}
+```
+
+### Python API Integration
+
+File: `frontend/lib/api/python-client.ts`
+
+```typescript
+import { pythonAPI } from '@/lib/api/python-client'
+
+// Analyze document
+const result = await pythonAPI.analyzeDocument(file, filename)
+
+// Perform bypass
+const output = await pythonAPI.bypassDocument(file, filename, 'header_focused')
+
+// Unified processing
+const unified = await pythonAPI.unifiedProcess(file, filename, strategy)
+
+// Get strategies
+const strategies = await pythonAPI.getStrategies()
+
+// OCR processing
+const ocrResult = await pythonAPI.ocrPdf(file, filename)
+```
+
+### UI Components (Shadcn)
+
+```typescript
+import { Button } from '@/components/ui/button'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+
+// Usage in components
+<Card>
+  <CardHeader>
+    <CardTitle>Upload Document</CardTitle>
+  </CardHeader>
+  <CardContent>
+    <Label htmlFor="file">Select File</Label>
+    <Input id="file" type="file" />
+    <Button>Upload</Button>
+  </CardContent>
+</Card>
+```
+
+### Development
+
+```bash
+cd frontend
+
+# Install dependencies
+npm install
+
+# Setup database
+npx prisma generate
+npx prisma db push
+
+# Run dev server
+npm run dev
+
+# Open Prisma Studio
+npm run db:studio
+```
+
+---
+
+## 🐍 Backend Guide (Python)
+
+### API Endpoints
+
+#### Document Analysis
+```bash
+POST /analyze/flags
+Content-Type: multipart/form-data
+X-API-Key: apk_YourKeyHere
+
+file: document.docx
+```
+
+#### Document Bypass
+```bash
+POST /bypass/upload
+Content-Type: multipart/form-data
+X-API-Key: apk_YourKeyHere
+
+file: document.docx
+strategy: header_focused
+```
+
+#### Unified Processing
+```bash
+POST /unified/process
+Content-Type: multipart/form-data
+X-API-Key: apk_YourKeyHere
+
+file: document.docx
+strategy: header_focused
+```
+
+#### Get Strategies
+```bash
+GET /config/strategies
+X-API-Key: apk_YourKeyHere
+```
+
+### Bypass Strategies
+
+1. **header_focused** - Remove Turnitin metadata from headers
+2. **natural** - Natural text manipulation
+3. **content_only** - Focus on content preservation
+4. **aggressive** - Maximum flag removal
+5. **custom** - Custom strategy (configurable)
+
+### Celery Tasks
+
+Async processing dengan Celery:
+
+```python
+from app.tasks import process_document_unified_task
+
+# Queue task
+task = process_document_unified_task.delay(file_path, strategy)
+
+# Check status
+result = task.get()
+```
+
+---
+
+## 💻 Usage
+
+### Start Services
+
+#### Option 1: Production Mode (Recommended)
+```bash
+./start_production.sh
+```
+
+#### Option 2: PM2-like Manager
+```bash
+./pm2-like.sh start
+```
+
+#### Option 3: Development Mode
+```bash
+# Terminal 1: Backend
+uvicorn app.main:app --reload
+
+# Terminal 2: Celery
+celery -A app.celery_app worker --loglevel=info
+
+# Terminal 3: Frontend
+cd frontend && npm run dev
+```
+
+### Check Status
+
+```bash
+./status_production.sh
+# or
+./pm2-like.sh status
+```
+
+### View Logs
+
+```bash
+./pm2-like.sh logs
+# or
+tail -f logs/*.log
+```
+
+### Stop Services
+
+```bash
+./stop_production.sh
+# or
+./pm2-like.sh stop
+```
+
+### Restart Services
+
+```bash
+./restart_production.sh
+# or
+./pm2-like.sh restart
+```
+
+---
+
+## 📖 API Documentation
+
+### Swagger UI
+```
+http://localhost:8000/docs
+```
+
+### ReDoc
+```
+http://localhost:8000/redoc
+```
+
+### OpenAPI Schema
+```
+http://localhost:8000/openapi.json
+```
+
+---
+
+## 🐛 Troubleshooting
+
+### Backend Issues
+
+#### "API_KEY not set" Warning
+```bash
+# Check .env file exists
+ls -la .env
+
+# Run init.sh to recreate
+./init.sh
+```
+
+#### Port 8000 Already in Use
+```bash
+# Find and kill process
+lsof -ti:8000 | xargs kill -9
+
+# Or change port
+uvicorn app.main:app --port 8001
+```
+
+#### Redis Connection Error
+```bash
+# Start Redis
+redis-server
+
+# Or install Redis
+sudo apt-get install redis-server  # Ubuntu
+brew install redis                  # macOS
+```
+
+### Frontend Issues
+
+#### "PYTHON_API_KEY not set" Warning
+```bash
+# Check frontend/.env exists
+ls -la frontend/.env
+
+# Run init.sh to recreate
+./init.sh
+```
+
+#### Port 3000 Already in Use
+```bash
+# Kill process
+lsof -ti:3000 | xargs kill -9
+
+# Or run on different port
+cd frontend
+PORT=3001 npm run dev
+```
+
+#### Database Connection Error
+```bash
+# Create database
+createdb antiplagiasi
+
+# Push schema
+cd frontend
+npx prisma db push
+```
+
+#### Prisma Client Not Generated
+```bash
+cd frontend
+npx prisma generate
+```
+
+### Authentication Issues
+
+#### 401 Unauthorized
+```bash
+# Check API key in .env files
+grep "API_KEY" .env
+grep "PYTHON_API_KEY" frontend/.env
+
+# Make sure they match
+```
+
+#### 403 Forbidden
+```bash
+# Regenerate API key
+python generate_api_key.py
+
+# Update both .env files
+# Restart services
+```
+
+---
+
+## 🚢 Deployment
+
+### Development
+```bash
+./init.sh
+./start_production.sh
+cd frontend && npm run dev
+```
+
+### Production Checklist
+
+- [ ] Generate production API key
+- [ ] Setup PostgreSQL production database
+- [ ] Configure Redis for production
+- [ ] Setup reverse proxy (Nginx)
+- [ ] Enable HTTPS/SSL
+- [ ] Configure environment variables
+- [ ] Setup monitoring & logging
+- [ ] Configure backup strategy
+- [ ] Setup CI/CD pipeline
+- [ ] Load testing
+- [ ] Security audit
+
+### Environment Variables
+
+**Backend Production:**
+```env
+API_KEY=<production-key>
+ENVIRONMENT=production
+DEBUG=false
+REDIS_URL=<production-redis-url>
+ALLOWED_ORIGINS=https://your-domain.com
+```
+
+**Frontend Production:**
+```env
+PYTHON_API_KEY=<same-as-backend>
+DATABASE_URL=<production-database-url>
+NEXTAUTH_URL=https://your-domain.com
+NODE_ENV=production
+```
+
+---
+
+## 🤝 Contributing
+
+1. Fork repository
+2. Create feature branch (`git checkout -b feature/amazing`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing`)
+5. Open Pull Request
+
+---
+
+## 📄 License
+
+Private - Created by devnolife
+
+---
+
+## 💡 Tips & Tricks
+
+### Quick Commands
+
+```bash
+# Full restart
+./restart_production.sh && cd frontend && npm run dev
+
+# Check all services
+./pm2-like.sh status
+
+# Monitor logs
+./pm2-like.sh monit
+
+# Database management
+cd frontend && npm run db:studio
+```
+
+### Performance Tips
+
+1. Use production mode for backend (`./start_production.sh`)
+2. Enable Redis caching
+3. Optimize Prisma queries
+4. Use CDN for frontend assets
+5. Enable gzip compression
+6. Monitor with Prisma Studio
+
+### Security Tips
+
+1. Never commit `.env` files
+2. Rotate API keys regularly (every 90 days)
+3. Use different keys per environment
+4. Enable HTTPS in production
+5. Setup rate limiting
+6. Monitor failed auth attempts
+
+---
+
+## 📞 Support
+
+For questions or issues:
+- Check troubleshooting section above
+- View API docs: http://localhost:8000/docs
+- Open an issue on GitHub
+
+---
+
+⚡ **Made with ❤️ by devnolife**
+
+**Remember:** Just run `./init.sh` and you're ready to go! 🚀

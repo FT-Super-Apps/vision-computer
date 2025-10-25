@@ -1,0 +1,236 @@
+// Prisma Schema untuk Anti-Plagiasi System
+// Database untuk Data Masters
+// Created by devnolife
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User Management
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  name          String
+  password      String
+  role          UserRole  @default(USER)
+  avatar        String?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  // Relations
+  documents     Document[]
+  bypasses      BypassHistory[]
+  settings      UserSettings?
+  
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  GUEST
+}
+
+// User Settings
+model UserSettings {
+  id                    String   @id @default(cuid())
+  userId                String   @unique
+  defaultStrategy       String   @default("header_focused")
+  autoAnalyze           Boolean  @default(true)
+  notifications         Boolean  @default(true)
+  theme                 String   @default("light")
+  language              String   @default("id")
+  
+  user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("user_settings")
+}
+
+// Document Management
+model Document {
+  id                 String             @id @default(cuid())
+  title              String
+  originalFilename   String
+  fileSize           Int
+  fileType           String
+  uploadPath         String?
+  uploadedAt         DateTime           @default(now())
+  userId             String
+  status             DocumentStatus     @default(PENDING)
+  
+  // Metadata
+  pageCount          Int?
+  wordCount          Int?
+  characterCount     Int?
+  
+  // Relations
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analysis           DocumentAnalysis?
+  bypasses           BypassHistory[]
+  
+  @@map("documents")
+  @@index([userId])
+  @@index([status])
+  @@index([uploadedAt])
+}
+
+enum DocumentStatus {
+  PENDING
+  ANALYZING
+  ANALYZED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+// Document Analysis (from Python API)
+model DocumentAnalysis {
+  id                    String   @id @default(cuid())
+  documentId            String   @unique
+  
+  // Analysis Results
+  flagCount             Int      @default(0)
+  flagTypes             Json     @default("[]")
+  ocrText               String?  @db.Text
+  metadata              Json     @default("{}")
+  
+  // Plagiarism Detection
+  similarityScore       Float?
+  plagiarismReport      Json?
+  
+  analyzedAt            DateTime @default(now())
+  
+  // Relations
+  document              Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  
+  @@map("document_analysis")
+}
+
+// Bypass History & Results
+model BypassHistory {
+  id                    String         @id @default(cuid())
+  documentId            String
+  userId                String
+  strategy              String
+  
+  // Processing Info
+  status                BypassStatus   @default(PENDING)
+  progress              Int            @default(0)
+  errorMessage          String?
+  
+  // Results
+  outputPath            String?
+  outputFilename        String?
+  outputFileSize        Int?
+  
+  // Metrics
+  flagsRemoved          Int?
+  processingTime        Int?           // in seconds
+  successRate           Float?
+  
+  // Metadata
+  pythonApiResponse     Json?
+  configuration         Json?
+  
+  createdAt             DateTime       @default(now())
+  completedAt           DateTime?
+  
+  // Relations
+  document              Document       @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  user                  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("bypass_history")
+  @@index([userId])
+  @@index([documentId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum BypassStatus {
+  PENDING
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+// Strategies Configuration
+model Strategy {
+  id                 String   @id @default(cuid())
+  name               String   @unique
+  displayName        String
+  description        String
+  category           String
+  isActive           Boolean  @default(true)
+  order              Int      @default(0)
+  
+  // Configuration
+  defaultConfig      Json     @default("{}")
+  capabilities       Json     @default("[]")
+  
+  // Usage Stats
+  usageCount         Int      @default(0)
+  successRate        Float?
+  avgProcessingTime  Int?     // in seconds
+  
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  @@map("strategies")
+  @@index([category])
+  @@index([isActive])
+}
+
+// System Statistics
+model SystemStats {
+  id                    String   @id @default(cuid())
+  date                  DateTime @unique @default(now())
+  
+  // Daily Stats
+  totalDocuments        Int      @default(0)
+  totalBypasses         Int      @default(0)
+  totalUsers            Int      @default(0)
+  
+  // Processing Stats
+  successfulBypasses    Int      @default(0)
+  failedBypasses        Int      @default(0)
+  avgProcessingTime     Int?     // in seconds
+  
+  // Storage Stats
+  totalStorageUsed      BigInt?  // in bytes
+  totalDocumentsSize    BigInt?  // in bytes
+  
+  // API Stats
+  pythonApiCalls        Int      @default(0)
+  pythonApiErrors       Int      @default(0)
+  
+  createdAt             DateTime @default(now())
+  
+  @@map("system_stats")
+  @@index([date])
+}
+
+// Activity Logs
+model ActivityLog {
+  id          String       @id @default(cuid())
+  userId      String?
+  action      String
+  resource    String
+  resourceId  String?
+  details     Json?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime     @default(now())
+  
+  @@map("activity_logs")
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}

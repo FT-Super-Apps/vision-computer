@@ -1,0 +1,154 @@
+[2025-10-25 03:38:27 +0000] [21251] [INFO] Starting gunicorn 23.0.0
+[2025-10-25 03:38:27 +0000] [21251] [INFO] Listening at: http://0.0.0.0:8000 (21251)
+[2025-10-25 03:38:27 +0000] [21251] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2025-10-25 03:38:27 +0000] [21254] [INFO] Booting worker with pid: 21254
+[2025-10-25 03:38:27 +0000] [21255] [INFO] Booting worker with pid: 21255
+[2025-10-25 03:38:27 +0000] [21256] [INFO] Booting worker with pid: 21256
+[2025-10-25 03:38:27 +0000] [21257] [INFO] Booting worker with pid: 21257
+[2025-10-25 03:38:31 +0000] [21257] [INFO] Started server process [21257]
+[2025-10-25 03:38:31 +0000] [21257] [INFO] Waiting for application startup.
+[2025-10-25 03:38:31 +0000] [21254] [INFO] Started server process [21254]
+[2025-10-25 03:38:31 +0000] [21254] [INFO] Waiting for application startup.
+[2025-10-25 03:38:31 +0000] [21257] [INFO] Application startup complete.
+[2025-10-25 03:38:31 +0000] [21255] [INFO] Started server process [21255]
+[2025-10-25 03:38:31 +0000] [21255] [INFO] Waiting for application startup.
+[2025-10-25 03:38:31 +0000] [21254] [INFO] Application startup complete.
+[2025-10-25 03:38:31 +0000] [21255] [INFO] Application startup complete.
+[2025-10-25 03:38:31 +0000] [21256] [INFO] Started server process [21256]
+[2025-10-25 03:38:31 +0000] [21256] [INFO] Waiting for application startup.
+[2025-10-25 03:38:31 +0000] [21256] [INFO] Application startup complete.
+[2025-10-25 03:41:39 +0000] [21251] [INFO] Handling signal: term
+[2025-10-25 03:41:39 +0000] [21257] [INFO] Shutting down
+[2025-10-25 03:41:39 +0000] [21257] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:41:39 +0000] [21255] [INFO] Shutting down
+[2025-10-25 03:41:39 +0000] [21256] [INFO] Shutting down
+[2025-10-25 03:41:39 +0000] [21255] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:41:39 +0000] [21256] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:41:39 +0000] [21254] [INFO] Shutting down
+[2025-10-25 03:41:39 +0000] [21254] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:41:39 +0000] [21257] [INFO] Waiting for application shutdown.
+[2025-10-25 03:41:39 +0000] [21257] [INFO] Application shutdown complete.
+[2025-10-25 03:41:39 +0000] [21257] [INFO] Finished server process [21257]
+[2025-10-25 03:41:39 +0000] [21256] [INFO] Waiting for application shutdown.
+[2025-10-25 03:41:39 +0000] [21256] [INFO] Application shutdown complete.
+[2025-10-25 03:41:39 +0000] [21256] [INFO] Finished server process [21256]
+[2025-10-25 03:41:39 +0000] [21255] [INFO] Waiting for application shutdown.
+[2025-10-25 03:41:39 +0000] [21255] [INFO] Application shutdown complete.
+[2025-10-25 03:41:39 +0000] [21255] [INFO] Finished server process [21255]
+[2025-10-25 03:41:39 +0000] [21251] [ERROR] Worker (pid:21257) was sent SIGTERM!
+[2025-10-25 03:41:39 +0000] [21251] [ERROR] Worker (pid:21255) was sent SIGTERM!
+[2025-10-25 03:41:39 +0000] [21251] [ERROR] Worker (pid:21256) was sent SIGTERM!
+[2025-10-25 03:41:39 +0000] [21254] [INFO] Waiting for application shutdown.
+[2025-10-25 03:41:39 +0000] [21254] [INFO] Application shutdown complete.
+[2025-10-25 03:41:39 +0000] [21254] [INFO] Finished server process [21254]
+[2025-10-25 03:41:39 +0000] [21251] [ERROR] Worker (pid:21254) was sent SIGTERM!
+[2025-10-25 03:41:40 +0000] [21251] [INFO] Shutting down: Master
+[2025-10-25 03:41:46 +0000] [23486] [INFO] Starting gunicorn 23.0.0
+[2025-10-25 03:41:46 +0000] [23486] [INFO] Listening at: http://0.0.0.0:8000 (23486)
+[2025-10-25 03:41:46 +0000] [23486] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2025-10-25 03:41:46 +0000] [23488] [INFO] Booting worker with pid: 23488
+[2025-10-25 03:41:46 +0000] [23490] [INFO] Booting worker with pid: 23490
+[2025-10-25 03:41:46 +0000] [23491] [INFO] Booting worker with pid: 23491
+[2025-10-25 03:41:46 +0000] [23492] [INFO] Booting worker with pid: 23492
+[2025-10-25 03:41:46 +0000] [23488] [INFO] Started server process [23488]
+[2025-10-25 03:41:46 +0000] [23488] [INFO] Waiting for application startup.
+[2025-10-25 03:41:46 +0000] [23488] [INFO] Application startup complete.
+[2025-10-25 03:41:46 +0000] [23490] [INFO] Started server process [23490]
+[2025-10-25 03:41:46 +0000] [23490] [INFO] Waiting for application startup.
+[2025-10-25 03:41:46 +0000] [23490] [INFO] Application startup complete.
+[2025-10-25 03:41:46 +0000] [23491] [INFO] Started server process [23491]
+[2025-10-25 03:41:46 +0000] [23491] [INFO] Waiting for application startup.
+[2025-10-25 03:41:46 +0000] [23491] [INFO] Application startup complete.
+[2025-10-25 03:41:47 +0000] [23492] [INFO] Started server process [23492]
+[2025-10-25 03:41:47 +0000] [23492] [INFO] Waiting for application startup.
+[2025-10-25 03:41:47 +0000] [23492] [INFO] Application startup complete.
+[2025-10-25 03:53:12 +0000] [23486] [INFO] Handling signal: term
+[2025-10-25 03:53:12 +0000] [23490] [INFO] Shutting down
+[2025-10-25 03:53:12 +0000] [23491] [INFO] Shutting down
+[2025-10-25 03:53:12 +0000] [23492] [INFO] Shutting down
+[2025-10-25 03:53:12 +0000] [23490] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:53:12 +0000] [23492] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:53:12 +0000] [23488] [INFO] Shutting down
+[2025-10-25 03:53:12 +0000] [23491] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:53:12 +0000] [23488] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 03:53:12 +0000] [23492] [INFO] Waiting for application shutdown.
+[2025-10-25 03:53:12 +0000] [23490] [INFO] Waiting for application shutdown.
+[2025-10-25 03:53:12 +0000] [23491] [INFO] Waiting for application shutdown.
+[2025-10-25 03:53:12 +0000] [23488] [INFO] Waiting for application shutdown.
+[2025-10-25 03:53:12 +0000] [23490] [INFO] Application shutdown complete.
+[2025-10-25 03:53:12 +0000] [23492] [INFO] Application shutdown complete.
+[2025-10-25 03:53:12 +0000] [23491] [INFO] Application shutdown complete.
+[2025-10-25 03:53:12 +0000] [23488] [INFO] Application shutdown complete.
+[2025-10-25 03:53:12 +0000] [23492] [INFO] Finished server process [23492]
+[2025-10-25 03:53:12 +0000] [23490] [INFO] Finished server process [23490]
+[2025-10-25 03:53:12 +0000] [23488] [INFO] Finished server process [23488]
+[2025-10-25 03:53:12 +0000] [23491] [INFO] Finished server process [23491]
+[2025-10-25 03:53:12 +0000] [23486] [ERROR] Worker (pid:23491) was sent SIGTERM!
+[2025-10-25 03:53:12 +0000] [23486] [ERROR] Worker (pid:23488) was sent SIGTERM!
+[2025-10-25 03:53:12 +0000] [23486] [ERROR] Worker (pid:23490) was sent SIGTERM!
+[2025-10-25 03:53:12 +0000] [23486] [ERROR] Worker (pid:23492) was sent SIGTERM!
+[2025-10-25 03:53:12 +0000] [23486] [INFO] Shutting down: Master
+[2025-10-25 03:53:44 +0000] [29722] [INFO] Starting gunicorn 23.0.0
+[2025-10-25 03:53:44 +0000] [29722] [INFO] Listening at: http://0.0.0.0:8000 (29722)
+[2025-10-25 03:53:44 +0000] [29722] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2025-10-25 03:53:44 +0000] [29726] [INFO] Booting worker with pid: 29726
+[2025-10-25 03:53:44 +0000] [29727] [INFO] Booting worker with pid: 29727
+[2025-10-25 03:53:44 +0000] [29729] [INFO] Booting worker with pid: 29729
+[2025-10-25 03:53:44 +0000] [29730] [INFO] Booting worker with pid: 29730
+[2025-10-25 03:53:44 +0000] [29726] [INFO] Started server process [29726]
+[2025-10-25 03:53:44 +0000] [29726] [INFO] Waiting for application startup.
+[2025-10-25 03:53:44 +0000] [29726] [INFO] Application startup complete.
+[2025-10-25 03:53:44 +0000] [29727] [INFO] Started server process [29727]
+[2025-10-25 03:53:44 +0000] [29727] [INFO] Waiting for application startup.
+[2025-10-25 03:53:44 +0000] [29727] [INFO] Application startup complete.
+[2025-10-25 03:53:45 +0000] [29729] [INFO] Started server process [29729]
+[2025-10-25 03:53:45 +0000] [29729] [INFO] Waiting for application startup.
+[2025-10-25 03:53:45 +0000] [29729] [INFO] Application startup complete.
+[2025-10-25 03:53:45 +0000] [29730] [INFO] Started server process [29730]
+[2025-10-25 03:53:45 +0000] [29730] [INFO] Waiting for application startup.
+[2025-10-25 03:53:45 +0000] [29730] [INFO] Application startup complete.
+[2025-10-25 08:08:14 +0000] [2366] [INFO] Starting gunicorn 23.0.0
+[2025-10-25 08:08:14 +0000] [2366] [INFO] Listening at: http://0.0.0.0:8000 (2366)
+[2025-10-25 08:08:14 +0000] [2366] [INFO] Using worker: uvicorn.workers.UvicornWorker
+[2025-10-25 08:08:14 +0000] [2399] [INFO] Booting worker with pid: 2399
+[2025-10-25 08:08:14 +0000] [2400] [INFO] Booting worker with pid: 2400
+[2025-10-25 08:08:14 +0000] [2401] [INFO] Booting worker with pid: 2401
+[2025-10-25 08:08:14 +0000] [2402] [INFO] Booting worker with pid: 2402
+[2025-10-25 08:08:21 +0000] [2399] [INFO] Started server process [2399]
+[2025-10-25 08:08:21 +0000] [2401] [INFO] Started server process [2401]
+[2025-10-25 08:08:21 +0000] [2400] [INFO] Started server process [2400]
+[2025-10-25 08:08:21 +0000] [2401] [INFO] Waiting for application startup.
+[2025-10-25 08:08:21 +0000] [2399] [INFO] Waiting for application startup.
+[2025-10-25 08:08:21 +0000] [2400] [INFO] Waiting for application startup.
+[2025-10-25 08:08:21 +0000] [2402] [INFO] Started server process [2402]
+[2025-10-25 08:08:21 +0000] [2402] [INFO] Waiting for application startup.
+[2025-10-25 08:08:21 +0000] [2399] [INFO] Application startup complete.
+[2025-10-25 08:08:21 +0000] [2401] [INFO] Application startup complete.
+[2025-10-25 08:08:21 +0000] [2400] [INFO] Application startup complete.
+[2025-10-25 08:08:21 +0000] [2402] [INFO] Application startup complete.
+[2025-10-25 08:31:26 +0000] [2366] [INFO] Handling signal: term
+[2025-10-25 08:31:26 +0000] [2402] [INFO] Shutting down
+[2025-10-25 08:31:26 +0000] [2402] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 08:31:26 +0000] [2401] [INFO] Shutting down
+[2025-10-25 08:31:26 +0000] [2401] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 08:31:26 +0000] [2400] [INFO] Shutting down
+[2025-10-25 08:31:26 +0000] [2400] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 08:31:26 +0000] [2399] [INFO] Shutting down
+[2025-10-25 08:31:26 +0000] [2399] [INFO] Error while closing socket [Errno 9] Bad file descriptor
+[2025-10-25 08:31:26 +0000] [2402] [INFO] Waiting for application shutdown.
+[2025-10-25 08:31:26 +0000] [2402] [INFO] Application shutdown complete.
+[2025-10-25 08:31:26 +0000] [2402] [INFO] Finished server process [2402]
+[2025-10-25 08:31:26 +0000] [2401] [INFO] Waiting for application shutdown.
+[2025-10-25 08:31:26 +0000] [2401] [INFO] Application shutdown complete.
+[2025-10-25 08:31:26 +0000] [2401] [INFO] Finished server process [2401]
+[2025-10-25 08:31:26 +0000] [2366] [ERROR] Worker (pid:2402) was sent SIGTERM!
+[2025-10-25 08:31:26 +0000] [2400] [INFO] Waiting for application shutdown.
+[2025-10-25 08:31:26 +0000] [2400] [INFO] Application shutdown complete.
+[2025-10-25 08:31:26 +0000] [2400] [INFO] Finished server process [2400]
+[2025-10-25 08:31:26 +0000] [2366] [ERROR] Worker (pid:2401) was sent SIGTERM!
+[2025-10-25 08:31:26 +0000] [2366] [ERROR] Worker (pid:2400) was sent SIGTERM!
+[2025-10-25 08:31:26 +0000] [2399] [INFO] Waiting for application shutdown.
+[2025-10-25 08:31:26 +0000] [2399] [INFO] Application shutdown complete.
+[2025-10-25 08:31:26 +0000] [2399] [INFO] Finished server process [2399]
+[2025-10-25 08:31:26 +0000] [2366] [ERROR] Worker (pid:2399) was sent SIGTERM!
+[2025-10-25 08:31:26 +0000] [2366] [INFO] Shutting down: Master

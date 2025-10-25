@@ -1,0 +1,12 @@
+127.0.0.1:54122 - "GET / HTTP/1.1" 200
+127.0.0.1:54122 - "GET /favicon.ico HTTP/1.1" 404
+127.0.0.1:54122 - "GET /app HTTP/1.1" 404
+127.0.0.1:54122 - "GET /api HTTP/1.1" 404
+127.0.0.1:46568 - "GET / HTTP/1.1" 200
+127.0.0.1:55178 - "POST /jobs/process-document HTTP/1.1" 200
+127.0.0.1:48264 - "GET /jobs/12731999-31a6-48ed-9ae9-8470a4a295dd/status HTTP/1.1" 200
+127.0.0.1:38944 - "POST /jobs/process-document HTTP/1.1" 200
+127.0.0.1:46460 - "GET /jobs/a025c32f-22ba-4d80-803f-99c58377d0e5/status HTTP/1.1" 200
+127.0.0.1:40828 - "GET /jobs/a025c32f-22ba-4d80-803f-99c58377d0e5/result HTTP/1.1" 200
+127.0.0.1:36922 - "GET /bypass/download/unified_bypass_20251025_080954_Proposal%20IKM%20metode%20DNN%20Fikri.docx HTTP/1.1" 200
+127.0.0.1:36938 - "GET /bypass/download/unified_bypass_20251025_080954_Proposal%20IKM%20metode%20DNN%20Fikri.docx HTTP/1.1" 200

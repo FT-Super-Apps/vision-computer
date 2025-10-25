@@ -1,18 +1,49 @@
 #!/bin/bash
 # Production startup script untuk Turnitin Bypass API
 # Menggunakan nohup untuk background process yang persistent
+# Created by devnolife
 
 set -e
-
-echo "=========================================="
-echo "Starting Turnitin Bypass API - Production"
-echo "=========================================="
 
 # Warna untuk output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+WHITE='\033[1;37m'
+BOLD='\033[1m'
+DIM='\033[2m'
 NC='\033[0m' # No Color
+
+# ASCII Art Banner
+clear
+echo -e "${CYAN}${BOLD}"
+echo "╔═══════════════════════════════════════════════════════════════════════╗"
+echo "║                                                                       ║"
+echo "║     █████╗ ███╗   ██╗████████╗██╗      ██████╗ ██╗      █████╗       ║"
+echo "║    ██╔══██╗████╗  ██║╚══██╔══╝██║      ██╔══██╗██║     ██╔══██╗      ║"
+echo "║    ███████║██╔██╗ ██║   ██║   ██║█████╗██████╔╝██║     ███████║      ║"
+echo "║    ██╔══██║██║╚██╗██║   ██║   ██║╚════╝██╔═══╝ ██║     ██╔══██║      ║"
+echo "║    ██║  ██║██║ ╚████║   ██║   ██║      ██║     ███████╗██║  ██║      ║"
+echo "║    ╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝      ╚═╝     ╚══════╝╚═╝  ╚═╝      ║"
+echo "║                                                                       ║"
+echo "║       ██████╗ ██╗ █████╗ ███████╗██╗    ██████╗ ███████╗██╗          ║"
+echo "║      ██╔════╝ ██║██╔══██╗██╔════╝██║    ██╔══██╗██╔════╝██║          ║"
+echo "║      ██║  ███╗██║███████║███████╗██║    ██████╔╝███████╗██║          ║"
+echo "║      ██║   ██║██║██╔══██║╚════██║██║    ██╔══██╗╚════██║██║          ║"
+echo "║      ╚██████╔╝██║██║  ██║███████║██║    ██║  ██║███████║██║          ║"
+echo "║       ╚═════╝ ╚═╝╚═╝  ╚═╝╚══════╝╚═╝    ╚═╝  ╚═╝╚══════╝╚═╝          ║"
+echo "║                                                                       ║"
+echo "║             BYPASS API - Production Mode                  ║"
+echo "║                                                                       ║"
+echo "╚═══════════════════════════════════════════════════════════════════════╝"
+echo -e "${NC}"
+echo -e "${MAGENTA}${BOLD}           ⚡ Crafted with passion by devnolife ⚡${NC}"
+echo ""
+echo -e "${BOLD}${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo ""
 
 # Directories
 WORK_DIR="/workspaces/vision-computer"
@@ -44,10 +75,10 @@ check_running() {
     if [ -f "$pid_file" ]; then
         local pid=$(cat "$pid_file")
         if ps -p $pid > /dev/null 2>&1; then
-            echo -e "${YELLOW}$service_name is already running (PID: $pid)${NC}"
+            echo -e "${YELLOW}${BOLD}⚠️  $service_name is already running ${NC}${CYAN}(PID: $pid)${NC}"
             return 0
         else
-            echo -e "${YELLOW}Removing stale PID file for $service_name${NC}"
+            echo -e "${DIM}${YELLOW}🧹 Removing stale PID file for $service_name${NC}"
             rm -f "$pid_file"
         fi
     fi
@@ -56,26 +87,34 @@ check_running() {
 
 # Start Redis
 start_redis() {
-    echo -e "${GREEN}Starting Redis...${NC}"
+    echo -e "${BOLD}${BLUE}[1/3] 🚀 Starting Redis Server...${NC}"
     if check_running "$REDIS_PID_FILE" "Redis"; then
         return 0
     fi
 
     nohup redis-server > "$REDIS_LOG" 2>&1 &
     echo $! > "$REDIS_PID_FILE"
-    sleep 2
+
+    # Loading animation
+    echo -ne "${DIM}      Loading"
+    for i in {1..3}; do
+        sleep 0.5
+        echo -ne "."
+    done
+    echo -e "${NC}"
+    sleep 0.5
 
     if ps -p $(cat "$REDIS_PID_FILE") > /dev/null 2>&1; then
-        echo -e "${GREEN}✓ Redis started (PID: $(cat $REDIS_PID_FILE))${NC}"
+        echo -e "${GREEN}${BOLD}      ✅ Redis started successfully ${NC}${DIM}(PID: $(cat $REDIS_PID_FILE))${NC}"
     else
-        echo -e "${RED}✗ Failed to start Redis${NC}"
+        echo -e "${RED}${BOLD}      ❌ Failed to start Redis${NC}"
         exit 1
     fi
 }
 
 # Start FastAPI with Gunicorn
 start_api() {
-    echo -e "${GREEN}Starting FastAPI with Gunicorn...${NC}"
+    echo -e "${BOLD}${MAGENTA}[2/3] 🌐 Starting FastAPI with Gunicorn...${NC}"
     if check_running "$API_PID_FILE" "FastAPI"; then
         return 0
     fi
@@ -93,19 +132,27 @@ start_api() {
         --pid "$API_PID_FILE" \
         > "$API_LOG" 2>&1 &
 
-    sleep 3
+    # Loading animation
+    echo -ne "${DIM}      Loading"
+    for i in {1..5}; do
+        sleep 0.5
+        echo -ne "."
+    done
+    echo -e "${NC}"
+    sleep 0.5
 
     if [ -f "$API_PID_FILE" ] && ps -p $(cat "$API_PID_FILE") > /dev/null 2>&1; then
-        echo -e "${GREEN}✓ FastAPI started (PID: $(cat $API_PID_FILE))${NC}"
+        echo -e "${GREEN}${BOLD}      ✅ FastAPI started successfully ${NC}${DIM}(PID: $(cat $API_PID_FILE))${NC}"
+        echo -e "${DIM}${CYAN}      └─ Running on http://0.0.0.0:8000 with 4 workers${NC}"
     else
-        echo -e "${RED}✗ Failed to start FastAPI${NC}"
+        echo -e "${RED}${BOLD}      ❌ Failed to start FastAPI${NC}"
         exit 1
     fi
 }
 
 # Start Celery Workers
 start_celery() {
-    echo -e "${GREEN}Starting Celery Workers...${NC}"
+    echo -e "${BOLD}${YELLOW}[3/3] 🔥 Starting Celery Workers...${NC}"
     if check_running "$WORKER_PID_FILE" "Celery Workers"; then
         return 0
     fi
@@ -123,32 +170,45 @@ start_celery() {
         --logfile="$WORKER_LOG" \
         > "$WORKER_LOG" 2>&1 &
 
-    echo $! > "$WORKER_PID_FILE"
-    sleep 3
+    # Loading animation
+    echo -ne "${DIM}      Loading"
+    for i in {1..5}; do
+        sleep 0.5
+        echo -ne "."
+    done
+    echo -e "${NC}"
+    sleep 1
 
-    if ps -p $(cat "$WORKER_PID_FILE") > /dev/null 2>&1; then
-        echo -e "${GREEN}✓ Celery Workers started (PID: $(cat $WORKER_PID_FILE))${NC}"
+    # Wait for PID file to be created by Celery
+    local wait_count=0
+    while [ ! -f "$WORKER_PID_FILE" ] && [ $wait_count -lt 10 ]; do
+        sleep 0.5
+        wait_count=$((wait_count + 1))
+    done
+
+    if [ -f "$WORKER_PID_FILE" ] && ps -p $(cat "$WORKER_PID_FILE") > /dev/null 2>&1; then
+        echo -e "${GREEN}${BOLD}      ✅ Celery Workers started successfully ${NC}${DIM}(PID: $(cat $WORKER_PID_FILE))${NC}"
+        echo -e "${DIM}${CYAN}      └─ Concurrency: 4 | Queues: unified, analysis, matching, bypass${NC}"
     else
-        echo -e "${RED}✗ Failed to start Celery Workers${NC}"
+        echo -e "${RED}${BOLD}      ❌ Failed to start Celery Workers${NC}"
         exit 1
     fi
 }
 
 # Main execution
 main() {
-    echo -e "${YELLOW}Starting all services...${NC}\n"
-
     # Check if gunicorn is installed
     if ! command -v gunicorn &> /dev/null; then
-        echo -e "${RED}Gunicorn not found. Installing...${NC}"
+        echo -e "${YELLOW}${BOLD}📦 Gunicorn not found. Installing...${NC}"
         pip install gunicorn
+        echo ""
     fi
 
     # Check if redis-server is installed
     if ! command -v redis-server &> /dev/null; then
-        echo -e "${RED}Redis not found. Please install redis-server first${NC}"
-        echo "Ubuntu/Debian: sudo apt-get install redis-server"
-        echo "macOS: brew install redis"
+        echo -e "${RED}${BOLD}❌ Redis not found. Please install redis-server first${NC}"
+        echo -e "${DIM}Ubuntu/Debian: sudo apt-get install redis-server${NC}"
+        echo -e "${DIM}macOS: brew install redis${NC}"
         exit 1
     fi
 
@@ -160,27 +220,37 @@ main() {
     start_celery
 
     echo ""
-    echo -e "${GREEN}=========================================="
-    echo "All services started successfully!"
-    echo "==========================================${NC}"
+    echo -e "${BOLD}${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo "Service Status:"
-    echo "  Redis:          PID $(cat $REDIS_PID_FILE)"
-    echo "  FastAPI:        PID $(cat $API_PID_FILE)"
-    echo "  Celery Workers: PID $(cat $WORKER_PID_FILE)"
+    echo -e "${GREEN}${BOLD}   🎉 ALL SERVICES STARTED SUCCESSFULLY! 🎉${NC}"
     echo ""
-    echo "Log files:"
-    echo "  API:     $API_LOG"
-    echo "  Worker:  $WORKER_LOG"
-    echo "  Redis:   $REDIS_LOG"
+    echo -e "${BOLD}${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo ""
-    echo "API URL: http://localhost:8000"
+    echo -e "${BOLD}${CYAN}📊 Service Status:${NC}"
+    echo -e "${DIM}├─${NC} ${BLUE}Redis Server${NC}          ${GREEN}✓${NC} ${DIM}PID $(cat $REDIS_PID_FILE)${NC}"
+    echo -e "${DIM}├─${NC} ${MAGENTA}FastAPI${NC}               ${GREEN}✓${NC} ${DIM}PID $(cat $API_PID_FILE)${NC}"
+    echo -e "${DIM}└─${NC} ${YELLOW}Celery Workers${NC}        ${GREEN}✓${NC} ${DIM}PID $(cat $WORKER_PID_FILE)${NC}"
     echo ""
-    echo "Useful commands:"
-    echo "  ./stop_production.sh     - Stop all services"
-    echo "  ./restart_production.sh  - Restart all services"
-    echo "  ./status_production.sh   - Check service status"
-    echo "  tail -f logs/*.log       - Monitor logs"
+    echo -e "${BOLD}${CYAN}📁 Log Files:${NC}"
+    echo -e "${DIM}├─${NC} API:     ${DIM}$API_LOG${NC}"
+    echo -e "${DIM}├─${NC} Access:  ${DIM}$LOG_DIR/access.log${NC}"
+    echo -e "${DIM}├─${NC} Error:   ${DIM}$LOG_DIR/error.log${NC}"
+    echo -e "${DIM}├─${NC} Worker:  ${DIM}$WORKER_LOG${NC}"
+    echo -e "${DIM}└─${NC} Redis:   ${DIM}$REDIS_LOG${NC}"
+    echo ""
+    echo -e "${BOLD}${CYAN}🌐 API Endpoint:${NC}"
+    echo -e "   ${GREEN}${BOLD}http://localhost:8000${NC}"
+    echo ""
+    echo -e "${BOLD}${CYAN}⚡ Quick Commands:${NC}"
+    echo -e "${DIM}├─${NC} ${YELLOW}./stop_production.sh${NC}      ${DIM}Stop all services${NC}"
+    echo -e "${DIM}├─${NC} ${YELLOW}./restart_production.sh${NC}   ${DIM}Restart all services${NC}"
+    echo -e "${DIM}├─${NC} ${YELLOW}./status_production.sh${NC}    ${DIM}Check service status${NC}"
+    echo -e "${DIM}└─${NC} ${YELLOW}tail -f logs/*.log${NC}        ${DIM}Monitor logs in real-time${NC}"
+    echo ""
+    echo -e "${BOLD}${WHITE}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "${DIM}${MAGENTA}                Made with ❤️  by devnolife | $(date '+%Y-%m-%d %H:%M:%S')${NC}"
+    echo ""
 }
 
 main
