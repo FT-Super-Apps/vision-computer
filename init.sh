@@ -208,12 +208,50 @@ setup_frontend_env() {
         cp "$FRONTEND_DIR/.env" "$FRONTEND_DIR/.env.backup.$(date +%s)"
     fi
     
-    # Prompt for database URL
-    echo -e "${YELLOW}${BOLD}Database Configuration${NC}"
-    echo -e "${DIM}Press Enter to use default PostgreSQL URL, or enter your custom URL:${NC}"
-    read -p "DATABASE_URL (default: postgresql://postgres:postgres@localhost:5432/antiplagiasi): " DB_URL
-    DB_URL=${DB_URL:-"postgresql://postgres:postgres@localhost:5432/antiplagiasi"}
-    
+    # Interactive Database Configuration
+    echo -e "${YELLOW}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${YELLOW}${BOLD}              Database Configuration${NC}"
+    echo -e "${YELLOW}${BOLD}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo -e "${CYAN}${BOLD}🗄️  PostgreSQL Database Setup${NC}"
+    echo -e "${DIM}Configure your PostgreSQL connection details${NC}"
+    echo -e "${DIM}Press Enter to use default values shown in [brackets]${NC}"
+    echo ""
+
+    # Database Host
+    read -p "$(echo -e ${CYAN}Database Host${NC}) [localhost]: " DB_HOST
+    DB_HOST=${DB_HOST:-"localhost"}
+
+    # Database Port
+    read -p "$(echo -e ${CYAN}Database Port${NC}) [5432]: " DB_PORT
+    DB_PORT=${DB_PORT:-"5432"}
+
+    # Database Username
+    read -p "$(echo -e ${CYAN}Database Username${NC}) [postgres]: " DB_USER
+    DB_USER=${DB_USER:-"postgres"}
+
+    # Database Password
+    read -sp "$(echo -e ${CYAN}Database Password${NC}) [postgres]: " DB_PASSWORD
+    DB_PASSWORD=${DB_PASSWORD:-"postgres"}
+    echo ""
+
+    # Database Name
+    read -p "$(echo -e ${CYAN}Database Name${NC}) [antiplagiasi]: " DB_NAME
+    DB_NAME=${DB_NAME:-"antiplagiasi"}
+
+    # Database Schema
+    read -p "$(echo -e ${CYAN}Database Schema${NC}) [public]: " DB_SCHEMA
+    DB_SCHEMA=${DB_SCHEMA:-"public"}
+
+    # Construct DATABASE_URL
+    DB_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}?schema=${DB_SCHEMA}"
+
+    echo ""
+    echo -e "${GREEN}${BOLD}✅ Database Configuration:${NC}"
+    echo -e "${DIM}├─${NC} Host:     ${CYAN}${DB_HOST}:${DB_PORT}${NC}"
+    echo -e "${DIM}├─${NC} Database: ${CYAN}${DB_NAME}${NC}"
+    echo -e "${DIM}├─${NC} Schema:   ${CYAN}${DB_SCHEMA}${NC}"
+    echo -e "${DIM}└─${NC} User:     ${CYAN}${DB_USER}${NC}"
     echo ""
     
     # Generate NextAuth secret
@@ -302,26 +340,66 @@ install_frontend_deps() {
 setup_database() {
     log_step "Setting up Frontend database with Prisma..."
     echo ""
-    
+
     if [ ! -d "$FRONTEND_DIR" ]; then
         log_warning "Frontend directory not found, skipping database setup..."
         return
     fi
-    
+
     cd "$FRONTEND_DIR"
-    
+
     if [ ! -f "prisma/schema.prisma" ]; then
         log_warning "Prisma schema not found, skipping database setup..."
         return
     fi
-    
+
+    # Test database connection
+    echo -e "${CYAN}${BOLD}Testing database connection...${NC}"
+
+    if command -v psql &> /dev/null; then
+        # Try to connect
+        PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d postgres -c '\q' &> /dev/null
+
+        if [ $? -eq 0 ]; then
+            log_success "Database connection successful"
+
+            # Check if database exists
+            DB_EXISTS=$(PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'")
+
+            if [ "$DB_EXISTS" = "1" ]; then
+                log_info "Database '$DB_NAME' already exists"
+            else
+                log_warning "Database '$DB_NAME' does not exist"
+                echo -e "${YELLOW}${BOLD}Would you like to create it? (y/n) [y]: ${NC}"
+                read -r create_db
+                create_db=${create_db:-"y"}
+
+                if [ "$create_db" = "y" ] || [ "$create_db" = "Y" ]; then
+                    PGPASSWORD="$DB_PASSWORD" psql -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d postgres -c "CREATE DATABASE $DB_NAME;" &> /dev/null
+
+                    if [ $? -eq 0 ]; then
+                        log_success "Database '$DB_NAME' created successfully"
+                    else
+                        log_error "Failed to create database"
+                    fi
+                fi
+            fi
+        else
+            log_warning "Could not connect to PostgreSQL server"
+            log_info "Please ensure PostgreSQL is running and credentials are correct"
+        fi
+    else
+        log_warning "psql command not found, skipping database connection test"
+    fi
+
+    echo ""
     log_info "Generating Prisma Client..."
     npx prisma generate --silent || true
-    
+
     log_info "Pushing database schema..."
-    npx prisma db push --skip-generate --accept-data-loss || log_warning "Database push failed (might be normal if DB not ready)"
-    
-    log_success "Database setup completed (or skipped)"
+    npx prisma db push --skip-generate --accept-data-loss 2>&1 | grep -v "warn" || log_warning "Database push had warnings (might be normal)"
+
+    log_success "Database setup completed"
     echo ""
 }
 
@@ -418,6 +496,12 @@ display_summary() {
     echo -e "   ${DIM}Location:${NC}"
     echo -e "   ${DIM}  • Backend:${NC}  .env → API_KEY"
     echo -e "   ${DIM}  • Frontend:${NC} frontend/.env → PYTHON_API_KEY"
+    echo ""
+    echo -e "${BOLD}${CYAN}🗄️  Database Configuration:${NC}"
+    echo -e "   ${DIM}Database:${NC} ${CYAN}${DB_NAME:-antiplagiasi}${NC}"
+    echo -e "   ${DIM}Host:${NC}     ${CYAN}${DB_HOST:-localhost}:${DB_PORT:-5432}${NC}"
+    echo -e "   ${DIM}User:${NC}     ${CYAN}${DB_USER:-postgres}${NC}"
+    echo -e "   ${DIM}Schema:${NC}   ${CYAN}${DB_SCHEMA:-public}${NC}"
     echo ""
     echo -e "${BOLD}${CYAN}🚀 Next Steps:${NC}"
     echo -e "${DIM}1.${NC} ${YELLOW}Start Backend:${NC}"
