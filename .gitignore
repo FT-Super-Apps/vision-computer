@@ -1,0 +1,137 @@
+# Anti-Plagiasi System - .gitignore
+# Created by devnolife
+
+# ═══════════════════════════════════════════════════════════════════
+# Backend (Python)
+# ═══════════════════════════════════════════════════════════════════
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# Backend Runtime Directories
+backend/uploads/*
+!backend/uploads/.gitkeep
+backend/outputs/*
+!backend/outputs/.gitkeep
+backend/temp/*
+!backend/temp/.gitkeep
+backend/logs/*
+!backend/logs/.gitkeep
+backend/pids/*
+!backend/pids/.gitkeep
+
+# ═══════════════════════════════════════════════════════════════════
+# Frontend (Next.js)
+# ═══════════════════════════════════════════════════════════════════
+
+# Dependencies
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+
+# Testing
+frontend/coverage
+
+# Next.js
+frontend/.next/
+frontend/out/
+
+# Production
+frontend/build
+
+# Misc
+frontend/.DS_Store
+frontend/*.pem
+
+# Debug
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# Local env files
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Vercel
+frontend/.vercel
+
+# Prisma
+frontend/prisma/migrations/*
+!frontend/prisma/migrations/.gitkeep
+
+# ═══════════════════════════════════════════════════════════════════
+# General
+# ═══════════════════════════════════════════════════════════════════
+
+# Environment Variables
+.env
+.env.backup.*
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Redis
+dump.rdb
+
+# Logs
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+tmp/
+temp/
+
+# Backup files
+*.backup
+*.bak
+
+# Archives
+*.zip
+*.tar.gz
+*.rar

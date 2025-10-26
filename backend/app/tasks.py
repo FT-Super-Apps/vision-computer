@@ -20,6 +20,7 @@ import sys
 sys.path.append(str(Path(__file__).parent.parent))
 
 from app.bypass_engine import BypassEngine
+from app.database_client import db_client
 
 # Initialize bypass engine
 engine = BypassEngine()
@@ -720,6 +721,50 @@ def process_document_unified_task(self, turnitin_pdf_path: str, original_doc_pat
         # Save modified document
         output_filename = f"outputs/unified_bypass_{timestamp}_{original_filename}"
         doc.save(output_filename)
+
+        self.update_progress(12.8, TOTAL_STEPS, "Saving results to database...")
+
+        # Get file size of output
+        output_file_size = os.path.getsize(output_filename) if os.path.exists(output_filename) else 0
+
+        # Calculate processing time (estimate based on timestamp)
+        processing_time = int((datetime.now() - datetime.strptime(timestamp, "%Y%m%d_%H%M%S")).total_seconds())
+
+        # Save to database (if document_id and user_id are available in context)
+        # Note: These need to be passed from the API endpoint
+        if hasattr(self, 'request') and self.request.kwargs:
+            document_id = self.request.kwargs.get('document_id')
+            user_id = self.request.kwargs.get('user_id')
+
+            if document_id and user_id:
+                try:
+                    # Save bypass result to database
+                    db_client.save_bypass_result(
+                        document_id=document_id,
+                        user_id=user_id,
+                        strategy="unified_bypass",
+                        status="COMPLETED",
+                        output_path=output_filename,
+                        output_filename=os.path.basename(output_filename),
+                        output_file_size=output_file_size,
+                        flags_removed=len(processed_flags),
+                        processing_time=processing_time,
+                        success_rate=round((len(matched_items) / len(flagged_items) * 100) if flagged_items else 0, 2),
+                        python_api_response={
+                            "total_pages": total_pages,
+                            "total_highlights": highlight_count,
+                            "total_flags": len(flagged_items),
+                            "total_matched": len(matched_items),
+                            "total_replacements": total_replacements,
+                        },
+                        configuration={
+                            "homoglyph_density": homoglyph_density,
+                            "invisible_density": invisible_density,
+                        }
+                    )
+                except Exception as db_error:
+                    # Log error but don't fail the task
+                    print(f"Database save error: {db_error}")
 
         self.update_progress(13, TOTAL_STEPS, "Complete! Document processed successfully.")
 
