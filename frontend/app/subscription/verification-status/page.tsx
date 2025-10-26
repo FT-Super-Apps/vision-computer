@@ -1,0 +1,334 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Clock, CheckCircle2, XCircle, AlertCircle } from 'lucide-react'
+import Image from 'next/image'
+
+interface PaymentStatus {
+  accountStatus: string
+  isActive: boolean
+  hasProfile: boolean
+  latestPaymentProof: {
+    id: string
+    status: string
+    amount: number
+    paymentMethod: string
+    transactionDate: string
+    proofImageUrl: string
+    verifiedAt: string | null
+    rejectionReason: string | null
+    adminNotes: string | null
+    package: {
+      code: string
+      name: string
+      price: number
+      validityDays: number
+    }
+  } | null
+  activeSubscription: {
+    id: string
+    status: string
+    startDate: string | null
+    endDate: string | null
+    documentsUsed: number
+    package: {
+      code: string
+      name: string
+      maxDocuments: number
+    }
+  } | null
+}
+
+export default function VerificationStatusPage() {
+  const { data: session } = useSession()
+  const router = useRouter()
+  const [status, setStatus] = useState<PaymentStatus | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchStatus()
+    // Refresh status every 30 seconds
+    const interval = setInterval(fetchStatus, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
+  const fetchStatus = async () => {
+    try {
+      const response = await fetch('/api/payment/status')
+      const data = await response.json()
+
+      if (data.success) {
+        setStatus(data.data)
+      }
+    } catch (error) {
+      console.error('Error fetching status:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+    }).format(price)
+  }
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  const payment = status?.latestPaymentProof
+  const subscription = status?.activeSubscription
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Status Verifikasi
+          </h1>
+          <p className="text-gray-600">
+            Lihat status pembayaran dan langganan Anda
+          </p>
+        </div>
+
+        {/* Payment Status Card */}
+        {payment && (
+          <Card className="p-6 mb-6">
+            <div className="flex items-start justify-between mb-6">
+              <div>
+                <h2 className="text-xl font-semibold text-gray-900 mb-1">
+                  Bukti Pembayaran
+                </h2>
+                <p className="text-sm text-gray-600">
+                  {payment.package.name}
+                </p>
+              </div>
+
+              {/* Status Badge */}
+              <div>
+                {payment.status === 'PENDING' && (
+                  <div className="flex items-center space-x-2 bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full">
+                    <Clock className="h-5 w-5" />
+                    <span className="font-semibold">Menunggu Verifikasi</span>
+                  </div>
+                )}
+                {payment.status === 'VERIFIED' && (
+                  <div className="flex items-center space-x-2 bg-green-100 text-green-800 px-4 py-2 rounded-full">
+                    <CheckCircle2 className="h-5 w-5" />
+                    <span className="font-semibold">Terverifikasi</span>
+                  </div>
+                )}
+                {payment.status === 'REJECTED' && (
+                  <div className="flex items-center space-x-2 bg-red-100 text-red-800 px-4 py-2 rounded-full">
+                    <XCircle className="h-5 w-5" />
+                    <span className="font-semibold">Ditolak</span>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* Payment Details */}
+              <div className="space-y-3">
+                <div>
+                  <p className="text-sm text-gray-600">Metode Pembayaran</p>
+                  <p className="font-semibold">{payment.paymentMethod}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Jumlah Transfer</p>
+                  <p className="font-semibold">{formatPrice(payment.amount)}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Tanggal Transfer</p>
+                  <p className="font-semibold">{formatDate(payment.transactionDate)}</p>
+                </div>
+                {payment.verifiedAt && (
+                  <div>
+                    <p className="text-sm text-gray-600">Tanggal Verifikasi</p>
+                    <p className="font-semibold">{formatDate(payment.verifiedAt)}</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Payment Proof Image */}
+              <div>
+                <p className="text-sm text-gray-600 mb-2">Bukti Transfer</p>
+                <div className="relative h-48 border border-gray-200 rounded-lg overflow-hidden">
+                  <Image
+                    src={payment.proofImageUrl}
+                    alt="Bukti Transfer"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Status Messages */}
+            {payment.status === 'PENDING' && (
+              <div className="mt-6 bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                <div className="flex items-start space-x-3">
+                  <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-blue-800">
+                    <p className="font-semibold mb-1">Sedang Diproses</p>
+                    <p>
+                      Pembayaran Anda sedang dalam proses verifikasi oleh admin.
+                      Mohon tunggu maksimal 1x24 jam. Kami akan mengaktifkan akun Anda
+                      setelah pembayaran diverifikasi.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {payment.status === 'VERIFIED' && (
+              <div className="mt-6 bg-green-50 border border-green-200 p-4 rounded-lg">
+                <div className="flex items-start space-x-3">
+                  <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-green-800">
+                    <p className="font-semibold mb-1">Pembayaran Terverifikasi</p>
+                    <p>
+                      Selamat! Pembayaran Anda telah diverifikasi. Akun Anda sekarang aktif
+                      dan Anda dapat menggunakan semua fitur sesuai paket yang dipilih.
+                    </p>
+                    {payment.adminNotes && (
+                      <p className="mt-2">
+                        <span className="font-semibold">Catatan Admin:</span> {payment.adminNotes}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {payment.status === 'REJECTED' && (
+              <div className="mt-6 bg-red-50 border border-red-200 p-4 rounded-lg">
+                <div className="flex items-start space-x-3">
+                  <XCircle className="h-5 w-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-red-800">
+                    <p className="font-semibold mb-1">Pembayaran Ditolak</p>
+                    {payment.rejectionReason && (
+                      <p className="mb-2">
+                        <span className="font-semibold">Alasan:</span> {payment.rejectionReason}
+                      </p>
+                    )}
+                    {payment.adminNotes && (
+                      <p className="mb-2">
+                        <span className="font-semibold">Catatan:</span> {payment.adminNotes}
+                      </p>
+                    )}
+                    <p>
+                      Silakan upload ulang bukti pembayaran yang valid atau hubungi
+                      customer service untuk bantuan.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </Card>
+        )}
+
+        {/* Active Subscription Card */}
+        {subscription && subscription.status === 'ACTIVE' && (
+          <Card className="p-6 mb-6">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Langganan Aktif
+            </h2>
+
+            <div className="grid md:grid-cols-3 gap-4">
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <p className="text-sm text-blue-600 mb-1">Paket</p>
+                <p className="text-lg font-semibold text-blue-900">
+                  {subscription.package.name}
+                </p>
+              </div>
+
+              <div className="bg-green-50 p-4 rounded-lg">
+                <p className="text-sm text-green-600 mb-1">Masa Aktif</p>
+                <p className="text-lg font-semibold text-green-900">
+                  {subscription.startDate && formatDate(subscription.startDate)}
+                  {' - '}
+                  {subscription.endDate && formatDate(subscription.endDate)}
+                </p>
+              </div>
+
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <p className="text-sm text-purple-600 mb-1">Dokumen Digunakan</p>
+                <p className="text-lg font-semibold text-purple-900">
+                  {subscription.documentsUsed}
+                  {subscription.package.maxDocuments > 0
+                    ? ` / ${subscription.package.maxDocuments}`
+                    : ' / Unlimited'}
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <Button
+                onClick={() => router.push('/dashboard')}
+                className="w-full bg-blue-600 hover:bg-blue-700"
+              >
+                Mulai Gunakan Layanan
+              </Button>
+            </div>
+          </Card>
+        )}
+
+        {/* No Payment Yet */}
+        {!payment && (
+          <Card className="p-8 text-center">
+            <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Belum Ada Pembayaran
+            </h3>
+            <p className="text-gray-600 mb-6">
+              Anda belum melakukan upload bukti pembayaran. Silakan pilih paket dan
+              upload bukti pembayaran untuk mengaktifkan akun.
+            </p>
+            <Button
+              onClick={() => router.push('/subscription/select-package')}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              Pilih Paket
+            </Button>
+          </Card>
+        )}
+
+        {/* Rejected - Reupload Button */}
+        {payment?.status === 'REJECTED' && (
+          <div className="text-center">
+            <Button
+              onClick={() => router.push('/subscription/select-package')}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              Upload Ulang Bukti Pembayaran
+            </Button>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}

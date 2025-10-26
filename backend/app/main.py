@@ -499,16 +499,26 @@ async def bypass_document(
 
 @app.get("/bypass/download/{filename}")
 async def download_result(filename: str):
-    """Download hasil bypass"""
-    file_path = f"outputs/{filename}"
+    """Download hasil bypass dari outputs directory"""
+    # Support both old path and new backend/outputs/ path
+    file_path = f"backend/outputs/{filename}"
+
+    # Fallback to old path if file not found
+    if not os.path.exists(file_path):
+        file_path = f"outputs/{filename}"
 
     if not os.path.exists(file_path):
         raise HTTPException(status_code=404, detail="File not found")
 
+    # Determine media type based on file extension
+    media_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    if filename.lower().endswith('.pdf'):
+        media_type = 'application/pdf'
+
     return FileResponse(
         path=file_path,
         filename=filename,
-        media_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        media_type=media_type
     )
 
 

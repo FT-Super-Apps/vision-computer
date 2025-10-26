@@ -13,21 +13,30 @@ datasource db {
 
 // User Management
 model User {
-  id            String    @id @default(cuid())
-  email         String    @unique
+  id            String         @id @default(cuid())
+  email         String         @unique
   name          String
   password      String
-  role          UserRole  @default(USER)
+  role          UserRole       @default(USER)
   avatar        String?
   emailVerified DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  
+
+  // Account Status
+  accountStatus AccountStatus  @default(PENDING_PROFILE)
+  isActive      Boolean        @default(false)
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
   // Relations
+  profile       UserProfile?
   documents     Document[]
   bypasses      BypassHistory[]
   settings      UserSettings?
-  
+  activityLogs  ActivityLog[]
+  subscriptions Subscription[]
+  paymentProofs PaymentProof[]
+
   @@map("users")
 }
 
@@ -35,6 +44,15 @@ enum UserRole {
   ADMIN
   USER
   GUEST
+}
+
+enum AccountStatus {
+  PENDING_PROFILE       // Belum lengkapi profile
+  PENDING_PAYMENT       // Belum upload bukti pembayaran
+  PENDING_VERIFICATION  // Menunggu verifikasi admin
+  ACTIVE                // Sudah terverifikasi, bisa akses fitur
+  SUSPENDED             // Akun di-suspend
+  EXPIRED               // Langganan habis
 }
 
 // User Settings
@@ -46,10 +64,166 @@ model UserSettings {
   notifications         Boolean  @default(true)
   theme                 String   @default("light")
   language              String   @default("id")
-  
+
   user                  User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+
   @@map("user_settings")
+}
+
+// User Profile (Extended Information)
+model UserProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+
+  // Personal Information
+  fullName        String
+  phone           String
+  address         String?
+  city            String?
+  province        String?
+  postalCode      String?
+
+  // Academic/Institutional Information
+  institution     String?   // Universitas/Sekolah
+  major           String?   // Jurusan
+  studentId       String?   // NIM/NIS
+
+  // Additional Info
+  purpose         String?   // Tujuan penggunaan (skripsi, tesis, dll)
+
+  completedAt     DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("user_profiles")
+}
+
+// Packages (Paket Berlangganan)
+model Package {
+  id              String   @id @default(cuid())
+
+  // Package Info
+  code            String   @unique  // PROPOSAL, HASIL, TUTUP
+  name            String              // "Paket Proposal", "Paket Hasil", "Paket Tutup"
+  description     String   @db.Text
+
+  // Pricing
+  price           Int                 // Harga dalam rupiah
+  currency        String   @default("IDR")
+
+  // Features & Limits
+  features        Json     @default("[]")  // Daftar fitur
+  maxDocuments    Int      @default(0)     // 0 = unlimited
+  maxFileSize     Int      @default(10)    // dalam MB
+
+  // Validity
+  validityDays    Int      @default(30)    // Durasi paket (hari)
+
+  // Status
+  isActive        Boolean  @default(true)
+  order           Int      @default(0)     // Urutan tampilan
+
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // Relations
+  subscriptions   Subscription[]
+
+  @@map("packages")
+  @@index([code])
+  @@index([isActive])
+}
+
+// Payment Proof (Bukti Pembayaran)
+model PaymentProof {
+  id              String            @id @default(cuid())
+  userId          String
+  packageId       String
+
+  // Payment Info
+  paymentMethod   String            // Transfer Bank, E-Wallet, dll
+  accountName     String            // Nama pengirim
+  accountNumber   String?           // Nomor rekening/e-wallet pengirim
+  amount          Int               // Jumlah yang ditransfer
+
+  // Proof File
+  proofImageUrl   String            // URL bukti transfer (disimpan di uploads/)
+  originalFilename String
+  fileSize        Int
+
+  // Transaction Details
+  transactionDate DateTime          // Tanggal transfer
+  notes           String?           // Catatan dari user
+
+  // Verification
+  status          PaymentStatus     @default(PENDING)
+  verifiedBy      String?           // Admin ID yang verifikasi
+  verifiedAt      DateTime?
+  rejectionReason String?           // Alasan jika ditolak
+  adminNotes      String?           // Catatan dari admin
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subscription    Subscription?
+
+  @@map("payment_proofs")
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+enum PaymentStatus {
+  PENDING       // Menunggu verifikasi
+  VERIFIED      // Sudah diverifikasi
+  REJECTED      // Ditolak
+}
+
+// Subscriptions (Langganan User)
+model Subscription {
+  id              String            @id @default(cuid())
+  userId          String
+  packageId       String
+  paymentProofId  String            @unique
+
+  // Subscription Period
+  startDate       DateTime?         // Mulai setelah diverifikasi
+  endDate         DateTime?         // Berakhir sesuai validityDays
+
+  // Status
+  status          SubscriptionStatus @default(PENDING)
+  isActive        Boolean           @default(false)
+
+  // Usage Tracking
+  documentsUsed   Int               @default(0)
+
+  // Auto-renewal
+  autoRenew       Boolean           @default(false)
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  // Relations
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  package         Package           @relation(fields: [packageId], references: [id], onDelete: Cascade)
+  paymentProof    PaymentProof      @relation(fields: [paymentProofId], references: [id], onDelete: Cascade)
+
+  @@map("subscriptions")
+  @@index([userId])
+  @@index([packageId])
+  @@index([status])
+  @@index([isActive])
+  @@index([endDate])
+}
+
+enum SubscriptionStatus {
+  PENDING       // Menunggu verifikasi payment
+  ACTIVE        // Aktif dan bisa digunakan
+  EXPIRED       // Sudah habis masa berlaku
+  CANCELLED     // Dibatalkan
 }
 
 // Document Management
@@ -228,7 +402,10 @@ model ActivityLog {
   ipAddress   String?
   userAgent   String?
   createdAt   DateTime     @default(now())
-  
+
+  // Relations
+  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+
   @@map("activity_logs")
   @@index([userId])
   @@index([action])

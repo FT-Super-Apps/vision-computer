@@ -40,19 +40,37 @@ Modern document bypass system dengan Next.js fullstack frontend dan Python FastA
 # 1. Initialize everything (auto-generate API key, setup .env, install deps)
 ./init.sh
 
-# 2. Start backend
+# 2. Setup frontend (database, seed users, etc.)
+./setup_frontend.sh
+
+# 3. Start backend
 ./start_production.sh
 
-# 3. Start frontend (in new terminal)
+# 4. Start frontend (in new terminal)
 cd frontend && npm run dev
 
-# 4. Access applications
+# 5. Access applications
 # - Frontend: http://localhost:3000
-# - Backend:  http://localhost:8000
+# - Admin Dashboard: http://localhost:3000/admin
+# - Backend API: http://localhost:8000
 # - API Docs: http://localhost:8000/docs
 ```
 
 **That's it!** 🎉 Everything configured automatically!
+
+### 🔐 Default Login Credentials
+
+After running `setup_frontend.sh`, use these credentials:
+
+**Admin Access:**
+- Email: `admin@antiplagiasi.com`
+- Password: `admin123`
+- Access: Full system monitoring at `/admin`
+
+**Test User:**
+- Email: `user1@test.com`
+- Password: `user123`
+- Access: Personal dashboard at `/dashboard`
 
 ---
 
@@ -132,11 +150,14 @@ Display to User
 - ✅ **Modern UI** - Shadcn UI components + TailwindCSS
 - ✅ **Full Stack** - API routes + Server components
 - ✅ **Database** - Prisma ORM with PostgreSQL
-- ✅ **Authentication** - NextAuth.js (ready to implement)
-- ✅ **User Management** - CRUD operations
-- ✅ **Document Management** - Upload, list, search
-- ✅ **Bypass History** - Track all operations
-- ✅ **Analytics** - Usage statistics
+- ✅ **Authentication** - NextAuth.js with credentials provider & bcrypt
+- ✅ **Role-Based Access** - Admin & User roles with route protection
+- ✅ **Admin Dashboard** - Real-time monitoring of all users' processes
+- ✅ **Progress Tracking** - Live progress bars with auto-refresh
+- ✅ **User Management** - Registration, login, and profile management
+- ✅ **Document Management** - Upload, list, search, download
+- ✅ **Bypass History** - Complete audit trail of all operations
+- ✅ **Analytics** - System-wide statistics and user metrics
 - ✅ **Responsive** - Mobile-friendly design
 
 ---
