@@ -494,7 +494,7 @@ npm run db:seed
 ```
 
 This will create:
-- Admin: `admin@antiplagiasi.com` / `admin123` (ACTIVE)
+- Admin: `admin@rumahplagiasi.com` / `admin123` (ACTIVE)
 - User1: `user1@test.com` / `user123` (PENDING_PROFILE)
 - 3 packages: PROPOSAL, HASIL, TUTUP
 
@@ -531,7 +531,7 @@ This will create:
 ### 3. **Test Admin Verification**
 
 1. **Login as admin:**
-   - Email: `admin@antiplagiasi.com`
+   - Email: `admin@rumahplagiasi.com`
    - Password: `admin123`
 
 2. **Go to `/admin/payments`**

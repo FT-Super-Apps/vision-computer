@@ -159,10 +159,10 @@ function PaymentForm() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <p className="mt-4 text-gray-600">Memuat...</p>
         </div>
       </div>
     )
@@ -170,10 +170,10 @@ function PaymentForm() {
 
   if (!pkg) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <Card className="p-8 text-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
+        <Card className="p-8 text-center shadow-xl border-2">
           <p className="text-gray-600 mb-4">Paket tidak ditemukan</p>
-          <Button onClick={() => router.push('/subscription/select-package')}>
+          <Button onClick={() => router.push('/subscription/select-package')} className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
             Kembali
           </Button>
         </Card>
@@ -182,10 +182,18 @@ function PaymentForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 py-12 px-4">
       <div className="max-w-5xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
+          <div className="inline-flex items-center space-x-2 mb-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-2xl font-bold">🏠</span>
+            </div>
+            <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Rumah Plagiasi
+            </span>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Upload Bukti Pembayaran
           </h1>
@@ -196,7 +204,7 @@ function PaymentForm() {
 
         <div className="grid md:grid-cols-2 gap-8">
           {/* Payment Instructions */}
-          <Card className="p-6">
+          <Card className="p-6 shadow-xl border-2">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Informasi Pembayaran
             </h2>
@@ -210,12 +218,12 @@ function PaymentForm() {
                   <div>
                     <p className="font-semibold">Bank BCA</p>
                     <p>No. Rek: 1234567890</p>
-                    <p>a.n. Anti Plagiasi System</p>
+                    <p>a.n. Rumah Plagiasi</p>
                   </div>
                   <div className="border-t border-blue-300 pt-2 mt-2">
                     <p className="font-semibold">Bank Mandiri</p>
                     <p>No. Rek: 0987654321</p>
-                    <p>a.n. Anti Plagiasi System</p>
+                    <p>a.n. Rumah Plagiasi</p>
                   </div>
                 </div>
               </div>
@@ -243,10 +251,13 @@ function PaymentForm() {
           </Card>
 
           {/* Upload Form */}
-          <Card className="p-6">
+          <Card className="p-6 shadow-xl border-2">
             <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
-                <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded text-sm">
+                <div className="p-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg flex items-center">
+                  <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
                   {error}
                 </div>
               )}
@@ -377,16 +388,26 @@ function PaymentForm() {
                   type="button"
                   variant="outline"
                   onClick={() => router.push('/subscription/select-package')}
-                  className="flex-1"
+                  className="flex-1 h-11"
                 >
                   Kembali
                 </Button>
                 <Button
                   type="submit"
                   disabled={uploading || !formData.file}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700"
+                  className="flex-1 h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
                 >
-                  {uploading ? 'Uploading...' : 'Upload Bukti'}
+                  {uploading ? (
+                    <div className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Mengupload...
+                    </div>
+                  ) : (
+                    'Upload Bukti'
+                  )}
                 </Button>
               </div>
             </form>

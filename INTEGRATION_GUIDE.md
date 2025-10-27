@@ -1,6 +1,6 @@
 # 🔗 Backend-Frontend Integration Guide
 
-**Anti-Plagiasi System - Database Integration**
+**Rumah Plagiasi - Database Integration**
 Created by devnolife
 
 ## 📋 Table of Contents
@@ -397,7 +397,7 @@ OUTPUT_DIR=./backend/outputs
 
 ### Frontend (.env)
 ```bash
-DATABASE_URL=postgresql://user:pass@localhost:5432/antiplagiasi
+DATABASE_URL=postgresql://user:pass@localhost:5432/rumahplagiasi
 NEXT_PUBLIC_API_URL=http://localhost:3000
 PYTHON_API_URL=http://localhost:8000
 PYTHON_API_KEY=apk_your_generated_key
@@ -475,7 +475,7 @@ For detailed testing scenarios, refer to [TESTING_GUIDE.md](./TESTING_GUIDE.md) 
 After running the seed script:
 
 **Admin Account:**
-- Email: `admin@antiplagiasi.com`
+- Email: `admin@rumahplagiasi.com`
 - Password: `admin123`
 - Can access: `/admin` dashboard with full system visibility
 

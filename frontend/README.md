@@ -1,4 +1,4 @@
-# Frontend - Anti-Plagiasi System
+# Frontend - Rumah Plagiasi
 
 Next.js 14 fullstack application with Prisma ORM and Shadcn UI.
 
@@ -171,7 +171,7 @@ cd ..
 
 ### Database Connection Error
 ```bash
-createdb antiplagiasi
+createdb rumahplagiasi
 npx prisma db push
 ```
 

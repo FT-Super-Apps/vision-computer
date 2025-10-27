@@ -6,7 +6,7 @@ import AuthSessionProvider from '@/components/providers/session-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Anti-Plagiasi System - Document Bypass Tool',
+  title: 'Rumah Plagiasi - Document Bypass Tool',
   description: 'Modern document bypass system with AI-powered analysis. Created by devnolife',
 }
 

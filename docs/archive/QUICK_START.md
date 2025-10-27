@@ -1,6 +1,6 @@
-# 🚀 Quick Start Guide - Anti-Plagiasi System
+# 🚀 Quick Start Guide - Rumah Plagiasi
 
-The **fastest** way to get Anti-Plagiasi System up and running!
+The **fastest** way to get Rumah Plagiasi up and running!
 
 ⚡ **Created by devnolife**
 
@@ -100,7 +100,7 @@ That's it! The script will automatically:
 
 Database Configuration
 Press Enter to use default PostgreSQL URL, or enter your custom URL:
-DATABASE_URL (default: postgresql://postgres:postgres@localhost:5432/antiplagiasi): 
+DATABASE_URL (default: postgresql://postgres:postgres@localhost:5432/rumahplagiasi): 
 
 ✅ Frontend .env created with same API key
 ℹ️  Location: /workspaces/vision-computer/frontend/.env
@@ -308,7 +308,7 @@ DEBUG=true
 
 ```env
 # Database
-DATABASE_URL="postgresql://postgres:postgres@localhost:5432/antiplagiasi"
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/rumahplagiasi"
 
 # NextAuth
 NEXTAUTH_SECRET="GeneratedSecret123..."
@@ -441,7 +441,7 @@ brew services start postgresql@15
 1. Make sure PostgreSQL is running
 2. Create database:
    ```bash
-   createdb antiplagiasi
+   createdb rumahplagiasi
    ```
 3. Update `DATABASE_URL` in `frontend/.env`
 4. Run Prisma setup:

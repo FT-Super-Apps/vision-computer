@@ -108,7 +108,7 @@ export default function DashboardPage() {
       document.body.removeChild(a)
     } catch (error) {
       console.error('Download error:', error)
-      alert('Failed to download file')
+      alert('Gagal mengunduh file')
     }
   }
 
@@ -144,10 +144,10 @@ export default function DashboardPage() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">Memuat...</p>
         </div>
       </div>
     )
@@ -158,19 +158,27 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
       {/* Header */}
-      <header className="bg-white shadow">
+      <header className="bg-white shadow-lg border-b-2">
         <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-gray-600">Welcome back, {session.user.name}!</p>
+          <div className="flex items-center space-x-4">
+            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-xl font-bold">🏠</span>
+            </div>
+            <div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Dashboard
+              </h1>
+              <p className="text-gray-600 text-sm">Selamat datang kembali, {session.user.name}!</p>
+            </div>
           </div>
           <Button
             onClick={() => router.push('/auth/logout')}
             variant="outline"
+            className="h-10"
           >
-            Logout
+            Keluar
           </Button>
         </div>
       </header>
@@ -178,32 +186,32 @@ export default function DashboardPage() {
       <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
+          <Card className="shadow-lg border-2 bg-gradient-to-br from-white to-gray-50">
             <CardHeader className="pb-3">
-              <CardDescription>Total Documents</CardDescription>
-              <CardTitle className="text-3xl">{stats.total}</CardTitle>
+              <CardDescription className="text-gray-600 font-semibold">Total Dokumen</CardDescription>
+              <CardTitle className="text-3xl font-bold text-gray-900">{stats.total}</CardTitle>
             </CardHeader>
           </Card>
-          <Card>
+          <Card className="shadow-lg border-2 bg-gradient-to-br from-green-50 to-emerald-50">
             <CardHeader className="pb-3">
-              <CardDescription>Completed</CardDescription>
-              <CardTitle className="text-3xl text-green-600">
+              <CardDescription className="text-green-700 font-semibold">Selesai</CardDescription>
+              <CardTitle className="text-3xl font-bold text-green-600">
                 {stats.completed}
               </CardTitle>
             </CardHeader>
           </Card>
-          <Card>
+          <Card className="shadow-lg border-2 bg-gradient-to-br from-blue-50 to-indigo-50">
             <CardHeader className="pb-3">
-              <CardDescription>Processing</CardDescription>
-              <CardTitle className="text-3xl text-blue-600">
+              <CardDescription className="text-blue-700 font-semibold">Diproses</CardDescription>
+              <CardTitle className="text-3xl font-bold text-blue-600">
                 {stats.processing}
               </CardTitle>
             </CardHeader>
           </Card>
-          <Card>
+          <Card className="shadow-lg border-2 bg-gradient-to-br from-red-50 to-rose-50">
             <CardHeader className="pb-3">
-              <CardDescription>Failed</CardDescription>
-              <CardTitle className="text-3xl text-red-600">
+              <CardDescription className="text-red-700 font-semibold">Gagal</CardDescription>
+              <CardTitle className="text-3xl font-bold text-red-600">
                 {stats.failed}
               </CardTitle>
             </CardHeader>
@@ -211,27 +219,29 @@ export default function DashboardPage() {
         </div>
 
         {/* Recent Documents */}
-        <Card>
+        <Card className="shadow-xl border-2">
           <CardHeader>
-            <CardTitle>Recent Documents</CardTitle>
-            <CardDescription>Your latest document processing history</CardDescription>
+            <CardTitle className="text-2xl font-bold text-gray-900">Dokumen Terbaru</CardTitle>
+            <CardDescription className="text-gray-600">Riwayat pemrosesan dokumen Anda</CardDescription>
           </CardHeader>
           <CardContent>
             {documents.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-gray-500 mb-4">No documents yet</p>
-                <Button>Upload Document</Button>
+                <p className="text-gray-500 mb-4">Belum ada dokumen</p>
+                <Button className="h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+                  Upload Dokumen
+                </Button>
               </div>
             ) : (
               <div className="space-y-4">
                 {documents.map((doc) => (
                   <div
                     key={doc.id}
-                    className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                    className="border-2 rounded-lg p-4 hover:shadow-lg transition-all bg-white"
                   >
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <h3 className="font-semibold text-lg">{doc.title}</h3>
+                        <h3 className="font-semibold text-lg text-gray-900">{doc.title}</h3>
                         <p className="text-sm text-gray-600">{doc.originalFilename}</p>
                         <div className="mt-2 flex items-center gap-4 text-sm text-gray-500">
                           <span>{formatFileSize(doc.fileSize)}</span>
@@ -240,14 +250,14 @@ export default function DashboardPage() {
                           {doc.analysis && (
                             <>
                               <span>•</span>
-                              <span>{doc.analysis.flagCount} flags detected</span>
+                              <span>{doc.analysis.flagCount} flag terdeteksi</span>
                             </>
                           )}
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
                         <span
-                          className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(
+                          className={`px-3 py-1 rounded-full text-xs font-semibold ${getStatusColor(
                             doc.status
                           )}`}
                         >
@@ -259,8 +269,9 @@ export default function DashboardPage() {
                               handleDownload(doc.bypasses[0].outputFilename)
                             }
                             size="sm"
+                            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg transition-all"
                           >
-                            Download
+                            Unduh
                           </Button>
                         )}
                       </div>
@@ -269,10 +280,10 @@ export default function DashboardPage() {
                       <div className="mt-3 pt-3 border-t text-sm text-gray-600">
                         <div className="flex gap-6">
                           {doc.bypasses[0].flagsRemoved !== undefined && (
-                            <span>Flags Removed: {doc.bypasses[0].flagsRemoved}</span>
+                            <span>Flag Dihapus: {doc.bypasses[0].flagsRemoved}</span>
                           )}
                           {doc.bypasses[0].successRate !== undefined && (
-                            <span>Success Rate: {doc.bypasses[0].successRate.toFixed(1)}%</span>
+                            <span>Tingkat Keberhasilan: {doc.bypasses[0].successRate.toFixed(1)}%</span>
                           )}
                         </div>
                       </div>
@@ -285,7 +296,7 @@ export default function DashboardPage() {
             {documents.length > 0 && (
               <div className="mt-6 text-center">
                 <Link href="/documents">
-                  <Button variant="outline">View All Documents</Button>
+                  <Button variant="outline" className="h-10">Lihat Semua Dokumen</Button>
                 </Link>
               </div>
             )}

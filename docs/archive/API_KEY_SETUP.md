@@ -1,6 +1,6 @@
 # 🔐 API Key Authentication Setup
 
-Sistem Anti-Plagiasi sekarang dilengkapi dengan API Key authentication untuk mengamankan Python API. API key diperlukan untuk semua request dari Next.js frontend ke Python backend.
+Sistem Rumah Plagiasi sekarang dilengkapi dengan API Key authentication untuk mengamankan Python API. API key diperlukan untuk semua request dari Next.js frontend ke Python backend.
 
 ⚡ **Created by devnolife**
 
@@ -51,7 +51,7 @@ Output:
 ```
 ╔═══════════════════════════════════════════════════════════════════════╗
 ║                    🔐 API KEY GENERATOR 🔐                            ║
-║                  Anti-Plagiasi System                                 ║
+║                  Rumah Plagiasi                                 ║
 ╚═══════════════════════════════════════════════════════════════════════╝
 
 ⚡ Created by devnolife

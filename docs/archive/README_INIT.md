@@ -1,4 +1,4 @@
-# 🚀 Anti-Plagiasi System - Complete Setup
+# 🚀 Rumah Plagiasi - Complete Setup
 
 Modern document bypass system dengan Next.js frontend dan Python FastAPI backend. **One-command initialization!**
 

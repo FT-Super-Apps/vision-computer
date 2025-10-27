@@ -1,4 +1,4 @@
-# Testing Guide - Anti-Plagiasi System Integration
+# Testing Guide - Rumah Plagiasi Integration
 
 This guide walks through testing the complete backend-frontend integration with role-based access control.
 
@@ -36,7 +36,7 @@ npm run db:seed
 After running the seed script, you'll have these test accounts:
 
 ### Admin Account
-- **Email**: admin@antiplagiasi.com
+- **Email**: admin@rumahplagiasi.com
 - **Password**: admin123
 - **Role**: ADMIN
 - **Access**: Full system access, can view all users' documents and progress
@@ -85,7 +85,7 @@ npm run db:studio
 
 #### 1.3 Login Flow (Admin User)
 1. Logout (if logged in)
-2. Login with admin@antiplagiasi.com / admin123
+2. Login with admin@rumahplagiasi.com / admin123
 3. Verify redirect to /dashboard
 4. Navigate to /admin - should see admin dashboard
 5. Verify admin can see all users' documents
@@ -144,7 +144,7 @@ Expected response:
    - Click download and verify file downloads correctly
 
 #### 3.2 Admin Dashboard View
-1. Login as admin@antiplagiasi.com
+1. Login as admin@rumahplagiasi.com
 2. Navigate to /admin
 3. **Overview Tab**:
    - Verify statistics show correct counts
@@ -239,7 +239,7 @@ curl http://localhost:3000/api/admin/stats \
 # Expected: 403 Unauthorized
 
 # Test admin endpoint as admin - should succeed
-# 1. Login as admin@antiplagiasi.com
+# 1. Login as admin@rumahplagiasi.com
 # 2. Get session cookie
 # 3. Access admin endpoint
 curl http://localhost:3000/api/admin/stats \
@@ -310,7 +310,7 @@ Create a test script to automate common scenarios:
 #!/bin/bash
 # test_integration.sh
 
-echo "🧪 Testing Anti-Plagiasi Integration..."
+echo "🧪 Testing Rumah Plagiasi Integration..."
 
 # Test 1: Health Check
 echo "\n1️⃣ Testing API Health..."

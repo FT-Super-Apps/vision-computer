@@ -5,6 +5,12 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  FileText,
+  Users,
+  TrendingUp,
+  Activity
+} from 'lucide-react'
 
 interface AdminStats {
   overview: {
@@ -151,10 +157,10 @@ export default function AdminDashboardPage() {
 
   if (status === 'loading' || isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading Admin Dashboard...</p>
+          <p className="text-gray-600">Memuat Dashboard Admin...</p>
         </div>
       </div>
     )
@@ -165,115 +171,130 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              Admin Dashboard
-            </h1>
-            <p className="text-gray-600">System-wide monitoring and management</p>
-          </div>
-          <div className="flex gap-3">
-            <Button onClick={() => router.push('/dashboard')} variant="outline">
-              User View
-            </Button>
-            <Button onClick={() => router.push('/auth/logout')} variant="outline">
-              Logout
-            </Button>
-          </div>
+    <div className="p-8">
+      {/* Tabs */}
+      <div className="mb-6">
+        <div className="flex space-x-1 bg-white rounded-lg p-1 border inline-flex">
+          <button
+            onClick={() => setActiveTab('overview')}
+            className={`${
+              activeTab === 'overview'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
+            } px-4 py-2 rounded-md font-medium text-sm transition-all`}
+          >
+            Overview
+          </button>
+          <button
+            onClick={() => setActiveTab('documents')}
+            className={`${
+              activeTab === 'documents'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
+            } px-4 py-2 rounded-md font-medium text-sm transition-all`}
+          >
+            Dokumen
+          </button>
+          <button
+            onClick={() => setActiveTab('users')}
+            className={`${
+              activeTab === 'users'
+                ? 'bg-blue-600 text-white'
+                : 'text-gray-600 hover:bg-gray-100'
+            } px-4 py-2 rounded-md font-medium text-sm transition-all`}
+          >
+            Pengguna
+          </button>
         </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Tabs */}
-        <div className="mb-6 border-b border-gray-200">
-          <nav className="-mb-px flex space-x-8">
-            {(['overview', 'documents', 'users'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`${
-                  activeTab === tab
-                    ? 'border-blue-500 text-blue-600'
-                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm capitalize`}
-              >
-                {tab}
-              </button>
-            ))}
-          </nav>
-        </div>
+      </div>
 
         {/* Overview Tab */}
         {activeTab === 'overview' && stats && (
           <div className="space-y-6">
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>Total Users</CardDescription>
-                  <CardTitle className="text-3xl">{stats.overview.totalUsers}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-gray-500">{stats.overview.activeUsers} active last 7 days</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Card className="border shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Total Pengguna</p>
+                      <p className="text-3xl font-bold text-gray-900 mt-2">{stats.overview.totalUsers}</p>
+                      <p className="text-xs text-gray-500 mt-1">{stats.overview.activeUsers} aktif 7 hari terakhir</p>
+                    </div>
+                    <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                      <Users className="h-6 w-6 text-blue-600" />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>Total Documents</CardDescription>
-                  <CardTitle className="text-3xl">{stats.overview.totalDocuments}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-gray-500">{stats.overview.documentsToday} uploaded today</p>
+
+              <Card className="border shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Total Dokumen</p>
+                      <p className="text-3xl font-bold text-gray-900 mt-2">{stats.overview.totalDocuments}</p>
+                      <p className="text-xs text-gray-500 mt-1">{stats.overview.documentsToday} diupload hari ini</p>
+                    </div>
+                    <div className="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
+                      <FileText className="h-6 w-6 text-purple-600" />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>Processing Now</CardDescription>
-                  <CardTitle className="text-3xl text-blue-600">
-                    {stats.overview.processingNow}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-gray-500">Active jobs</p>
+
+              <Card className="border shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Sedang Diproses</p>
+                      <p className="text-3xl font-bold text-gray-900 mt-2">{stats.overview.processingNow}</p>
+                      <p className="text-xs text-gray-500 mt-1">Pekerjaan aktif</p>
+                    </div>
+                    <div className="w-12 h-12 bg-orange-50 rounded-lg flex items-center justify-center">
+                      <Activity className="h-6 w-6 text-orange-600" />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardDescription>Success Rate</CardDescription>
-                  <CardTitle className="text-3xl text-green-600">
-                    {stats.overview.successRate}%
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-xs text-gray-500">
-                    {stats.overview.bypassesCompleted} completed / {stats.overview.bypassesFailed} failed
-                  </p>
+
+              <Card className="border shadow-sm hover:shadow-md transition-shadow">
+                <CardContent className="pt-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">Tingkat Keberhasilan</p>
+                      <p className="text-3xl font-bold text-gray-900 mt-2">{stats.overview.successRate}%</p>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {stats.overview.bypassesCompleted} selesai / {stats.overview.bypassesFailed} gagal
+                      </p>
+                    </div>
+                    <div className="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                      <TrendingUp className="h-6 w-6 text-green-600" />
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </div>
 
             {/* Recent Activity & Top Users */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Recent Activity */}
-              <Card>
+              <Card className="border shadow-sm">
                 <CardHeader>
-                  <CardTitle>Recent Activity</CardTitle>
-                  <CardDescription>Latest system events</CardDescription>
+                  <CardTitle className="text-lg font-semibold text-gray-900">Aktivitas Terbaru</CardTitle>
+                  <CardDescription className="text-sm text-gray-500">Event sistem terbaru</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     {stats.recentActivity.map((activity) => (
-                      <div key={activity.id} className="flex items-start gap-3 text-sm">
+                      <div key={activity.id} className="flex items-start justify-between p-3 rounded-lg border hover:bg-gray-50 transition-colors">
                         <div className="flex-1">
-                          <p className="font-medium">{activity.action}</p>
-                          <p className="text-gray-600">
-                            {activity.user?.name || 'System'}
+                          <p className="font-medium text-gray-900 text-sm">{activity.action}</p>
+                          <p className="text-sm text-gray-500">
+                            {activity.user?.name || 'Sistem'}
                           </p>
                         </div>
-                        <p className="text-gray-500 text-xs">
+                        <p className="text-xs text-gray-400">
                           {formatDate(activity.createdAt)}
                         </p>
                       </div>
@@ -283,25 +304,25 @@ export default function AdminDashboardPage() {
               </Card>
 
               {/* Top Users */}
-              <Card>
+              <Card className="border shadow-sm">
                 <CardHeader>
-                  <CardTitle>Top Users</CardTitle>
-                  <CardDescription>Most active users</CardDescription>
+                  <CardTitle className="text-lg font-semibold text-gray-900">Pengguna Teratas</CardTitle>
+                  <CardDescription className="text-sm text-gray-500">Pengguna paling aktif</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
                     {stats.topUsers.map((user, index) => (
-                      <div key={user.id} className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">
+                      <div key={user.id} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 transition-colors">
+                        <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold text-sm">
                           {index + 1}
                         </div>
-                        <div className="flex-1">
-                          <p className="font-medium">{user.name}</p>
-                          <p className="text-sm text-gray-600">{user.email}</p>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-medium text-gray-900 text-sm truncate">{user.name}</p>
+                          <p className="text-xs text-gray-500 truncate">{user.email}</p>
                         </div>
                         <div className="text-right text-sm">
-                          <p className="font-medium">{user._count.documents} docs</p>
-                          <p className="text-gray-500">{user._count.bypasses} bypasses</p>
+                          <p className="font-medium text-gray-900">{user._count.documents} dok</p>
+                          <p className="text-xs text-gray-500">{user._count.bypasses} bypass</p>
                         </div>
                       </div>
                     ))}
@@ -314,20 +335,20 @@ export default function AdminDashboardPage() {
 
         {/* Documents Tab */}
         {activeTab === 'documents' && (
-          <Card>
+          <Card className="border shadow-sm">
             <CardHeader>
-              <CardTitle>All User Documents</CardTitle>
-              <CardDescription>Real-time processing status for all users</CardDescription>
+              <CardTitle className="text-lg font-semibold text-gray-900">Semua Dokumen Pengguna</CardTitle>
+              <CardDescription className="text-sm text-gray-500">Status pemrosesan real-time untuk semua pengguna</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {documents.map((doc) => (
-                  <div key={doc.id} className="border rounded-lg p-4">
+                  <div key={doc.id} className="border rounded-lg p-4 bg-white hover:bg-gray-50 transition-colors">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="font-semibold">{doc.title}</h3>
+                        <h3 className="font-medium text-gray-900">{doc.title}</h3>
                         <p className="text-sm text-gray-600">{doc.originalFilename}</p>
-                        <p className="text-sm text-blue-600 mt-1">
+                        <p className="text-sm text-gray-500 mt-1">
                           User: {doc.user.name} ({doc.user.email})
                         </p>
                       </div>
@@ -338,10 +359,10 @@ export default function AdminDashboardPage() {
 
                     {/* Progress Bar for Active Jobs */}
                     {doc.bypasses[0] && ['PENDING', 'QUEUED', 'PROCESSING'].includes(doc.bypasses[0].status) && (
-                      <div className="mt-3">
-                        <div className="flex justify-between text-sm mb-1">
-                          <span className="text-gray-600">Processing Progress</span>
-                          <span className="font-medium">{doc.bypasses[0].progress}%</span>
+                      <div className="mt-3 p-3 bg-blue-50 rounded-lg border">
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-gray-700 font-medium">Progres Pemrosesan</span>
+                          <span className="font-medium text-gray-900">{doc.bypasses[0].progress}%</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
@@ -349,21 +370,21 @@ export default function AdminDashboardPage() {
                             style={{ width: `${doc.bypasses[0].progress}%` }}
                           />
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">
-                          Strategy: {doc.bypasses[0].strategy}
+                        <p className="text-xs text-gray-600 mt-2">
+                          Strategi: {doc.bypasses[0].strategy}
                         </p>
                       </div>
                     )}
 
                     {/* Completed Info */}
                     {doc.bypasses[0] && doc.bypasses[0].status === 'COMPLETED' && (
-                      <div className="mt-3 pt-3 border-t text-sm">
-                        <div className="flex gap-6">
+                      <div className="mt-3 pt-3 border-t">
+                        <div className="flex gap-6 text-sm text-gray-700">
                           {doc.bypasses[0].flagsRemoved !== undefined && (
-                            <span>Flags Removed: {doc.bypasses[0].flagsRemoved}</span>
+                            <span>Flag Dihapus: <span className="font-medium text-green-600">{doc.bypasses[0].flagsRemoved}</span></span>
                           )}
                           {doc.bypasses[0].processingTime && (
-                            <span>Processing Time: {doc.bypasses[0].processingTime}s</span>
+                            <span>Waktu Proses: <span className="font-medium text-blue-600">{doc.bypasses[0].processingTime}s</span></span>
                           )}
                         </div>
                       </div>
@@ -372,17 +393,20 @@ export default function AdminDashboardPage() {
                     {/* Error Info */}
                     {doc.bypasses[0] && doc.bypasses[0].status === 'FAILED' && (
                       <div className="mt-3 pt-3 border-t">
-                        <p className="text-sm text-red-600">
-                          Error: {doc.bypasses[0].errorMessage || 'Unknown error'}
-                        </p>
+                        <div className="p-3 bg-red-50 rounded-lg border border-red-100">
+                          <p className="text-sm text-red-700">
+                            Error: {doc.bypasses[0].errorMessage || 'Error tidak diketahui'}
+                          </p>
+                        </div>
                       </div>
                     )}
                   </div>
                 ))}
 
                 {documents.length === 0 && (
-                  <div className="text-center py-12 text-gray-500">
-                    No documents yet
+                  <div className="text-center py-12">
+                    <FileText className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                    <p className="text-gray-500">Belum ada dokumen</p>
                   </div>
                 )}
               </div>
@@ -392,17 +416,19 @@ export default function AdminDashboardPage() {
 
         {/* Users Tab */}
         {activeTab === 'users' && (
-          <Card>
+          <Card className="border shadow-sm">
             <CardHeader>
-              <CardTitle>User Management</CardTitle>
-              <CardDescription>View and manage system users</CardDescription>
+              <CardTitle className="text-lg font-semibold text-gray-900">Manajemen Pengguna</CardTitle>
+              <CardDescription className="text-sm text-gray-500">Lihat dan kelola pengguna sistem</CardDescription>
             </CardHeader>
             <CardContent>
-              <p className="text-gray-500">User management features coming soon...</p>
+              <div className="text-center py-12">
+                <Users className="h-12 w-12 text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500">Fitur manajemen pengguna akan segera hadir...</p>
+              </div>
             </CardContent>
           </Card>
         )}
-      </main>
     </div>
   )
 }

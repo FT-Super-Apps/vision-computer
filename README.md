@@ -1,4 +1,4 @@
-# 🚀 Anti-Plagiasi System
+# 🏠 Rumah Plagiasi
 
 Modern document bypass system dengan Next.js fullstack frontend dan Python FastAPI backend. Setup dalam 5 menit dengan satu command!
 
@@ -63,7 +63,7 @@ cd frontend && npm run dev
 After running `setup_frontend.sh`, use these credentials:
 
 **Admin Access:**
-- Email: `admin@antiplagiasi.com`
+- Email: `admin@rumahplagiasi.com`
 - Password: `admin123`
 - Access: Full system monitoring at `/admin`
 
@@ -721,7 +721,7 @@ PORT=3001 npm run dev
 #### Database Connection Error
 ```bash
 # Create database
-createdb antiplagiasi
+createdb rumahplagiasi
 
 # Push schema
 cd frontend

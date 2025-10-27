@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
 /**
- * Python API Client untuk integrasi dengan Anti-Plagiasi Bypass API
+ * Python API Client untuk integrasi dengan Rumah Plagiasi Bypass API
  * Created by devnolife
  */
 

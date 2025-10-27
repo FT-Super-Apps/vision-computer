@@ -28,7 +28,30 @@ export async function GET(request: NextRequest) {
           name: true,
           email: true,
           role: true,
+          emailVerified: true,
           createdAt: true,
+          profile: {
+            select: {
+              fullName: true,
+              phone: true,
+              institution: true,
+            },
+          },
+          subscription: {
+            select: {
+              id: true,
+              status: true,
+              startDate: true,
+              endDate: true,
+              package: {
+                select: {
+                  code: true,
+                  name: true,
+                  validityDays: true,
+                },
+              },
+            },
+          },
           _count: {
             select: {
               documents: true,

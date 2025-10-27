@@ -1,4 +1,4 @@
-# Release Notes - Anti-Plagiasi System v2.0
+# Release Notes - Rumah Plagiasi v2.0
 
 ## 🎉 Major Update: Full-Stack Integration with Role-Based Access Control
 
@@ -187,7 +187,7 @@ cd frontend && npm run dev
 
 # 5. Login as admin
 # Open http://localhost:3000/auth/login
-# Email: admin@antiplagiasi.com
+# Email: admin@rumahplagiasi.com
 # Password: admin123
 ```
 
@@ -529,7 +529,7 @@ Planned features for future releases:
 
 **Created by devnolife**
 
-This release represents a major milestone in the Anti-Plagiasi System, transforming it from a backend-only solution to a complete full-stack application with enterprise-grade features.
+This release represents a major milestone in the Rumah Plagiasi, transforming it from a backend-only solution to a complete full-stack application with enterprise-grade features.
 
 ---
 

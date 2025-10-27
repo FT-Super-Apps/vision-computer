@@ -89,10 +89,10 @@ export default function VerificationStatusPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
+          <p className="mt-4 text-gray-600">Memuat...</p>
         </div>
       </div>
     )
@@ -102,10 +102,18 @@ export default function VerificationStatusPage() {
   const subscription = status?.activeSubscription
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
+          <div className="inline-flex items-center space-x-2 mb-6">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-2xl font-bold">🏠</span>
+            </div>
+            <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Rumah Plagiasi
+            </span>
+          </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
             Status Verifikasi
           </h1>
@@ -116,7 +124,7 @@ export default function VerificationStatusPage() {
 
         {/* Payment Status Card */}
         {payment && (
-          <Card className="p-6 mb-6">
+          <Card className="p-6 mb-6 shadow-xl border-2">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <h2 className="text-xl font-semibold text-gray-900 mb-1">
@@ -253,30 +261,30 @@ export default function VerificationStatusPage() {
 
         {/* Active Subscription Card */}
         {subscription && subscription.status === 'ACTIVE' && (
-          <Card className="p-6 mb-6">
+          <Card className="p-6 mb-6 shadow-xl border-2">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Langganan Aktif
             </h2>
 
             <div className="grid md:grid-cols-3 gap-4">
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <p className="text-sm text-blue-600 mb-1">Paket</p>
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg border border-blue-200">
+                <p className="text-sm text-blue-600 mb-1 font-semibold">Paket</p>
                 <p className="text-lg font-semibold text-blue-900">
                   {subscription.package.name}
                 </p>
               </div>
 
-              <div className="bg-green-50 p-4 rounded-lg">
-                <p className="text-sm text-green-600 mb-1">Masa Aktif</p>
-                <p className="text-lg font-semibold text-green-900">
+              <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg border border-green-200">
+                <p className="text-sm text-green-600 mb-1 font-semibold">Masa Aktif</p>
+                <p className="text-sm font-semibold text-green-900">
                   {subscription.startDate && formatDate(subscription.startDate)}
                   {' - '}
                   {subscription.endDate && formatDate(subscription.endDate)}
                 </p>
               </div>
 
-              <div className="bg-purple-50 p-4 rounded-lg">
-                <p className="text-sm text-purple-600 mb-1">Dokumen Digunakan</p>
+              <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg border border-purple-200">
+                <p className="text-sm text-purple-600 mb-1 font-semibold">Dokumen Digunakan</p>
                 <p className="text-lg font-semibold text-purple-900">
                   {subscription.documentsUsed}
                   {subscription.package.maxDocuments > 0
@@ -289,7 +297,7 @@ export default function VerificationStatusPage() {
             <div className="mt-6">
               <Button
                 onClick={() => router.push('/dashboard')}
-                className="w-full bg-blue-600 hover:bg-blue-700"
+                className="w-full h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
               >
                 Mulai Gunakan Layanan
               </Button>
@@ -299,7 +307,7 @@ export default function VerificationStatusPage() {
 
         {/* No Payment Yet */}
         {!payment && (
-          <Card className="p-8 text-center">
+          <Card className="p-8 text-center shadow-xl border-2">
             <AlertCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Belum Ada Pembayaran
@@ -310,7 +318,7 @@ export default function VerificationStatusPage() {
             </p>
             <Button
               onClick={() => router.push('/subscription/select-package')}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
             >
               Pilih Paket
             </Button>
@@ -322,7 +330,7 @@ export default function VerificationStatusPage() {
           <div className="text-center">
             <Button
               onClick={() => router.push('/subscription/select-package')}
-              className="bg-blue-600 hover:bg-blue-700"
+              className="h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
             >
               Upload Ulang Bukti Pembayaran
             </Button>
