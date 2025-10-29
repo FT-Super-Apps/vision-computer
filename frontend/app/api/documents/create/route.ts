@@ -15,6 +15,8 @@ export async function POST(request: NextRequest) {
       pageCount,
       wordCount,
       characterCount,
+      pdfPath,
+      pdfFilename,
     } = body
 
     // Validate required fields
@@ -26,19 +28,29 @@ export async function POST(request: NextRequest) {
     }
 
     // Create document record
+    const documentData: any = {
+      title,
+      originalFilename,
+      fileSize,
+      fileType,
+      uploadPath,
+      userId,
+      pageCount,
+      wordCount,
+      characterCount,
+      status: 'PENDING',
+    }
+
+    // Add optional PDF fields if provided
+    if (pdfPath) {
+      documentData.pdfPath = pdfPath
+    }
+    if (pdfFilename) {
+      documentData.pdfFilename = pdfFilename
+    }
+
     const document = await prisma.document.create({
-      data: {
-        title,
-        originalFilename,
-        fileSize,
-        fileType,
-        uploadPath,
-        userId,
-        pageCount,
-        wordCount,
-        characterCount,
-        status: 'PENDING',
-      },
+      data: documentData,
     })
 
     return NextResponse.json({

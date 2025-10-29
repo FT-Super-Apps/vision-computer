@@ -5,8 +5,9 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Clock, CheckCircle2, XCircle, AlertCircle } from 'lucide-react'
+import { Clock, CheckCircle2, XCircle, AlertCircle, LogOut, RefreshCw } from 'lucide-react'
 import Image from 'next/image'
+import { signOut } from 'next-auth/react'
 
 interface PaymentStatus {
   accountStatus: string
@@ -101,25 +102,66 @@ export default function VerificationStatusPage() {
   const payment = status?.latestPaymentProof
   const subscription = status?.activeSubscription
 
+  // Check if user can access dashboard (verified payment or active subscription)
+  const canAccessDashboard =
+    payment?.status === 'VERIFIED' ||
+    subscription?.status === 'ACTIVE'
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/auth/login' })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center space-x-2 mb-6">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-2xl font-bold">🏠</span>
+        <div className="mb-8">
+          {/* Back Button - Only show if can access dashboard */}
+          {canAccessDashboard && (
+            <div className="mb-6">
+              <Button
+                variant="outline"
+                onClick={() => router.push('/dashboard')}
+                className="h-10"
+              >
+                ← Kembali ke Dashboard
+              </Button>
             </div>
-            <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Rumah Plagiasi
-            </span>
+          )}
+
+          {/* Logout Button - Show if cannot access dashboard */}
+          {!canAccessDashboard && (
+            <div className="mb-6 flex justify-between items-center">
+              <div className="text-sm text-gray-600">
+                Silakan tunggu verifikasi pembayaran untuk mengakses dashboard
+              </div>
+              <Button
+                variant="outline"
+                onClick={handleLogout}
+                className="h-10 text-red-600 border-red-300 hover:bg-red-50"
+              >
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          )}
+
+          <div className="text-center">
+            <div className="inline-flex items-center space-x-2 mb-6">
+              <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white text-2xl font-bold">🏠</span>
+              </div>
+              <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Rumah Plagiasi
+              </span>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Status Verifikasi
+            </h1>
+            <p className="text-gray-600">
+              Lihat status pembayaran dan langganan Anda
+            </p>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Status Verifikasi
-          </h1>
-          <p className="text-gray-600">
-            Lihat status pembayaran dan langganan Anda
-          </p>
         </div>
 
         {/* Payment Status Card */}
@@ -197,37 +239,58 @@ export default function VerificationStatusPage() {
 
             {/* Status Messages */}
             {payment.status === 'PENDING' && (
-              <div className="mt-6 bg-blue-50 border border-blue-200 p-4 rounded-lg">
-                <div className="flex items-start space-x-3">
-                  <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-blue-800">
-                    <p className="font-semibold mb-1">Sedang Diproses</p>
-                    <p>
-                      Pembayaran Anda sedang dalam proses verifikasi oleh admin.
-                      Mohon tunggu maksimal 1x24 jam. Kami akan mengaktifkan akun Anda
-                      setelah pembayaran diverifikasi.
-                    </p>
+              <div className="mt-6">
+                <div className="bg-blue-50 border border-blue-200 p-4 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-blue-800">
+                      <p className="font-semibold mb-1">Sedang Diproses</p>
+                      <p>
+                        Pembayaran Anda sedang dalam proses verifikasi oleh admin.
+                        Mohon tunggu maksimal 1x24 jam. Kami akan mengaktifkan akun Anda
+                        setelah pembayaran diverifikasi.
+                      </p>
+                    </div>
                   </div>
+                </div>
+                <div className="mt-4 flex justify-center space-x-3">
+                  <Button
+                    onClick={fetchStatus}
+                    className="h-10 bg-blue-600 hover:bg-blue-700"
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Refresh Status
+                  </Button>
                 </div>
               </div>
             )}
 
             {payment.status === 'VERIFIED' && (
-              <div className="mt-6 bg-green-50 border border-green-200 p-4 rounded-lg">
-                <div className="flex items-start space-x-3">
-                  <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-green-800">
-                    <p className="font-semibold mb-1">Pembayaran Terverifikasi</p>
-                    <p>
-                      Selamat! Pembayaran Anda telah diverifikasi. Akun Anda sekarang aktif
-                      dan Anda dapat menggunakan semua fitur sesuai paket yang dipilih.
-                    </p>
-                    {payment.adminNotes && (
-                      <p className="mt-2">
-                        <span className="font-semibold">Catatan Admin:</span> {payment.adminNotes}
+              <div className="mt-6">
+                <div className="bg-green-50 border border-green-200 p-4 rounded-lg">
+                  <div className="flex items-start space-x-3">
+                    <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
+                    <div className="text-sm text-green-800">
+                      <p className="font-semibold mb-1">Pembayaran Terverifikasi</p>
+                      <p>
+                        Selamat! Pembayaran Anda telah diverifikasi. Akun Anda sekarang aktif
+                        dan Anda dapat menggunakan semua fitur sesuai paket yang dipilih.
                       </p>
-                    )}
+                      {payment.adminNotes && (
+                        <p className="mt-2">
+                          <span className="font-semibold">Catatan Admin:</span> {payment.adminNotes}
+                        </p>
+                      )}
+                    </div>
                   </div>
+                </div>
+                <div className="mt-4 flex justify-center">
+                  <Button
+                    onClick={() => router.push('/dashboard')}
+                    className="h-10 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800"
+                  >
+                    Lanjut ke Dashboard
+                  </Button>
                 </div>
               </div>
             )}
@@ -327,7 +390,7 @@ export default function VerificationStatusPage() {
 
         {/* Rejected - Reupload Button */}
         {payment?.status === 'REJECTED' && (
-          <div className="text-center">
+          <div className="flex justify-center">
             <Button
               onClick={() => router.push('/subscription/select-package')}
               className="h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
@@ -336,6 +399,26 @@ export default function VerificationStatusPage() {
             </Button>
           </div>
         )}
+
+        {/* Footer Info */}
+        <Card className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-blue-200">
+          <div className="flex items-center justify-center space-x-2 mb-2">
+            <RefreshCw className="h-4 w-4 text-blue-600 animate-spin" />
+            <p className="text-sm font-semibold text-blue-900">
+              Auto-refresh aktif setiap 30 detik
+            </p>
+          </div>
+          <p className="text-center text-xs text-blue-600">
+            Halaman ini akan otomatis memperbarui status pembayaran Anda. Anda juga bisa klik tombol "Refresh Status" untuk update manual.
+          </p>
+          {!canAccessDashboard && (
+            <div className="mt-3 pt-3 border-t border-blue-200">
+              <p className="text-center text-xs text-gray-600">
+                💡 Tetap di halaman ini untuk melihat progress verifikasi. Anda akan dapat mengakses dashboard setelah pembayaran diverifikasi.
+              </p>
+            </div>
+          )}
+        </Card>
       </div>
     </div>
   )

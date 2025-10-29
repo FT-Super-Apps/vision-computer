@@ -5,12 +5,28 @@ import bcrypt from 'bcryptjs'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { email, password, name } = body
+    const { email, password, name, username, whatsapp } = body
 
     // Validate input
-    if (!email || !password || !name) {
+    if (!email || !password || !name || !username || !whatsapp) {
       return NextResponse.json(
-        { error: 'Email, password, and name are required' },
+        { error: 'Email, password, name, username, and WhatsApp are required' },
+        { status: 400 }
+      )
+    }
+
+    // Validate username
+    if (username.length < 3) {
+      return NextResponse.json(
+        { error: 'Username must be at least 3 characters' },
+        { status: 400 }
+      )
+    }
+
+    // Validate whatsapp
+    if (whatsapp.length < 10) {
+      return NextResponse.json(
+        { error: 'WhatsApp number must be at least 10 digits' },
         { status: 400 }
       )
     }
@@ -32,14 +48,26 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check if user already exists
-    const existingUser = await prisma.user.findUnique({
+    // Check if email already exists
+    const existingEmail = await prisma.user.findUnique({
       where: { email },
     })
 
-    if (existingUser) {
+    if (existingEmail) {
       return NextResponse.json(
-        { error: 'User with this email already exists' },
+        { error: 'Email sudah terdaftar' },
+        { status: 400 }
+      )
+    }
+
+    // Check if username already exists
+    const existingUsername = await prisma.user.findFirst({
+      where: { name: username },
+    })
+
+    if (existingUsername) {
+      return NextResponse.json(
+        { error: 'Username sudah digunakan' },
         { status: 400 }
       )
     }
@@ -47,13 +75,19 @@ export async function POST(request: NextRequest) {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    // Create user
+    // Create user with profile
     const user = await prisma.user.create({
       data: {
         email,
-        name,
+        name: username, // Use username as name for login
         password: hashedPassword,
         role: 'USER',
+        profile: {
+          create: {
+            fullName: name, // Store full name in profile
+            phone: whatsapp,
+          },
+        },
       },
       select: {
         id: true,
@@ -61,6 +95,12 @@ export async function POST(request: NextRequest) {
         name: true,
         role: true,
         createdAt: true,
+        profile: {
+          select: {
+            fullName: true,
+            phone: true,
+          },
+        },
       },
     })
 
@@ -80,7 +120,9 @@ export async function POST(request: NextRequest) {
         resourceId: user.id,
         details: {
           email: user.email,
-          name: user.name,
+          username: user.name,
+          fullName: name,
+          whatsapp: whatsapp,
         },
       },
     })

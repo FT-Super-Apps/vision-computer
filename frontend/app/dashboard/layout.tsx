@@ -6,17 +6,15 @@ import { useEffect, useState } from 'react'
 import {
   LayoutDashboard,
   FileText,
-  Users,
-  CreditCard,
+  User,
   LogOut,
   Menu,
   X,
   Home,
-  Package,
-  Activity,
+  Settings,
 } from 'lucide-react'
 
-export default function AdminLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
@@ -29,8 +27,8 @@ export default function AdminLayout({
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/auth/login')
-    } else if (status === 'authenticated' && session?.user?.role !== 'ADMIN') {
-      router.push('/dashboard')
+    } else if (status === 'authenticated' && session?.user?.role === 'ADMIN') {
+      router.push('/admin')
     }
   }, [status, session, router])
 
@@ -39,32 +37,29 @@ export default function AdminLayout({
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Memuat Dashboard Admin...</p>
+          <p className="text-gray-600">Memuat Dashboard...</p>
         </div>
       </div>
     )
   }
 
-  if (!session || session.user.role !== 'ADMIN') {
+  if (!session || session.user.role === 'ADMIN') {
     return null
   }
 
   const menuItems = [
-    { key: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-    { key: '/admin/jobs', label: 'Job Monitor', icon: Activity },
-    { key: '/admin/documents', label: 'Dokumen', icon: FileText },
-    { key: '/admin/users', label: 'Pengguna', icon: Users },
-    { key: '/admin/packages', label: 'Paket & Harga', icon: Package },
+    { key: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { key: '/dashboard/documents', label: 'Dokumen', icon: FileText },
+    { key: '/dashboard/profile', label: 'Profil', icon: User },
   ]
 
   const getPageTitle = () => {
-    if (pathname === '/admin') return 'Dashboard'
-    if (pathname === '/admin/jobs') return 'Job Monitor'
-    if (pathname === '/admin/payments') return 'Verifikasi Pembayaran'
-    if (pathname === '/admin/documents') return 'Dokumen'
-    if (pathname === '/admin/users') return 'Pengguna'
-    if (pathname === '/admin/packages') return 'Paket & Harga'
-    return 'Admin Panel'
+    if (pathname === '/dashboard') return 'Dashboard'
+    if (pathname === '/dashboard/documents') return 'Dokumen Saya'
+    if (pathname === '/dashboard/documents/upload') return 'Upload Dokumen'
+    if (pathname.startsWith('/dashboard/documents/')) return 'Detail Dokumen'
+    if (pathname === '/dashboard/profile' || pathname === '/profile') return 'Profil Saya'
+    return 'User Panel'
   }
 
   return (
@@ -78,7 +73,7 @@ export default function AdminLayout({
               <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
                 <span className="text-xl">🏠</span>
               </div>
-              <span className="font-bold text-gray-900">Admin Panel</span>
+              <span className="font-bold text-gray-900">User Panel</span>
             </div>
           ) : (
             <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mx-auto">
@@ -102,7 +97,7 @@ export default function AdminLayout({
           <div className="space-y-1">
             {menuItems.map((item) => {
               const Icon = item.icon
-              const isActive = pathname === item.key
+              const isActive = pathname === item.key || (item.key === '/dashboard/documents' && pathname.startsWith('/dashboard/documents'))
               return (
                 <button
                   key={item.key}
@@ -131,22 +126,11 @@ export default function AdminLayout({
           {/* Additional Actions */}
           <div className="space-y-1">
             <button
-              onClick={() => router.push('/admin/payments')}
-              className={`${
-                pathname === '/admin/payments'
-                  ? 'bg-blue-600 text-white'
-                  : 'text-gray-700 hover:bg-gray-100'
-              } w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all`}
-            >
-              <CreditCard className="h-5 w-5 flex-shrink-0" />
-              {sidebarOpen && <span className="font-medium text-sm">Verifikasi Pembayaran</span>}
-            </button>
-            <button
               onClick={() => router.push('/dashboard')}
               className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
             >
               <Home className="h-5 w-5 flex-shrink-0" />
-              {sidebarOpen && <span className="font-medium text-sm">User Dashboard</span>}
+              {sidebarOpen && <span className="font-medium text-sm">Beranda</span>}
             </button>
           </div>
         </nav>
@@ -185,13 +169,13 @@ export default function AdminLayout({
             )}
             <div>
               <h1 className="text-xl font-bold text-gray-900">{getPageTitle()}</h1>
-              <p className="text-sm text-gray-500">Monitoring dan manajemen sistem</p>
+              <p className="text-sm text-gray-500">Kelola dokumen dan profil Anda</p>
             </div>
           </div>
           <div className="flex items-center space-x-3">
             <div className="text-right">
               <p className="text-sm font-medium text-gray-900">{session.user.name}</p>
-              <p className="text-xs text-gray-500 uppercase">{session.user.role}</p>
+              <p className="text-xs text-gray-500 uppercase">User</p>
             </div>
           </div>
         </header>

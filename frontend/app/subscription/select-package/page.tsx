@@ -160,7 +160,7 @@ export default function SelectPackagePage() {
                 className={`w-full h-11 font-semibold shadow-lg transition-all ${
                   selectedPackage === pkg.id
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white hover:shadow-xl'
-                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                    : 'bg-white hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 text-blue-600 border-2 border-blue-600 hover:border-purple-600'
                 }`}
                 onClick={() => handleSelectPackage(pkg.id)}
               >

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { useToast } from '@/hooks/use-toast'
 
 interface Document {
   id: string
@@ -38,6 +39,7 @@ interface DocumentStats {
 export default function DashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
+  const { toast } = useToast()
   const [documents, setDocuments] = useState<Document[]>([])
   const [stats, setStats] = useState<DocumentStats>({
     total: 0,
@@ -106,10 +108,24 @@ export default function DashboardPage() {
       a.click()
       window.URL.revokeObjectURL(url)
       document.body.removeChild(a)
+
+      toast({
+        variant: 'success',
+        title: 'Berhasil',
+        description: 'File berhasil diunduh',
+      })
     } catch (error) {
       console.error('Download error:', error)
-      alert('Gagal mengunduh file')
+      toast({
+        variant: 'destructive',
+        title: 'Gagal',
+        description: 'Gagal mengunduh file',
+      })
     }
+  }
+
+  const handleUploadClick = () => {
+    router.push('/dashboard/documents/upload')
   }
 
   const getStatusColor = (status: string) => {
@@ -158,32 +174,8 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50">
-      {/* Header */}
-      <header className="bg-white shadow-lg border-b-2">
-        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8 flex justify-between items-center">
-          <div className="flex items-center space-x-4">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-              <span className="text-white text-xl font-bold">🏠</span>
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Dashboard
-              </h1>
-              <p className="text-gray-600 text-sm">Selamat datang kembali, {session.user.name}!</p>
-            </div>
-          </div>
-          <Button
-            onClick={() => router.push('/auth/logout')}
-            variant="outline"
-            className="h-10"
-          >
-            Keluar
-          </Button>
-        </div>
-      </header>
-
-      <main className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-br from-blue-50 via-purple-50 to-indigo-50 p-8">
+      <div className="max-w-7xl mx-auto">
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="shadow-lg border-2 bg-gradient-to-br from-white to-gray-50">
@@ -228,7 +220,10 @@ export default function DashboardPage() {
             {documents.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-gray-500 mb-4">Belum ada dokumen</p>
-                <Button className="h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+                <Button
+                  onClick={handleUploadClick}
+                  className="h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+                >
                   Upload Dokumen
                 </Button>
               </div>
@@ -295,14 +290,14 @@ export default function DashboardPage() {
 
             {documents.length > 0 && (
               <div className="mt-6 text-center">
-                <Link href="/documents">
+                <Link href="/dashboard/documents">
                   <Button variant="outline" className="h-10">Lihat Semua Dokumen</Button>
                 </Link>
               </div>
             )}
           </CardContent>
         </Card>
-      </main>
+      </div>
     </div>
   )
 }

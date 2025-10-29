@@ -75,7 +75,7 @@ export async function GET(
   } catch (error: any) {
     console.error('[USER_DOCUMENTS_ERROR]', error)
     return NextResponse.json(
-      { error: 'Failed to get user documents', details: error.message },
+      { error: 'Gagal mengambil dokumen pengguna', details: error.message },
       { status: 500 }
     )
   }

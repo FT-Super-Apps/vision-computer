@@ -21,18 +21,6 @@ export async function POST(request: NextRequest) {
 
     const userId = session.user.id
 
-    // Check if profile already exists
-    const existingProfile = await prisma.userProfile.findUnique({
-      where: { userId },
-    })
-
-    if (existingProfile) {
-      return NextResponse.json(
-        { error: 'Profile already completed' },
-        { status: 400 }
-      )
-    }
-
     const body = await request.json()
     const {
       fullName,
@@ -55,10 +43,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Create profile
-    const profile = await prisma.userProfile.create({
-      data: {
+    // Check if profile already exists
+    const existingProfile = await prisma.userProfile.findUnique({
+      where: { userId },
+    })
+
+    // Upsert profile (create or update)
+    const profile = await prisma.userProfile.upsert({
+      where: { userId },
+      create: {
         userId,
+        fullName,
+        phone,
+        address,
+        city,
+        province,
+        postalCode,
+        institution,
+        major,
+        studentId,
+        purpose,
+      },
+      update: {
         fullName,
         phone,
         address,
@@ -84,19 +90,20 @@ export async function POST(request: NextRequest) {
     await prisma.activityLog.create({
       data: {
         userId,
-        action: 'PROFILE_COMPLETED',
+        action: existingProfile ? 'PROFILE_UPDATED' : 'PROFILE_COMPLETED',
         resource: 'user_profile',
         resourceId: profile.id,
         details: {
           fullName,
           institution,
+          isUpdate: !!existingProfile,
         },
       },
     })
 
     return NextResponse.json({
       success: true,
-      message: 'Profile completed successfully',
+      message: existingProfile ? 'Profile updated successfully' : 'Profile completed successfully',
       data: profile,
       nextStep: 'PAYMENT', // Indicate next step for frontend
     })

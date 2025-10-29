@@ -7,8 +7,15 @@ import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
 import { CheckCircle2, XCircle, Eye, Clock, Filter } from 'lucide-react'
 import Image from 'next/image'
+import { useToast } from '@/hooks/use-toast'
 
 interface PaymentProof {
   id: string
@@ -45,6 +52,7 @@ interface PaymentProof {
 export default function AdminPaymentsPage() {
   const { data: session } = useSession()
   const router = useRouter()
+  const { toast } = useToast()
 
   const [payments, setPayments] = useState<PaymentProof[]>([])
   const [loading, setLoading] = useState(true)
@@ -92,13 +100,41 @@ export default function AdminPaymentsPage() {
     })
   }
 
-  const handleVerify = async () => {
-    if (!selectedPayment) return
+  const handleCloseDialog = (open: boolean) => {
+    setShowModal(open)
+    if (!open) {
+      // Reset state when dialog closes
+      setSelectedPayment(null)
+      setVerificationData({
+        action: 'VERIFY',
+        rejectionReason: '',
+        adminNotes: '',
+      })
+      setVerifying(false)
+    }
+  }
 
-    if (verificationData.action === 'REJECT' && !verificationData.rejectionReason) {
-      alert('Alasan penolakan harus diisi')
+  const handleVerify = async () => {
+    if (!selectedPayment) {
+      console.error('No payment selected')
       return
     }
+
+    if (verificationData.action === 'REJECT' && !verificationData.rejectionReason.trim()) {
+      toast({
+        variant: 'warning',
+        title: 'Peringatan',
+        description: 'Alasan penolakan harus diisi',
+      })
+      return
+    }
+
+    console.log('Starting verification with data:', {
+      paymentProofId: selectedPayment.id,
+      action: verificationData.action,
+      rejectionReason: verificationData.rejectionReason,
+      adminNotes: verificationData.adminNotes,
+    })
 
     setVerifying(true)
 
@@ -117,17 +153,32 @@ export default function AdminPaymentsPage() {
       })
 
       const data = await response.json()
+      console.log('Verification response:', data)
 
       if (data.success) {
+        toast({
+          variant: 'success',
+          title: 'Berhasil',
+          description: data.message,
+        })
         setShowModal(false)
         setSelectedPayment(null)
         fetchPayments()
-        alert(data.message)
       } else {
-        alert(data.error || 'Gagal memproses verifikasi')
+        console.error('Verification failed:', data)
+        toast({
+          variant: 'destructive',
+          title: 'Gagal',
+          description: data.error || 'Terjadi kesalahan yang tidak diketahui',
+        })
       }
     } catch (error) {
-      alert('Terjadi kesalahan')
+      console.error('Error during verification:', error)
+      toast({
+        variant: 'destructive',
+        title: 'Terjadi Kesalahan',
+        description: error instanceof Error ? error.message : 'Terjadi kesalahan yang tidak diketahui',
+      })
     } finally {
       setVerifying(false)
     }
@@ -301,13 +352,16 @@ export default function AdminPaymentsPage() {
         )}
 
         {/* Verification Modal */}
-        {showModal && selectedPayment && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <Card className="max-w-4xl w-full max-h-[90vh] overflow-y-auto border shadow-xl">
-              <div className="p-6">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  Detail Pembayaran
-                </h2>
+        <Dialog open={showModal} onOpenChange={handleCloseDialog}>
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold text-gray-900">
+                Detail Pembayaran
+              </DialogTitle>
+            </DialogHeader>
+
+            {selectedPayment && (
+              <div className="mt-4">
 
                 <div className="grid md:grid-cols-2 gap-6 mb-6">
                   {/* Payment Info */}
@@ -370,22 +424,30 @@ export default function AdminPaymentsPage() {
                 {selectedPayment.status === 'PENDING' && (
                   <div className="border-t pt-6 space-y-4">
                     <div>
-                      <Label>Aksi</Label>
+                      <Label className="text-base font-semibold">Pilih Aksi</Label>
                       <div className="flex space-x-4 mt-2">
                         <Button
-                          variant={verificationData.action === 'VERIFY' ? 'default' : 'outline'}
+                          type="button"
                           onClick={() => setVerificationData({ ...verificationData, action: 'VERIFY' })}
-                          className="flex-1"
+                          className={`flex-1 h-12 font-semibold ${
+                            verificationData.action === 'VERIFY'
+                              ? 'bg-green-600 hover:bg-green-700 text-white border-green-600'
+                              : 'bg-white hover:bg-green-50 text-green-600 border-2 border-green-600'
+                          }`}
                         >
-                          <CheckCircle2 className="h-4 w-4 mr-2" />
+                          <CheckCircle2 className="h-5 w-5 mr-2" />
                           Verifikasi
                         </Button>
                         <Button
-                          variant={verificationData.action === 'REJECT' ? 'default' : 'outline'}
+                          type="button"
                           onClick={() => setVerificationData({ ...verificationData, action: 'REJECT' })}
-                          className="flex-1"
+                          className={`flex-1 h-12 font-semibold ${
+                            verificationData.action === 'REJECT'
+                              ? 'bg-red-600 hover:bg-red-700 text-white border-red-600'
+                              : 'bg-white hover:bg-red-50 text-red-600 border-2 border-red-600'
+                          }`}
                         >
-                          <XCircle className="h-4 w-4 mr-2" />
+                          <XCircle className="h-5 w-5 mr-2" />
                           Tolak
                         </Button>
                       </div>
@@ -435,10 +497,7 @@ export default function AdminPaymentsPage() {
                 <div className="flex justify-end space-x-4 mt-6">
                   <Button
                     variant="outline"
-                    onClick={() => {
-                      setShowModal(false)
-                      setSelectedPayment(null)
-                    }}
+                    onClick={() => handleCloseDialog(false)}
                     className="h-11"
                   >
                     Tutup
@@ -447,7 +506,11 @@ export default function AdminPaymentsPage() {
                     <Button
                       onClick={handleVerify}
                       disabled={verifying}
-                      className="h-11"
+                      className={`h-11 text-white font-semibold ${
+                        verificationData.action === 'VERIFY'
+                          ? 'bg-green-600 hover:bg-green-700'
+                          : 'bg-red-600 hover:bg-red-700'
+                      }`}
                     >
                       {verifying ? (
                         <div className="flex items-center">
@@ -457,16 +520,24 @@ export default function AdminPaymentsPage() {
                           </svg>
                           Memproses...
                         </div>
+                      ) : verificationData.action === 'VERIFY' ? (
+                        <>
+                          <CheckCircle2 className="h-4 w-4 mr-2" />
+                          Verifikasi Pembayaran
+                        </>
                       ) : (
-                        'Simpan Verifikasi'
+                        <>
+                          <XCircle className="h-4 w-4 mr-2" />
+                          Tolak Pembayaran
+                        </>
                       )}
                     </Button>
                   )}
                 </div>
               </div>
-            </Card>
-          </div>
-        )}
+            )}
+          </DialogContent>
+        </Dialog>
     </div>
   )
 }

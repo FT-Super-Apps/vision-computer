@@ -8,13 +8,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
-  const [email, setEmail] = useState('')
+  const [identifier, setIdentifier] = useState('') // username or email
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,13 +25,13 @@ export default function LoginPage() {
 
     try {
       const result = await signIn('credentials', {
-        email,
+        identifier, // Send as identifier (can be username or email)
         password,
         redirect: false,
       })
 
       if (result?.error) {
-        setError('Email atau password salah')
+        setError('Username/email atau password salah')
       } else {
         // Fetch user account status to determine redirect
         const statusResponse = await fetch('/api/user/account-status')
@@ -53,9 +55,10 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Visual/Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-gray-50">
+      <div className="flex w-full max-w-7xl h-[90vh] rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+        {/* Left Side - Visual/Branding */}
+        <div className="hidden lg:flex lg:w-[30%] bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
@@ -63,38 +66,38 @@ export default function LoginPage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center items-center w-full px-16 text-white">
-          <div className="mb-8">
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-6 shadow-2xl">
-              <span className="text-5xl">🏠</span>
+        <div className="relative z-10 flex flex-col justify-center items-center w-full px-8 text-white">
+          <div className="mb-6">
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-4 shadow-2xl mx-auto">
+              <span className="text-4xl">🏠</span>
             </div>
-            <h1 className="text-4xl font-bold mb-4">Rumah Plagiasi</h1>
-            <p className="text-blue-100 text-lg">
+            <h1 className="text-3xl font-bold mb-3 text-center">Rumah Plagiasi</h1>
+            <p className="text-blue-100 text-sm text-center">
               Platform terpercaya untuk membantu Anda melewati sistem deteksi plagiarism dengan aman dan mudah.
             </p>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-12 w-full max-w-md">
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">1000+</div>
-              <div className="text-blue-200 text-sm">Dokumen</div>
+          <div className="space-y-3 mt-8 w-full">
+            <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="text-2xl font-bold mb-1">1000+</div>
+              <div className="text-blue-200 text-xs">Dokumen Diproses</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">98%</div>
-              <div className="text-blue-200 text-sm">Sukses Rate</div>
+            <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="text-2xl font-bold mb-1">98%</div>
+              <div className="text-blue-200 text-xs">Sukses Rate</div>
             </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold mb-1">24/7</div>
-              <div className="text-blue-200 text-sm">Support</div>
+            <div className="text-center p-3 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="text-2xl font-bold mb-1">24/7</div>
+              <div className="text-blue-200 text-xs">Support</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
-        <div className="w-full max-w-md">
+        {/* Right Side - Form */}
+        <div className="w-full lg:w-[70%] flex items-center justify-center p-8 bg-white overflow-y-auto">
+          <div className="w-full max-w-lg">
           {/* Mobile Logo */}
           <div className="lg:hidden text-center mb-8">
             <div className="inline-flex items-center space-x-2 mb-4">
@@ -121,13 +124,13 @@ export default function LoginPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
+              <Label htmlFor="identifier" className="text-gray-700 font-medium">Username atau Email</Label>
               <Input
-                id="email"
-                type="email"
-                placeholder="nama@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                id="identifier"
+                type="text"
+                placeholder="username atau nama@email.com"
+                value={identifier}
+                onChange={(e) => setIdentifier(e.target.value)}
                 required
                 disabled={isLoading}
                 className="h-12 text-base"
@@ -136,16 +139,30 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Masukkan password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-                className="h-12 text-base"
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Masukkan password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  className="h-12 text-base pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none z-10 cursor-pointer"
+                  disabled={isLoading}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <Button
@@ -178,6 +195,7 @@ export default function LoginPage() {
               </Link>
             </div>
           </form>
+          </div>
         </div>
       </div>
     </div>

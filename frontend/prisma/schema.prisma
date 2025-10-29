@@ -237,17 +237,26 @@ model Document {
   uploadedAt         DateTime           @default(now())
   userId             String
   status             DocumentStatus     @default(PENDING)
-  
+
+  // PDF File (Turnitin/Additional)
+  pdfPath            String?
+  pdfFilename        String?
+
+  // Job Tracking (Celery/Redis)
+  jobId              String?            // Job ID from Celery for progress tracking
+  jobStartedAt       DateTime?          // When job processing started
+  jobCompletedAt     DateTime?          // When job completed
+
   // Metadata
   pageCount          Int?
   wordCount          Int?
   characterCount     Int?
-  
+
   // Relations
   user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
   analysis           DocumentAnalysis?
   bypasses           BypassHistory[]
-  
+
   @@map("documents")
   @@index([userId])
   @@index([status])

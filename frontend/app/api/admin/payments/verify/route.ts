@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     // Check admin authorization
     if (!session || !session.user || session.user.role !== 'ADMIN') {
       return NextResponse.json(
-        { error: 'Unauthorized. Admin access required.' },
+        { error: 'Tidak diizinkan. Akses admin diperlukan.' },
         { status: 403 }
       )
     }
@@ -27,21 +27,21 @@ export async function POST(request: NextRequest) {
     // Validate input
     if (!paymentProofId || !action) {
       return NextResponse.json(
-        { error: 'Payment proof ID and action are required' },
+        { error: 'ID bukti pembayaran dan aksi diperlukan' },
         { status: 400 }
       )
     }
 
     if (!['VERIFY', 'REJECT'].includes(action)) {
       return NextResponse.json(
-        { error: 'Invalid action. Must be VERIFY or REJECT' },
+        { error: 'Aksi tidak valid. Harus VERIFY atau REJECT' },
         { status: 400 }
       )
     }
 
     if (action === 'REJECT' && !rejectionReason) {
       return NextResponse.json(
-        { error: 'Rejection reason is required when rejecting payment' },
+        { error: 'Alasan penolakan diperlukan saat menolak pembayaran' },
         { status: 400 }
       )
     }
@@ -61,14 +61,14 @@ export async function POST(request: NextRequest) {
 
     if (!paymentProof) {
       return NextResponse.json(
-        { error: 'Payment proof not found' },
+        { error: 'Bukti pembayaran tidak ditemukan' },
         { status: 404 }
       )
     }
 
     if (paymentProof.status !== 'PENDING') {
       return NextResponse.json(
-        { error: 'Payment proof already processed' },
+        { error: 'Bukti pembayaran sudah diproses' },
         { status: 400 }
       )
     }
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: 'Payment verified successfully. User account is now active.',
+        message: 'Pembayaran berhasil diverifikasi. Akun pengguna sekarang aktif.',
         data: {
           paymentProof: {
             id: paymentProof.id,
@@ -197,7 +197,7 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        message: 'Payment rejected. User needs to re-upload payment proof.',
+        message: 'Pembayaran ditolak. Pengguna perlu mengunggah ulang bukti pembayaran.',
         data: {
           paymentProof: {
             id: paymentProof.id,
@@ -215,7 +215,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: 'Failed to process payment verification',
+        error: 'Gagal memproses verifikasi pembayaran',
         message: error.message,
       },
       { status: 500 }

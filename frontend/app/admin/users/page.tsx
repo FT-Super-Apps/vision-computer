@@ -4,7 +4,13 @@ import { useEffect, useState } from 'react'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Users, Search, Mail, Phone, Building, Calendar, FileText, CheckCircle, XCircle } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Users, Search, Mail, Phone, Building, Calendar, FileText, CheckCircle, XCircle, CreditCard } from 'lucide-react'
 
 interface User {
   id: string
@@ -40,6 +46,8 @@ export default function AdminUsersPage() {
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [roleFilter, setRoleFilter] = useState('ALL')
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [showDetailDialog, setShowDetailDialog] = useState(false)
 
   useEffect(() => {
     fetchUsers()
@@ -56,6 +64,18 @@ export default function AdminUsersPage() {
       console.error('Failed to fetch users:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleViewDetail = (user: User) => {
+    setSelectedUser(user)
+    setShowDetailDialog(true)
+  }
+
+  const handleCloseDialog = (open: boolean) => {
+    setShowDetailDialog(open)
+    if (!open) {
+      setSelectedUser(null)
     }
   }
 
@@ -305,7 +325,11 @@ export default function AdminUsersPage() {
 
                     {/* Actions */}
                     <div className="flex items-center space-x-2 ml-4">
-                      <Button variant="outline" size="sm">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleViewDetail(user)}
+                      >
                         Detail
                       </Button>
                     </div>
@@ -316,6 +340,158 @@ export default function AdminUsersPage() {
           })}
         </div>
       )}
+
+      {/* Detail Dialog */}
+      <Dialog open={showDetailDialog} onOpenChange={handleCloseDialog}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900">
+              Detail Pengguna
+            </DialogTitle>
+          </DialogHeader>
+
+          {selectedUser && (
+            <div className="mt-4 space-y-6">
+              {/* User Basic Info */}
+              <div className="flex items-center space-x-4 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-bold text-2xl">
+                    {selectedUser.name.charAt(0).toUpperCase()}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900">{selectedUser.name}</h3>
+                  <p className="text-sm text-gray-600">{selectedUser.profile?.fullName || '-'}</p>
+                  <div className="flex items-center space-x-2 mt-1">
+                    {selectedUser.role === 'ADMIN' && (
+                      <span className="px-2.5 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        Admin
+                      </span>
+                    )}
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getSubscriptionStatus(selectedUser.subscription).color}`}>
+                      {getSubscriptionStatus(selectedUser.subscription).label}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Information */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-900 flex items-center">
+                  <Mail className="h-4 w-4 mr-2 text-blue-600" />
+                  Informasi Kontak
+                </h4>
+                <div className="pl-6 space-y-2 text-sm">
+                  <div className="flex items-start">
+                    <span className="text-gray-600 w-32">Email:</span>
+                    <span className="text-gray-900 font-medium">{selectedUser.email}</span>
+                  </div>
+                  {selectedUser.profile?.phone && (
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Telepon:</span>
+                      <span className="text-gray-900 font-medium">{selectedUser.profile.phone}</span>
+                    </div>
+                  )}
+                  {selectedUser.profile?.institution && (
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Institusi:</span>
+                      <span className="text-gray-900 font-medium">{selectedUser.profile.institution}</span>
+                    </div>
+                  )}
+                  <div className="flex items-start">
+                    <span className="text-gray-600 w-32">Bergabung:</span>
+                    <span className="text-gray-900 font-medium">{formatDate(selectedUser.createdAt)}</span>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-gray-600 w-32">Email Verified:</span>
+                    <span className="text-gray-900 font-medium">
+                      {selectedUser.emailVerified ? (
+                        <span className="text-green-600 flex items-center">
+                          <CheckCircle className="h-4 w-4 mr-1" />
+                          Terverifikasi
+                        </span>
+                      ) : (
+                        <span className="text-red-600 flex items-center">
+                          <XCircle className="h-4 w-4 mr-1" />
+                          Belum Terverifikasi
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Subscription Info */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-900 flex items-center">
+                  <CreditCard className="h-4 w-4 mr-2 text-blue-600" />
+                  Informasi Langganan
+                </h4>
+                {selectedUser.subscription ? (
+                  <div className="pl-6 p-4 bg-gray-50 rounded-lg border space-y-2 text-sm">
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Paket:</span>
+                      <span className="text-gray-900 font-medium">{selectedUser.subscription.package.name}</span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Kode Paket:</span>
+                      <span className="text-gray-900 font-medium">{selectedUser.subscription.package.code}</span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Status:</span>
+                      <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${getSubscriptionStatus(selectedUser.subscription).color}`}>
+                        {getSubscriptionStatus(selectedUser.subscription).label}
+                      </span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Periode:</span>
+                      <span className="text-gray-900 font-medium">
+                        {formatDate(selectedUser.subscription.startDate)} - {formatDate(selectedUser.subscription.endDate)}
+                      </span>
+                    </div>
+                    <div className="flex items-start">
+                      <span className="text-gray-600 w-32">Durasi:</span>
+                      <span className="text-gray-900 font-medium">{selectedUser.subscription.package.validityDays} hari</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="pl-6 p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                    <p className="text-sm text-yellow-800">Belum memiliki langganan aktif</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Activity Stats */}
+              <div className="space-y-3">
+                <h4 className="font-semibold text-gray-900 flex items-center">
+                  <FileText className="h-4 w-4 mr-2 text-blue-600" />
+                  Statistik Aktivitas
+                </h4>
+                <div className="pl-6 grid grid-cols-2 gap-4">
+                  <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <p className="text-sm text-blue-600 font-medium">Total Dokumen</p>
+                    <p className="text-2xl font-bold text-blue-900">{selectedUser._count.documents}</p>
+                  </div>
+                  <div className="p-4 bg-purple-50 rounded-lg border border-purple-200">
+                    <p className="text-sm text-purple-600 font-medium">Total Bypass</p>
+                    <p className="text-2xl font-bold text-purple-900">{selectedUser._count.bypasses}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions */}
+              <div className="flex justify-end space-x-3 pt-4 border-t">
+                <Button
+                  variant="outline"
+                  onClick={() => handleCloseDialog(false)}
+                >
+                  Tutup
+                </Button>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

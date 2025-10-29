@@ -7,19 +7,36 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Eye, EyeOff } from 'lucide-react'
 
 export default function RegisterPage() {
   const router = useRouter()
   const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+
+    // Validate username
+    if (username.length < 3) {
+      setError('Username minimal 3 karakter')
+      return
+    }
+
+    // Validate whatsapp
+    if (whatsapp.length < 10) {
+      setError('Nomor WhatsApp minimal 10 digit')
+      return
+    }
 
     // Validate passwords match
     if (password !== confirmPassword) {
@@ -43,7 +60,9 @@ export default function RegisterPage() {
         },
         body: JSON.stringify({
           name,
+          username,
           email,
+          whatsapp,
           password,
         }),
       })
@@ -65,9 +84,10 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex">
-      {/* Left Side - Visual/Branding */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-purple-600 via-purple-700 to-blue-700 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-8 bg-gray-50">
+      <div className="flex w-full max-w-7xl h-[90vh] rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
+        {/* Left Side - Visual/Branding */}
+        <div className="hidden lg:flex lg:w-[30%] bg-gradient-to-br from-purple-600 via-purple-700 to-blue-700 relative overflow-hidden">
         {/* Decorative Elements */}
         <div className="absolute inset-0">
           <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl"></div>
@@ -75,75 +95,69 @@ export default function RegisterPage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 flex flex-col justify-center items-center w-full px-16 text-white">
-          <div className="mb-8">
-            <div className="w-20 h-20 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-6 shadow-2xl">
-              <span className="text-5xl">🏠</span>
+        <div className="relative z-10 flex flex-col justify-center items-center w-full px-8 text-white">
+          <div className="mb-6">
+            <div className="w-16 h-16 bg-white/20 backdrop-blur-lg rounded-2xl flex items-center justify-center mb-4 shadow-2xl mx-auto">
+              <span className="text-4xl">🏠</span>
             </div>
-            <h1 className="text-4xl font-bold mb-4">Mulai Sekarang</h1>
-            <p className="text-purple-100 text-lg">
+            <h1 className="text-2xl font-bold mb-3 text-center">Mulai Sekarang</h1>
+            <p className="text-purple-100 text-sm text-center">
               Bergabunglah dengan ratusan mahasiswa yang telah mempercayai platform kami untuk kesuksesan akademik mereka.
             </p>
           </div>
 
           {/* Benefits */}
-          <div className="space-y-4 mt-12 w-full max-w-md">
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+          <div className="space-y-2 mt-8 w-full">
+            <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="flex items-center space-x-2 mb-1">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
+                <div className="font-semibold text-sm">Proses Cepat & Mudah</div>
               </div>
-              <div>
-                <div className="font-semibold mb-1">Proses Cepat & Mudah</div>
-                <div className="text-purple-200 text-sm">Dokumen diproses dalam hitungan menit</div>
-              </div>
+              <div className="text-purple-200 text-xs pl-6">Dokumen diproses dalam hitungan menit</div>
             </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="flex items-center space-x-2 mb-1">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
+                <div className="font-semibold text-sm">100% Aman & Privat</div>
               </div>
-              <div>
-                <div className="font-semibold mb-1">100% Aman & Privat</div>
-                <div className="text-purple-200 text-sm">Data Anda terlindungi dengan enkripsi</div>
-              </div>
+              <div className="text-purple-200 text-xs pl-6">Data Anda terlindungi dengan enkripsi</div>
             </div>
-            <div className="flex items-start space-x-3">
-              <div className="w-6 h-6 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div className="p-3 bg-white/10 rounded-lg backdrop-blur-sm">
+              <div className="flex items-center space-x-2 mb-1">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                 </svg>
+                <div className="font-semibold text-sm">Support 24/7</div>
               </div>
-              <div>
-                <div className="font-semibold mb-1">Support 24/7</div>
-                <div className="text-purple-200 text-sm">Tim kami siap membantu kapan saja</div>
-              </div>
+              <div className="text-purple-200 text-xs pl-6">Tim kami siap membantu kapan saja</div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Right Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
-        <div className="w-full max-w-md">
+        {/* Right Side - Form */}
+        <div className="w-full lg:w-[70%] flex items-center justify-center p-8 bg-white overflow-y-auto">
+          <div className="w-full max-w-2xl">
           {/* Mobile Logo */}
-          <div className="lg:hidden text-center mb-8">
-            <div className="inline-flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white text-lg font-bold">🏠</span>
+          <div className="lg:hidden text-center mb-4">
+            <div className="inline-flex items-center space-x-2 mb-2">
+              <div className="w-8 h-8 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <span className="text-white text-sm font-bold">🏠</span>
               </div>
-              <span className="text-2xl font-bold text-gray-900">Rumah Plagiasi</span>
+              <span className="text-xl font-bold text-gray-900">Rumah Plagiasi</span>
             </div>
           </div>
 
-          <div className="mb-8">
-            <h2 className="text-3xl font-bold text-gray-900 mb-2">Buat Akun Baru</h2>
-            <p className="text-gray-600">Daftar untuk mulai menggunakan layanan kami</p>
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">Buat Akun Baru</h2>
+            <p className="text-sm text-gray-600">Daftar untuk mulai menggunakan layanan kami</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-3">
             {error && (
               <div className="p-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg flex items-center">
                 <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -153,65 +167,130 @@ export default function RegisterPage() {
               </div>
             )}
 
-            <div className="space-y-2">
-              <Label htmlFor="name" className="text-gray-700 font-medium">Nama Lengkap</Label>
-              <Input
-                id="name"
-                type="text"
-                placeholder="Masukkan nama lengkap"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                disabled={isLoading}
-                className="h-12 text-base"
-              />
+            {/* Row 1: Nama & Username */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label htmlFor="name" className="text-sm font-medium text-gray-700">Nama Lengkap</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Nama lengkap"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  className="h-10 text-sm"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="username" className="text-sm font-medium text-gray-700">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Username login"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value.toLowerCase().replace(/\s/g, ''))}
+                  required
+                  disabled={isLoading}
+                  className="h-10 text-sm"
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="nama@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isLoading}
-                className="h-12 text-base"
-              />
+            {/* Row 2: Email & WhatsApp */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700">Email</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="nama@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  className="h-10 text-sm"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <Label htmlFor="whatsapp" className="text-sm font-medium text-gray-700">WhatsApp</Label>
+                <Input
+                  id="whatsapp"
+                  type="tel"
+                  placeholder="08123456789"
+                  value={whatsapp}
+                  onChange={(e) => setWhatsapp(e.target.value.replace(/\D/g, ''))}
+                  required
+                  disabled={isLoading}
+                  className="h-10 text-sm"
+                />
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="Minimal 6 karakter"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-                className="h-12 text-base"
-              />
-            </div>
+            {/* Row 3: Password & Confirm Password */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <Label htmlFor="password" className="text-sm font-medium text-gray-700">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Min. 6 karakter"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    className="h-10 text-sm pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none z-10 cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">Konfirmasi Password</Label>
-              <Input
-                id="confirmPassword"
-                type="password"
-                placeholder="Masukkan ulang password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                required
-                disabled={isLoading}
-                className="h-12 text-base"
-              />
+              <div className="space-y-1">
+                <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">Konfirmasi Password</Label>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder="Ulangi password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                    disabled={isLoading}
+                    className="h-10 text-sm pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none z-10 cursor-pointer"
+                    disabled={isLoading}
+                  >
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-base"
+              className="w-full h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm mt-4"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -227,18 +306,19 @@ export default function RegisterPage() {
               )}
             </Button>
 
-            <div className="text-center space-y-4">
+            <div className="text-center space-y-2 pt-2">
               <p className="text-sm text-gray-600">
                 Sudah punya akun?{' '}
                 <Link href="/auth/login" className="text-blue-600 hover:text-blue-700 font-semibold hover:underline">
                   Masuk
                 </Link>
               </p>
-              <Link href="/" className="text-sm text-gray-500 hover:text-gray-700 transition block">
+              <Link href="/" className="text-xs text-gray-500 hover:text-gray-700 transition block">
                 ← Kembali ke Beranda
               </Link>
             </div>
           </form>
+          </div>
         </div>
       </div>
     </div>
