@@ -67,7 +67,7 @@ export default function DocumentDetailPage() {
 
     const interval = setInterval(() => {
       checkProcessingStatus()
-    }, 2000) // Check every 2 seconds
+    }, 5000) // Check every 5 seconds (resource-friendly)
 
     return () => clearInterval(interval)
   }, [document?.status, jobId])
@@ -146,13 +146,15 @@ export default function DocumentDetailPage() {
 
       const blob = await response.blob()
       const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
+
+      // Create download link
+      const a = window.document.createElement('a')
       a.href = url
       a.download = filename
-      document.body.appendChild(a)
+      window.document.body.appendChild(a)
       a.click()
       window.URL.revokeObjectURL(url)
-      document.body.removeChild(a)
+      window.document.body.removeChild(a)
 
       toast({
         variant: 'success',
@@ -367,7 +369,7 @@ export default function DocumentDetailPage() {
                       <div>
                         <p className="text-sm font-semibold text-blue-900">Halaman ini akan diperbarui otomatis</p>
                         <p className="text-xs text-blue-700 mt-1">
-                          Anda tidak perlu me-refresh halaman. Progress akan ter-update setiap 2 detik.
+                          Anda tidak perlu me-refresh halaman. Progress akan ter-update setiap 5 detik.
                         </p>
                       </div>
                     </div>

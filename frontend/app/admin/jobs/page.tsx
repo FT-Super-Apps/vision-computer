@@ -69,10 +69,10 @@ export default function JobMonitorPage() {
   useEffect(() => {
     fetchJobs()
 
-    // Auto-refresh every 5 seconds
+    // Auto-refresh every 10 seconds
     const interval = setInterval(() => {
       fetchJobs(true)
-    }, 5000)
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [])
