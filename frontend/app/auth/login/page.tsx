@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -12,11 +12,36 @@ import { Eye, EyeOff } from 'lucide-react'
 
 export default function LoginPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const [identifier, setIdentifier] = useState('') // username or email
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false)
+
+  // Auto-fill identifier from registration redirect
+  useEffect(() => {
+    const registered = searchParams.get('registered')
+    const identifierParam = searchParams.get('identifier')
+
+    if (registered === 'true') {
+      setShowSuccessMessage(true)
+      // Auto-hide success message after 10 seconds
+      setTimeout(() => setShowSuccessMessage(false), 10000)
+    }
+
+    if (identifierParam) {
+      setIdentifier(decodeURIComponent(identifierParam))
+      // Auto-focus password field if identifier is pre-filled
+      setTimeout(() => {
+        const passwordInput = document.getElementById('password')
+        if (passwordInput) {
+          passwordInput.focus()
+        }
+      }, 100)
+    }
+  }, [searchParams])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -114,6 +139,26 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
+            {showSuccessMessage && (
+              <div className="p-4 text-sm text-green-700 bg-green-50 border border-green-200 rounded-lg flex items-center">
+                <svg className="w-5 h-5 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                </svg>
+                <span>
+                  <strong>Registrasi berhasil!</strong> Silakan login dengan akun yang baru Anda buat.
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setShowSuccessMessage(false)}
+                  className="ml-auto text-green-700 hover:text-green-900"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            )}
+
             {error && (
               <div className="p-4 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg flex items-center">
                 <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">

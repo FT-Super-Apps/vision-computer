@@ -88,6 +88,12 @@ frontend/.vercel
 frontend/prisma/migrations/*
 !frontend/prisma/migrations/.gitkeep
 
+# Frontend Uploads (User Data)
+frontend/uploads/*
+!frontend/uploads/.gitkeep
+frontend/public/uploads/*
+!frontend/public/uploads/.gitkeep
+
 # ═══════════════════════════════════════════════════════════════════
 # General
 # ═══════════════════════════════════════════════════════════════════
@@ -116,6 +122,8 @@ Thumbs.db
 
 # Redis
 dump.rdb
+redis-server
+redis-cli
 
 # Logs
 *.log

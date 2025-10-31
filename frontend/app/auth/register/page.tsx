@@ -74,8 +74,9 @@ export default function RegisterPage() {
         return
       }
 
-      // Redirect to login page
-      router.push('/auth/login?registered=true')
+      // Redirect to login page with username/email pre-filled
+      const encodedIdentifier = encodeURIComponent(username || email)
+      router.push(`/auth/login?registered=true&identifier=${encodedIdentifier}`)
     } catch (error) {
       setError('Terjadi kesalahan. Silakan coba lagi.')
     } finally {
