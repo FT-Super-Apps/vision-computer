@@ -6,6 +6,17 @@ Modern document bypass system dengan Next.js fullstack frontend dan Python FastA
 
 ---
 
+## 📚 Documentation Guides
+
+- **[🎉 FINAL SETUP SUMMARY](FINAL_SETUP_SUMMARY.md)** - Everything is ready! ✅
+- **[📖 Quick Start Guide](QUICK_START.md)** - Get running in 10 minutes! ⚡
+- **[🔧 Complete Setup Guide](SETUP_GUIDE.md)** - Detailed backend & frontend setup
+- **[🔑 API Key Setup](API_KEY_SETUP.md)** - Fix "Missing API Key" errors ⚠️
+- **[⚡ Performance Optimization](PERFORMANCE_OPTIMIZATION.md)** - Speed improvements & tips
+- **[📦 Install Dependencies](INSTALL_DEPENDENCIES.md)** - Redis, PostgreSQL, etc.
+
+---
+
 ## 📋 Table of Contents
 
 - [Quick Start](#-quick-start-5-minutes)

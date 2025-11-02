@@ -2,16 +2,12 @@
 
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter, usePathname } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import {
   LayoutDashboard,
   FileText,
   User,
   LogOut,
-  Menu,
-  X,
-  Home,
-  Settings,
 } from 'lucide-react'
 
 export default function DashboardLayout({
@@ -22,7 +18,6 @@ export default function DashboardLayout({
   const { data: session, status } = useSession()
   const router = useRouter()
   const pathname = usePathname()
-  const [sidebarOpen, setSidebarOpen] = useState(true)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -48,143 +43,101 @@ export default function DashboardLayout({
   }
 
   const menuItems = [
-    { key: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    { key: '/dashboard', label: 'Home', icon: LayoutDashboard },
     { key: '/dashboard/documents', label: 'Dokumen', icon: FileText },
     { key: '/dashboard/profile', label: 'Profil', icon: User },
   ]
 
-  const getPageTitle = () => {
-    if (pathname === '/dashboard') return 'Dashboard'
-    if (pathname === '/dashboard/documents') return 'Dokumen Saya'
-    if (pathname === '/dashboard/documents/upload') return 'Upload Dokumen'
-    if (pathname.startsWith('/dashboard/documents/')) return 'Detail Dokumen'
-    if (pathname === '/dashboard/profile' || pathname === '/profile') return 'Profil Saya'
-    return 'User Panel'
-  }
-
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Sidebar */}
-      <aside className={`${sidebarOpen ? 'w-64' : 'w-20'} bg-white border-r border-gray-200 transition-all duration-300 flex flex-col fixed h-screen z-30`}>
-        {/* Logo */}
-        <div className="h-16 border-b border-gray-200 flex items-center px-4">
-          {sidebarOpen ? (
-            <div className="flex items-center space-x-3 flex-1">
-              <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-xl">🏠</span>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Navigation Bar */}
+      <nav className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+        <div className="max-w-[1600px] mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center space-x-2">
+              <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center">
+                <span className="text-white font-bold text-lg">📄</span>
               </div>
-              <span className="font-bold text-gray-900">User Panel</span>
+              <span className="text-xl font-bold text-gray-900">DOKUMEN</span>
             </div>
-          ) : (
-            <div className="w-9 h-9 bg-gradient-to-br from-blue-600 to-purple-600 rounded-lg flex items-center justify-center mx-auto">
-              <span className="text-xl">🏠</span>
-            </div>
-          )}
-          {sidebarOpen && (
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-              title="Tutup sidebar"
-            >
-              <X className="h-5 w-5 text-gray-600" />
-            </button>
-          )}
-        </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 p-4">
-          {/* Main Menu */}
-          <div className="space-y-1">
-            {menuItems.map((item) => {
-              const Icon = item.icon
-              const isActive = pathname === item.key || (item.key === '/dashboard/documents' && pathname.startsWith('/dashboard/documents'))
-              return (
-                <button
-                  key={item.key}
-                  onClick={() => router.push(item.key)}
-                  className={`${
-                    isActive
-                      ? 'bg-blue-600 text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  } w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-all`}
-                >
-                  <Icon className="h-5 w-5 flex-shrink-0" />
-                  {sidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
-                </button>
-              )
-            })}
+            {/* Center Navigation */}
+            <div className="hidden md:flex items-center space-x-1">
+              {menuItems.map((item) => {
+                const isActive = pathname === item.key || (item.key === '/dashboard/documents' && pathname.startsWith('/dashboard/documents'))
+                return (
+                  <button
+                    key={item.key}
+                    onClick={() => router.push(item.key)}
+                    className={`${
+                      isActive
+                        ? 'text-gray-900 font-semibold'
+                        : 'text-gray-600 hover:text-gray-900'
+                    } px-4 py-2 text-sm font-medium transition-colors`}
+                  >
+                    {item.label}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Right Section */}
+            <div className="flex items-center space-x-4">
+              {/* Search Bar */}
+              <div className="hidden lg:block">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Enter your search request..."
+                    className="w-64 px-4 py-2 pl-10 bg-gray-100 border-0 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-gray-300 placeholder:text-gray-400"
+                  />
+                  <svg
+                    className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Notification Icon */}
+              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+              </button>
+
+              {/* User Profile */}
+              <div className="flex items-center space-x-3 pl-3 border-l border-gray-200">
+                <div className="text-right hidden sm:block">
+                  <p className="text-sm font-semibold text-gray-900">{session.user.name}</p>
+                  <p className="text-xs text-gray-500">User</p>
+                </div>
+                <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
+                  <User className="w-5 h-5 text-gray-600" />
+                </div>
+              </div>
+
+              {/* Logout Button */}
+              <button
+                onClick={() => signOut({ callbackUrl: '/auth/login' })}
+                className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                title="Keluar"
+              >
+                <LogOut className="w-5 h-5" />
+              </button>
+            </div>
           </div>
-
-          {/* Divider */}
-          {sidebarOpen && (
-            <div className="my-4">
-              <p className="px-4 text-xs font-semibold text-gray-400 uppercase tracking-wider">Lainnya</p>
-            </div>
-          )}
-          {!sidebarOpen && <div className="my-3 border-t border-gray-200"></div>}
-
-          {/* Additional Actions */}
-          <div className="space-y-1">
-            <button
-              onClick={() => router.push('/dashboard')}
-              className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-gray-700 hover:bg-gray-100 transition-all"
-            >
-              <Home className="h-5 w-5 flex-shrink-0" />
-              {sidebarOpen && <span className="font-medium text-sm">Beranda</span>}
-            </button>
-          </div>
-        </nav>
-
-        {/* User Info & Logout */}
-        <div className="p-4 border-t border-gray-200">
-          {sidebarOpen && (
-            <div className="mb-3 px-4">
-              <p className="text-sm font-medium text-gray-900 truncate">{session.user.name}</p>
-              <p className="text-xs text-gray-500 truncate">{session.user.email}</p>
-            </div>
-          )}
-          <button
-            onClick={() => signOut({ callbackUrl: '/auth/login' })}
-            className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-lg text-red-600 hover:bg-red-50 transition-all"
-          >
-            <LogOut className="h-5 w-5 flex-shrink-0" />
-            {sidebarOpen && <span className="font-medium text-sm">Keluar</span>}
-          </button>
         </div>
-      </aside>
+      </nav>
 
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col overflow-hidden ${sidebarOpen ? 'ml-64' : 'ml-20'} transition-all duration-300`}>
-        {/* Header */}
-        <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8">
-          <div className="flex items-center space-x-4">
-            {!sidebarOpen && (
-              <button
-                onClick={() => setSidebarOpen(true)}
-                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-                title="Buka sidebar"
-              >
-                <Menu className="h-5 w-5 text-gray-600" />
-              </button>
-            )}
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">{getPageTitle()}</h1>
-              <p className="text-sm text-gray-500">Kelola dokumen dan profil Anda</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">{session.user.name}</p>
-              <p className="text-xs text-gray-500 uppercase">User</p>
-            </div>
-          </div>
-        </header>
-
-        {/* Content Area */}
-        <main className="flex-1 overflow-y-auto">
-          {children}
-        </main>
-      </div>
+      <main className="max-w-[1600px] mx-auto p-6">
+        {children}
+      </main>
     </div>
   )
 }
