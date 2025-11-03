@@ -59,7 +59,7 @@ export default function DashboardLayout({
               <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center">
                 <span className="text-white font-bold text-lg">📄</span>
               </div>
-              <span className="text-xl font-bold text-gray-900">DOKUMEN</span>
+              <span className="text-xl font-bold text-gray-900">Rumah Plagiasi</span>
             </div>
 
             {/* Center Navigation */}
@@ -111,7 +111,10 @@ export default function DashboardLayout({
               </button>
 
               {/* User Profile */}
-              <div className="flex items-center space-x-3 pl-3 border-l border-gray-200">
+              <button
+                onClick={() => router.push('/dashboard/profile')}
+                className="flex items-center space-x-3 pl-3 border-l border-gray-200 hover:bg-gray-50 rounded-lg px-2 py-1 transition-colors"
+              >
                 <div className="text-right hidden sm:block">
                   <p className="text-sm font-semibold text-gray-900">{session.user.name}</p>
                   <p className="text-xs text-gray-500">User</p>
@@ -119,7 +122,7 @@ export default function DashboardLayout({
                 <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                   <User className="w-5 h-5 text-gray-600" />
                 </div>
-              </div>
+              </button>
 
               {/* Logout Button */}
               <button

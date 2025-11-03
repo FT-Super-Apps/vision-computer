@@ -315,8 +315,8 @@ export default function DocumentDetailPage() {
           <CardContent className="pt-6">
             <div className="flex items-start justify-between gap-4">
               <div className="flex items-start space-x-4 flex-1">
-                <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <File className="h-8 w-8 text-gray-600" />
+                <div className="w-16 h-16 bg-[#D1F8EF] rounded-lg flex items-center justify-center flex-shrink-0">
+                  <File className="h-8 w-8 text-[#3674B5]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <h1 className="text-2xl font-semibold text-gray-900 break-words">
@@ -328,7 +328,7 @@ export default function DocumentDetailPage() {
                   <div className="flex items-center space-x-3 mt-3">
                     {getStatusBadge(document.status)}
                     {document.pdfPath && (
-                      <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-lg font-medium border border-gray-200">
+                      <span className="text-xs bg-[#A1E3F9] text-[#3674B5] px-3 py-1 rounded-lg font-medium border border-[#578FCA]">
                         PDF Turnitin Tersedia
                       </span>
                     )}
@@ -367,9 +367,9 @@ export default function DocumentDetailPage() {
                     </span>
                   </div>
 
-                  <div className="w-full bg-gray-200 rounded-full h-6">
+                  <div className="w-full bg-[#A1E3F9] rounded-full h-6">
                     <div
-                      className="bg-gray-800 h-6 rounded-full transition-all duration-500 ease-out flex items-center justify-end px-3"
+                      className="bg-[#3674B5] h-6 rounded-full transition-all duration-500 ease-out flex items-center justify-end px-3"
                       style={{
                         width: `${processingProgress.percent || 0}%`,
                       }}
@@ -485,8 +485,8 @@ export default function DocumentDetailPage() {
             {/* DOCX File */}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
               <div className="flex items-center space-x-3 flex-1">
-                <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <File className="h-5 w-5 text-gray-600" />
+                <div className="w-10 h-10 bg-[#D1F8EF] rounded-lg flex items-center justify-center flex-shrink-0">
+                  <File className="h-5 w-5 text-[#3674B5]" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-gray-900 truncate">
@@ -500,7 +500,7 @@ export default function DocumentDetailPage() {
               <Button
                 size="sm"
                 onClick={() => handleDownload(document.originalFilename)}
-                className="bg-gray-900 hover:bg-gray-800 text-white ml-2 rounded-lg"
+                className="bg-[#3674B5] hover:bg-[#578FCA] text-white ml-2 rounded-lg"
               >
                 <Download className="h-4 w-4 mr-1" />
                 Download
@@ -511,8 +511,8 @@ export default function DocumentDetailPage() {
             {document.pdfPath && document.pdfFilename && (
               <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-200">
                 <div className="flex items-center space-x-3 flex-1">
-                  <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <File className="h-5 w-5 text-gray-600" />
+                  <div className="w-10 h-10 bg-[#D1F8EF] rounded-lg flex items-center justify-center flex-shrink-0">
+                    <File className="h-5 w-5 text-[#3674B5]" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-medium text-gray-900 truncate">
@@ -524,7 +524,7 @@ export default function DocumentDetailPage() {
                 <Button
                   size="sm"
                   onClick={() => handleDownload(document.pdfFilename!)}
-                  className="bg-gray-900 hover:bg-gray-800 text-white ml-2 rounded-lg"
+                  className="bg-[#3674B5] hover:bg-[#578FCA] text-white ml-2 rounded-lg"
                 >
                   <Download className="h-4 w-4 mr-1" />
                   Download
@@ -594,7 +594,7 @@ export default function DocumentDetailPage() {
                         <Button
                           size="sm"
                           onClick={() => handleDownload(bypass.outputFilename, true)}
-                          className="bg-gray-900 hover:bg-gray-800 text-white rounded-lg"
+                          className="bg-[#3674B5] hover:bg-[#578FCA] text-white rounded-lg"
                         >
                           <Download className="h-4 w-4 mr-1" />
                           Download

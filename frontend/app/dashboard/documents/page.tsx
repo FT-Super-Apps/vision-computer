@@ -242,7 +242,7 @@ export default function DocumentsPage() {
             <p className="text-gray-500 mt-1 text-sm">Kelola dan pantau dokumen yang sudah diunggah</p>
           </div>
           <Link href="/dashboard/documents/upload">
-            <Button className="bg-gray-900 hover:bg-gray-800 text-white font-medium h-11 rounded-lg transition-colors">
+            <Button className="bg-[#3674B5] hover:bg-[#578FCA] text-white font-medium h-11 rounded-lg transition-colors">
               <Plus className="h-4 w-4 mr-2" />
               Upload Dokumen
             </Button>
@@ -295,7 +295,7 @@ export default function DocumentsPage() {
             </p>
             {documents.length === 0 && (
               <Link href="/dashboard/documents/upload">
-                <Button className="bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg transition-colors">
+                <Button className="bg-[#3674B5] hover:bg-[#578FCA] text-white font-medium rounded-lg transition-colors">
                   <Plus className="h-4 w-4 mr-2" />
                   Upload Dokumen Pertama
                 </Button>
@@ -314,8 +314,8 @@ export default function DocumentsPage() {
                   <div className="flex-1">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start space-x-3 flex-1">
-                        <div className="w-12 h-12 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <File className="h-6 w-6 text-gray-600" />
+                        <div className="w-12 h-12 bg-[#D1F8EF] rounded-lg flex items-center justify-center flex-shrink-0">
+                          <File className="h-6 w-6 text-[#3674B5]" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <h3 className="font-semibold text-lg text-gray-900 truncate mb-1">
@@ -327,7 +327,7 @@ export default function DocumentsPage() {
                           <div className="flex items-center flex-wrap gap-2">
                             {getStatusBadge(doc.status)}
                             {doc.pdfPath && (
-                              <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-lg font-medium border border-gray-200">
+                              <span className="text-xs bg-[#A1E3F9] text-[#3674B5] px-3 py-1 rounded-lg font-medium border border-[#578FCA]">
                                 PDF Turnitin
                               </span>
                             )}

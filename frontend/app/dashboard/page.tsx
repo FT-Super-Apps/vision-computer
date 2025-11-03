@@ -2,11 +2,20 @@
 
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useToast } from '@/hooks/use-toast'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Upload, File, X, CheckCircle } from 'lucide-react'
 
 interface Document {
   id: string
@@ -40,6 +49,8 @@ export default function DashboardPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   const { toast } = useToast()
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
   const [documents, setDocuments] = useState<Document[]>([])
   const [stats, setStats] = useState<DocumentStats>({
     total: 0,
@@ -48,6 +59,15 @@ export default function DashboardPage() {
     failed: 0,
   })
   const [isLoading, setIsLoading] = useState(true)
+
+  // Upload Dialog State
+  const [uploadDialogOpen, setUploadDialogOpen] = useState(false)
+  const [selectedDocxFile, setSelectedDocxFile] = useState<File | null>(null)
+  const [selectedPdfFile, setSelectedPdfFile] = useState<File | null>(null)
+  const [title, setTitle] = useState('')
+  const [uploading, setUploading] = useState(false)
+  const [dragActiveDocx, setDragActiveDocx] = useState(false)
+  const [dragActivePdf, setDragActivePdf] = useState(false)
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -125,7 +145,252 @@ export default function DashboardPage() {
   }
 
   const handleUploadClick = () => {
-    router.push('/dashboard/documents/upload')
+    setUploadDialogOpen(true)
+  }
+
+  // Upload Dialog Handlers
+  const handleDragDocx = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActiveDocx(true)
+    } else if (e.type === 'dragleave') {
+      setDragActiveDocx(false)
+    }
+  }
+
+  const handleDragPdf = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    if (e.type === 'dragenter' || e.type === 'dragover') {
+      setDragActivePdf(true)
+    } else if (e.type === 'dragleave') {
+      setDragActivePdf(false)
+    }
+  }
+
+  const handleDropDocx = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActiveDocx(false)
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileSelectDocx(e.dataTransfer.files[0])
+    }
+  }
+
+  const handleDropPdf = (e: React.DragEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setDragActivePdf(false)
+
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      handleFileSelectPdf(e.dataTransfer.files[0])
+    }
+  }
+
+  const handleFileSelectDocx = (file: File) => {
+    if (!file.name.endsWith('.docx')) {
+      toast({
+        variant: 'destructive',
+        title: 'Format File Tidak Valid',
+        description: 'File DOCX harus berformat .docx',
+      })
+      return
+    }
+
+    const maxSize = 10 * 1024 * 1024 // 10MB
+    if (file.size > maxSize) {
+      toast({
+        variant: 'destructive',
+        title: 'Ukuran File Terlalu Besar',
+        description: 'Ukuran file DOCX maksimal 10MB',
+      })
+      return
+    }
+
+    setSelectedDocxFile(file)
+
+    const fileNameWithoutExt = file.name.replace(/\.docx$/i, '')
+    const timestamp = new Date().toLocaleString('id-ID', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    }).replace(/[/,]/g, '-').replace(/\s/g, '_')
+    setTitle(`${fileNameWithoutExt}_${timestamp}`)
+  }
+
+  const handleFileSelectPdf = (file: File) => {
+    if (!file.name.endsWith('.pdf')) {
+      toast({
+        variant: 'destructive',
+        title: 'Format File Tidak Valid',
+        description: 'File Turnitin harus berformat .pdf',
+      })
+      return
+    }
+
+    const maxSize = 10 * 1024 * 1024 // 10MB
+    if (file.size > maxSize) {
+      toast({
+        variant: 'destructive',
+        title: 'Ukuran File Terlalu Besar',
+        description: 'Ukuran file PDF maksimal 10MB',
+      })
+      return
+    }
+
+    setSelectedPdfFile(file)
+  }
+
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0]
+      if (file.name.endsWith('.docx')) {
+        handleFileSelectDocx(file)
+      } else if (file.name.endsWith('.pdf')) {
+        handleFileSelectPdf(file)
+      }
+    }
+  }
+
+  const handleRemoveDocxFile = () => {
+    setSelectedDocxFile(null)
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
+  const handleRemovePdfFile = () => {
+    setSelectedPdfFile(null)
+  }
+
+  const handleUpload = async () => {
+    if (!selectedDocxFile) {
+      toast({
+        variant: 'destructive',
+        title: 'Peringatan',
+        description: 'Harap pilih file DOCX',
+      })
+      return
+    }
+
+    setUploading(true)
+
+    try {
+      const formData = new FormData()
+      formData.append('docxFile', selectedDocxFile)
+
+      if (selectedPdfFile) {
+        formData.append('pdfFile', selectedPdfFile)
+      }
+
+      const uploadResponse = await fetch('/api/files/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const uploadData = await uploadResponse.json()
+
+      if (!uploadData.success) {
+        throw new Error(uploadData.error || 'Gagal mengupload file')
+      }
+
+      const documentResponse = await fetch('/api/documents/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: title.trim(),
+          originalFilename: uploadData.data.docxFile.originalName,
+          fileSize: uploadData.data.docxFile.size,
+          fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+          uploadPath: uploadData.data.docxFile.path,
+          userId: session?.user?.id,
+          pdfPath: uploadData.data.pdfFile?.path || null,
+          pdfFilename: uploadData.data.pdfFile?.originalName || null,
+        }),
+      })
+
+      const documentData = await documentResponse.json()
+
+      if (!documentData.success) {
+        throw new Error(documentData.error || 'Gagal membuat record dokumen')
+      }
+
+      const documentId = documentData.data.id
+
+      if (selectedPdfFile && documentId) {
+        try {
+          const processResponse = await fetch(`/api/documents/${documentId}/process`, {
+            method: 'POST',
+          })
+
+          if (processResponse.ok) {
+            const processData = await processResponse.json()
+
+            if (processData.data?.jobId) {
+              localStorage.setItem(`doc-job-${documentId}`, processData.data.jobId)
+            }
+
+            toast({
+              variant: 'success',
+              title: 'Proses Dimulai',
+              description: 'Dokumen sedang diproses...',
+            })
+
+            // Close dialog and refresh
+            setUploadDialogOpen(false)
+            setSelectedDocxFile(null)
+            setSelectedPdfFile(null)
+            setTitle('')
+            fetchDocuments()
+
+            // Redirect to document detail
+            setTimeout(() => {
+              router.push(`/dashboard/documents/${documentId}`)
+            }, 800)
+          }
+        } catch (processError) {
+          console.error('Error triggering process:', processError)
+          toast({
+            variant: 'success',
+            title: 'Upload Berhasil',
+            description: 'Dokumen berhasil diupload',
+          })
+
+          setUploadDialogOpen(false)
+          setSelectedDocxFile(null)
+          setSelectedPdfFile(null)
+          setTitle('')
+          fetchDocuments()
+        }
+      } else {
+        toast({
+          variant: 'success',
+          title: 'Berhasil',
+          description: 'Dokumen berhasil diupload',
+        })
+
+        setUploadDialogOpen(false)
+        setSelectedDocxFile(null)
+        setSelectedPdfFile(null)
+        setTitle('')
+        fetchDocuments()
+      }
+    } catch (error) {
+      console.error('Upload error:', error)
+      toast({
+        variant: 'destructive',
+        title: 'Gagal Upload',
+        description: error instanceof Error ? error.message : 'Terjadi kesalahan saat mengupload',
+      })
+    } finally {
+      setUploading(false)
+    }
   }
 
   const getStatusColor = (status: string) => {
@@ -143,9 +408,11 @@ export default function DashboardPage() {
   }
 
   const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + ' B'
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(2) + ' KB'
-    return (bytes / (1024 * 1024)).toFixed(2) + ' MB'
+    if (bytes === 0) return '0 Bytes'
+    const k = 1024
+    const sizes = ['Bytes', 'KB', 'MB', 'GB']
+    const i = Math.floor(Math.log(bytes) / Math.log(k))
+    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
   }
 
   const formatDate = (dateString: string) => {
@@ -211,13 +478,13 @@ export default function DashboardPage() {
                         <div
                           className={`w-full ${
                             isToday
-                              ? 'bg-gray-800'
-                              : 'bg-gray-300'
-                          } rounded-lg transition-colors hover:bg-gray-600`}
+                              ? 'bg-[#3674B5]'
+                              : 'bg-[#A1E3F9]'
+                          } rounded-lg transition-colors hover:bg-[#578FCA]`}
                           style={{ height: `${randomHeight}%` }}
                         ></div>
                       </div>
-                      <div className={`mt-3 w-9 h-9 ${isToday ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700'} rounded-lg flex items-center justify-center font-medium`}>
+                      <div className={`mt-3 w-9 h-9 ${isToday ? 'bg-[#3674B5] text-white' : 'bg-[#D1F8EF] text-gray-700'} rounded-lg flex items-center justify-center font-medium`}>
                         <span className="text-xs">{day}</span>
                       </div>
                     </div>
@@ -236,7 +503,7 @@ export default function DashboardPage() {
                   <p className="text-xs text-gray-500 mt-1">Your latest uploads</p>
                 </div>
                 <Link href="/dashboard/documents">
-                  <button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-medium transition-colors">
+                  <button className="px-4 py-2 bg-[#A1E3F9] hover:bg-[#578FCA] text-gray-800 hover:text-white rounded-lg text-sm font-medium transition-colors">
                     See All →
                   </button>
                 </Link>
@@ -253,7 +520,7 @@ export default function DashboardPage() {
                     <p className="text-gray-500 text-sm mb-4">Belum ada dokumen</p>
                     <Button
                       onClick={handleUploadClick}
-                      className="bg-gray-900 hover:bg-gray-800 text-white rounded-lg h-10 px-6 text-sm"
+                      className="bg-[#3674B5] hover:bg-[#578FCA] text-white rounded-lg h-10 px-6 text-sm"
                     >
                       Upload Dokumen
                     </Button>
@@ -265,8 +532,8 @@ export default function DashboardPage() {
                       className="flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
                     >
                       <div className="flex items-center space-x-3 flex-1 min-w-0">
-                        <div className="w-11 h-11 bg-gray-200 rounded-lg flex items-center justify-center flex-shrink-0">
-                          <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <div className="w-11 h-11 bg-[#D1F8EF] rounded-lg flex items-center justify-center flex-shrink-0">
+                          <svg className="w-5 h-5 text-[#3674B5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                           </svg>
                         </div>
@@ -277,7 +544,7 @@ export default function DashboardPage() {
                       </div>
                       <div className="flex items-center space-x-2">
                         {doc.status === 'COMPLETED' && (
-                          <span className="px-2 py-1 bg-green-50 text-green-700 rounded-md text-xs font-medium">
+                          <span className="px-2 py-1 bg-[#D1F8EF] text-[#3674B5] rounded-md text-xs font-medium">
                             Completed
                           </span>
                         )}
@@ -303,8 +570,8 @@ export default function DashboardPage() {
 
               <div className="space-y-3 mb-6">
                 <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 bg-[#D1F8EF] rounded-lg flex items-center justify-center">
+                    <svg className="w-5 h-5 text-[#3674B5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
@@ -312,7 +579,7 @@ export default function DashboardPage() {
                     <p className="font-medium text-gray-900 text-sm">Upload Dokumen</p>
                     <p className="text-xs text-gray-500">Tambah dokumen baru</p>
                   </button>
-                  <button className="w-8 h-8 bg-gray-900 hover:bg-gray-800 rounded-lg flex items-center justify-center transition-colors">
+                  <button className="w-8 h-8 bg-[#3674B5] hover:bg-[#578FCA] rounded-lg flex items-center justify-center transition-colors">
                     <span className="text-white text-lg">+</span>
                   </button>
                 </div>
@@ -320,7 +587,7 @@ export default function DashboardPage() {
 
               <Button
                 onClick={handleUploadClick}
-                className="w-full bg-gray-900 hover:bg-gray-800 text-white rounded-lg h-11"
+                className="w-full bg-[#3674B5] hover:bg-[#578FCA] text-white rounded-lg h-11"
               >
                 Upload Sekarang
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -351,9 +618,9 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              <div className="mt-6 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div className="mt-6 h-2 bg-[#A1E3F9] rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gray-800 rounded-full transition-all"
+                  className="h-full bg-[#3674B5] rounded-full transition-all"
                   style={{ width: `${stats.total > 0 ? (stats.completed / stats.total) * 100 : 0}%` }}
                 ></div>
               </div>
@@ -384,7 +651,7 @@ export default function DashboardPage() {
                       <div
                         key={`completed-${i}`}
                         className={`flex-1 h-12 rounded-md ${
-                          i < stats.completed ? 'bg-gray-400' : 'bg-gray-100'
+                          i < stats.completed ? 'bg-[#3674B5]' : 'bg-[#D1F8EF]'
                         }`}
                       ></div>
                     ))}
@@ -401,7 +668,7 @@ export default function DashboardPage() {
                       <div
                         key={`processing-${i}`}
                         className={`flex-1 h-12 rounded-md ${
-                          i < stats.processing ? 'bg-gray-500' : 'bg-gray-100'
+                          i < stats.processing ? 'bg-[#578FCA]' : 'bg-[#D1F8EF]'
                         }`}
                       ></div>
                     ))}
@@ -418,7 +685,7 @@ export default function DashboardPage() {
                       <div
                         key={`failed-${i}`}
                         className={`flex-1 h-12 rounded-md ${
-                          i < stats.failed ? 'bg-gray-700' : 'bg-gray-100'
+                          i < stats.failed ? 'bg-[#A1E3F9]' : 'bg-[#D1F8EF]'
                         }`}
                       ></div>
                     ))}
@@ -429,6 +696,236 @@ export default function DashboardPage() {
           </div>
         </div>
       </div>
+
+      {/* Upload Dialog */}
+      <Dialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900">Upload Dokumen</DialogTitle>
+            <DialogDescription>
+              Unggah file DOCX dan opsional PDF Turnitin untuk analisis
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-6 mt-4">
+            {/* DOCX File Upload */}
+            <div>
+              <Label className="text-base font-semibold text-gray-900 mb-3 block">
+                File DOCX <span className="text-red-500">*</span>
+              </Label>
+
+              {!selectedDocxFile ? (
+                <div
+                  className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer ${
+                    dragActiveDocx
+                      ? 'border-[#3674B5] bg-blue-50'
+                      : 'border-gray-300 hover:border-[#3674B5] hover:bg-gray-50'
+                  }`}
+                  onDragEnter={handleDragDocx}
+                  onDragLeave={handleDragDocx}
+                  onDragOver={handleDragDocx}
+                  onDrop={handleDropDocx}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".docx"
+                    onChange={handleFileInputChange}
+                    className="hidden"
+                    disabled={uploading}
+                  />
+                  <div className="w-16 h-16 bg-[#D1F8EF] rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <Upload className="h-8 w-8 text-[#3674B5]" />
+                  </div>
+                  <p className="text-lg font-medium text-gray-900 mb-2">
+                    Drag & drop file DOCX
+                  </p>
+                  <p className="text-sm text-gray-500 mb-4">Atau klik untuk memilih file</p>
+                  <Button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    className="bg-[#3674B5] hover:bg-[#578FCA] text-white"
+                    disabled={uploading}
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Pilih File DOCX
+                  </Button>
+                  <p className="text-xs text-gray-400 mt-3">
+                    Format: .docx | Maksimal: 10MB
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-[#D1F8EF] border border-[#578FCA] rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start space-x-3 flex-1">
+                      <div className="w-12 h-12 bg-[#3674B5] rounded-lg flex items-center justify-center flex-shrink-0">
+                        <File className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 truncate">
+                          {selectedDocxFile.name}
+                        </p>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {formatFileSize(selectedDocxFile.size)}
+                        </p>
+                        <div className="flex items-center mt-2">
+                          <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+                          <span className="text-sm text-green-700 font-medium">
+                            File siap diupload
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleRemoveDocxFile}
+                      disabled={uploading}
+                      className="text-red-600 hover:bg-red-50"
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* PDF File Upload (Optional) */}
+            <div>
+              <Label className="text-base font-semibold text-gray-900 mb-3 block">
+                File PDF Turnitin <span className="text-gray-500 text-sm">(Opsional)</span>
+              </Label>
+
+              {!selectedPdfFile ? (
+                <div
+                  className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all cursor-pointer ${
+                    dragActivePdf
+                      ? 'border-[#578FCA] bg-blue-50'
+                      : 'border-gray-300 hover:border-[#578FCA] hover:bg-gray-50'
+                  }`}
+                  onDragEnter={handleDragPdf}
+                  onDragLeave={handleDragPdf}
+                  onDragOver={handleDragPdf}
+                  onDrop={handleDropPdf}
+                >
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => {
+                      if (e.target.files && e.target.files[0]) {
+                        handleFileSelectPdf(e.target.files[0])
+                      }
+                    }}
+                    className="hidden"
+                    disabled={uploading}
+                    id="pdf-input"
+                  />
+                  <div className="w-16 h-16 bg-[#A1E3F9] rounded-xl mx-auto mb-4 flex items-center justify-center">
+                    <Upload className="h-8 w-8 text-[#3674B5]" />
+                  </div>
+                  <p className="text-lg font-medium text-gray-900 mb-2">
+                    Drag & drop file PDF
+                  </p>
+                  <p className="text-sm text-gray-500 mb-4">Untuk analisis lebih akurat</p>
+                  <Button
+                    type="button"
+                    onClick={() => document.getElementById('pdf-input')?.click()}
+                    className="bg-[#578FCA] hover:bg-[#3674B5] text-white"
+                    disabled={uploading}
+                  >
+                    <Upload className="h-4 w-4 mr-2" />
+                    Pilih File PDF
+                  </Button>
+                  <p className="text-xs text-gray-400 mt-3">
+                    Format: .pdf | Maksimal: 10MB
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-[#A1E3F9] border border-[#578FCA] rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex items-start space-x-3 flex-1">
+                      <div className="w-12 h-12 bg-[#3674B5] rounded-lg flex items-center justify-center flex-shrink-0">
+                        <File className="h-6 w-6 text-white" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-semibold text-gray-900 truncate">
+                          {selectedPdfFile.name}
+                        </p>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {formatFileSize(selectedPdfFile.size)}
+                        </p>
+                        <div className="flex items-center mt-2">
+                          <CheckCircle className="h-4 w-4 text-green-600 mr-2" />
+                          <span className="text-sm text-green-700 font-medium">
+                            File siap diupload
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleRemovePdfFile}
+                      disabled={uploading}
+                      className="text-red-600 hover:bg-red-50"
+                    >
+                      <X className="h-5 w-5" />
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Upload Button */}
+            <div className="flex gap-3 pt-4">
+              <Button
+                onClick={handleUpload}
+                disabled={!selectedDocxFile || uploading}
+                className="flex-1 h-12 bg-[#3674B5] hover:bg-[#578FCA] text-white font-semibold disabled:opacity-50"
+              >
+                {uploading ? (
+                  <div className="flex items-center">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Mengupload...
+                  </div>
+                ) : (
+                  <>
+                    <Upload className="h-5 w-5 mr-2" />
+                    {selectedDocxFile && selectedPdfFile ? 'Upload Dokumen & PDF' : 'Upload Dokumen'}
+                  </>
+                )}
+              </Button>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setUploadDialogOpen(false)
+                  setSelectedDocxFile(null)
+                  setSelectedPdfFile(null)
+                  setTitle('')
+                }}
+                disabled={uploading}
+                className="px-8 h-12"
+              >
+                Batal
+              </Button>
+            </div>
+
+            {/* Info */}
+            <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+              <p className="text-sm text-amber-900 font-medium mb-2">Informasi:</p>
+              <ul className="text-xs text-amber-800 space-y-1">
+                <li>• File DOCX wajib diunggah</li>
+                <li>• File PDF Turnitin opsional untuk analisis lebih akurat</li>
+                <li>• Ukuran maksimal 10MB per file</li>
+                <li>• Dokumen akan dianalisis secara otomatis setelah upload</li>
+              </ul>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }
